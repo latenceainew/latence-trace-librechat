@@ -35,9 +35,12 @@ Before `demo.latence.ai` cutover:
 ## Current Blockers
 
 - Hosting path selected: finish local development and smoke testing first, then deploy to Fly.io.
-- No authenticated Fly.io deployment session is available on this machine yet.
+- Fly.io apps created: `latenceai-trace-demo` and `latenceai-trace-bridge`.
+- Fly.io CLI is authenticated locally as `admin@latence.ai`.
+- Generated LibreChat secrets staged on `latenceai-trace-demo`: `JWT_SECRET`, `JWT_REFRESH_SECRET`, `CREDS_KEY`, `CREDS_IV`.
 - `OPENROUTER_KEY` has been provided for configuration, but still needs to be installed as a server-side deployment secret.
-- A commit/push is required before any Git-backed deployment can build this fork.
+- `LATENCE_TRACE_API_KEY` still needs to be installed as a server-side deployment secret on `latenceai-trace-bridge`.
+- `MONGO_URI` still needs a managed MongoDB target before LibreChat can run publicly.
 
 ## Local-First Then Fly.io
 
@@ -60,3 +63,22 @@ LATENCE_TRACE_API_KEY=...
 TRACE_DEMO_BRIDGE_URL=...
 N8N_WEBHOOK_BASE_URL=...
 ```
+
+Safe secret import commands to run locally:
+
+```bash
+fly secrets import -a latenceai-trace-bridge <<'EOF'
+LATENCE_TRACE_API_KEY=<runpod-api-key>
+EOF
+
+fly secrets import -a latenceai-trace-demo <<'EOF'
+OPENROUTER_KEY=<openrouter-key>
+MONGO_URI=<mongo-uri>
+JWT_SECRET=<openssl-rand-hex-32>
+JWT_REFRESH_SECRET=<openssl-rand-hex-32>
+CREDS_KEY=<openssl-rand-hex-32>
+CREDS_IV=<openssl-rand-hex-16>
+EOF
+```
+
+Do not use `VITE_` for OpenRouter or TRACE secrets.

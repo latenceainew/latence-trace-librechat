@@ -1,0 +1,24 @@
+app = "latenceai-trace-bridge"
+primary_region = "fra"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "8788"
+  LATENCE_TRACE_URL = "https://api.runpod.ai/v2/campegd1dctnx2/runsync"
+  LATENCE_TRACE_DEPLOYMENT = "runpod"
+  LATENCE_TRACE_TIMEOUT = "600"
+
+[http_service]
+  internal_port = 8788
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+[[vm]]
+  memory = "1gb"
+  cpu_kind = "shared"
+  cpus = 1
