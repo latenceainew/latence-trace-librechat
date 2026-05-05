@@ -1,0 +1,33 @@
+name: Fly Deploy — TRACE Demo Bridge
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "demo-bridge/**"
+      - ".github/workflows/fly-deploy-bridge.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: fly-deploy-bridge
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy latenceai-trace-bridge
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: demo-bridge
+    env:
+      FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_BRIDGE }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy to Fly
+        run: |
+          flyctl deploy \
+            --remote-only \
+            -a latenceai-trace-bridge \
+            -c fly.toml

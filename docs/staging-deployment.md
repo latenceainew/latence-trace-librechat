@@ -36,11 +36,14 @@ Before `demo.latence.ai` cutover:
 
 - Hosting path selected: finish local development and smoke testing first, then deploy to Fly.io.
 - Fly.io apps created: `latenceai-trace-demo` and `latenceai-trace-bridge`.
+- Fly.io Mongo app created: `latenceai-trace-mongo` with encrypted `mongo_data` volume in `fra`.
 - Fly.io CLI is authenticated locally as `admin@latence.ai`.
 - Generated LibreChat secrets staged on `latenceai-trace-demo`: `JWT_SECRET`, `JWT_REFRESH_SECRET`, `CREDS_KEY`, `CREDS_IV`.
+- Generated Mongo root password staged on `latenceai-trace-mongo`.
+- Derived private `MONGO_URI` staged on `latenceai-trace-demo` using `latenceai-trace-mongo.internal`.
 - `OPENROUTER_KEY` has been provided for configuration, but still needs to be installed as a server-side deployment secret.
 - `LATENCE_TRACE_API_KEY` still needs to be installed as a server-side deployment secret on `latenceai-trace-bridge`.
-- `MONGO_URI` still needs a managed MongoDB target before LibreChat can run publicly.
+- Mongo is suitable for staging; use Atlas or another managed MongoDB for production-grade persistence.
 
 ## Local-First Then Fly.io
 
@@ -48,9 +51,9 @@ Recommended sequence:
 
 1. Finish local bridge + UI iteration.
 2. Push the fork to `latenceainew/latence-trace-librechat`.
-3. Create Fly.io apps for LibreChat and the TRACE bridge.
+3. Create Fly.io apps for LibreChat, TRACE bridge, and Mongo.
 4. Install server-side secrets with `fly secrets set`.
-5. Attach managed MongoDB or a private Mongo service.
+5. Deploy the private Mongo service before LibreChat.
 6. Run `npm run latence:demo:seed` against the public bridge URL.
 7. Smoke `/trace-demo`, `/c/new`, and n8n webhook calls.
 
@@ -73,12 +76,15 @@ EOF
 
 fly secrets import -a latenceai-trace-demo <<'EOF'
 OPENROUTER_KEY=<openrouter-key>
-MONGO_URI=<mongo-uri>
-JWT_SECRET=<openssl-rand-hex-32>
-JWT_REFRESH_SECRET=<openssl-rand-hex-32>
-CREDS_KEY=<openssl-rand-hex-32>
-CREDS_IV=<openssl-rand-hex-16>
 EOF
 ```
 
 Do not use `VITE_` for OpenRouter or TRACE secrets.
+
+Deploy order:
+
+```bash
+fly deploy -c fly/mongo/fly.toml
+fly deploy -c demo-bridge/fly.toml
+fly deploy -c fly.toml
+```

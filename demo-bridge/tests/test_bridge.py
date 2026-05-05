@@ -43,7 +43,8 @@ class _FakeGrounding:
 
 
 class _FakePrivacy:
-    def redact(self, **_kwargs):
+    def redact(self, **kwargs):
+        assert kwargs["labels"] == ["email", "person", "account_number"]
         return SimpleNamespace(
             entity_count=1,
             unique_labels=["email"],

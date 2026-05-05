@@ -2976,3 +2976,67 @@ html {
 .sharepoint-picker-bg {
   background-color: #f5f5f5;
 }
+
+/* Latence TRACE inline heatmap */
+.trace-heatmap-token {
+  position: relative;
+  cursor: help;
+}
+.trace-heatmap-popover {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 8px;
+  min-width: 240px;
+  max-width: 320px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid;
+  font-size: 11px;
+  line-height: 1.4;
+  z-index: 50;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+.trace-heatmap-token:hover > .trace-heatmap-popover,
+.trace-heatmap-token:focus-within > .trace-heatmap-popover {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.trace-heatmap-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.trace-heatmap-evidence {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 2px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(216, 210, 198, 0.18);
+}
+.trace-heatmap-evidence-item {
+  display: block;
+  font-style: normal;
+  line-height: 1.35;
+}
+.trace-heatmap-phrase {
+  white-space: normal;
+}
+
+/* Latence TRACE top-bar toggles */
+.trace-toggle-pill[aria-pressed='false']:hover {
+  background-color: rgba(11, 139, 145, 0.18) !important;
+  color: #5fc7cc !important;
+}
+.trace-toggle-pill[aria-pressed='false']:focus-visible {
+  outline: 2px solid #0b8b91;
+  outline-offset: 2px;
+}
+.trace-toggle-pill[aria-pressed='true'] {
+  cursor: default;
+}

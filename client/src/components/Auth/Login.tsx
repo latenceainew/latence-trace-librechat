@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { ErrorTypes, registerPage } from 'librechat-data-provider';
 import { OpenIDIcon, useToastContext } from '@librechat/client';
-import { useOutletContext, useSearchParams, useLocation } from 'react-router-dom';
+import {
+  useNavigate,
+  useOutletContext,
+  useSearchParams,
+  useLocation,
+} from 'react-router-dom';
 import type { TLoginLayoutContext } from '~/common';
 import { getLoginError, persistRedirectToSession } from '~/utils';
 import { ErrorMessage } from '~/components/Auth/ErrorMessage';
@@ -14,8 +19,12 @@ interface LoginLocationState {
   redirect_to?: string;
 }
 
+const DEMO_NO_AUTH =
+  String(import.meta.env.VITE_LATENCE_DEMO_DISABLE_AUTH ?? '').toLowerCase() === 'true';
+
 function Login() {
   const localize = useLocalize();
+  const navigate = useNavigate();
   const { showToast } = useToastContext();
   const { error, setError, login } = useAuthContext();
   const { startupConfig } = useOutletContext<TLoginLayoutContext>();
@@ -23,6 +32,15 @@ function Login() {
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
   const disableAutoRedirect = searchParams.get('redirect') === 'false';
+
+  // In Latence TRACE demo mode the backend issues a token without credentials
+  // (see services/DemoUser.js). Anyone landing on /login is bounced straight
+  // to the demo entry so they never see a login form.
+  useEffect(() => {
+    if (DEMO_NO_AUTH) {
+      navigate('/trace-demo', { replace: true });
+    }
+  }, [navigate]);
 
   const [isAutoRedirectDisabled, setIsAutoRedirectDisabled] = useState(disableAutoRedirect);
 

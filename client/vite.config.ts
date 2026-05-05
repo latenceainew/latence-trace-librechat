@@ -33,6 +33,14 @@ const backendPort = (process.env.BACKEND_PORT && Number(process.env.BACKEND_PORT
 const backendURL = process.env.HOST
   ? `http://${process.env.HOST}:${backendPort}`
   : `http://localhost:${backendPort}`;
+/**
+ * Set DEV_API_PROXY_TARGET=https://demo.latence.ai (or any deployed LibreChat URL)
+ * to proxy /api and /oauth to a remote backend. Lets the local Vite dev server
+ * reuse the deployed backend (auth, mongo, openrouter) while shipping locally
+ * edited frontend code with HMR. Cookie domains are rewritten so sessions stick.
+ */
+const apiProxyTarget = process.env.DEV_API_PROXY_TARGET || backendURL;
+const apiProxyIsHttps = apiProxyTarget.startsWith('https://');
 
 export default defineConfig(({ command }) => ({
   base: '',
@@ -44,12 +52,21 @@ export default defineConfig(({ command }) => ({
     strictPort: false,
     proxy: {
       '/api': {
-        target: backendURL,
+        target: apiProxyTarget,
         changeOrigin: true,
+        secure: !apiProxyIsHttps ? undefined : true,
+        cookieDomainRewrite: '',
       },
       '/oauth': {
-        target: backendURL,
+        target: apiProxyTarget,
         changeOrigin: true,
+        secure: !apiProxyIsHttps ? undefined : true,
+        cookieDomainRewrite: '',
+      },
+      '/trace-bridge': {
+        target: process.env.TRACE_DEMO_BRIDGE_DEV_URL || 'http://127.0.0.1:8788',
+        changeOrigin: true,
+        rewrite: (proxyPath) => proxyPath.replace(/^\/trace-bridge/, ''),
       },
     },
   },

@@ -22,6 +22,7 @@ import {
 } from '~/hooks';
 import { useGetConvoIdQuery, useGetStartupConfig, useGetEndpointsQuery } from '~/data-provider';
 import { ToolCallsMapProvider } from '~/Providers';
+import TraceDemoShell from '~/components/TraceDemo/TraceDemoShell';
 import ChatView from '~/components/Chat/ChatView';
 import { NotificationSeverity } from '~/common';
 import useAuthRedirect from './useAuthRedirect';
@@ -219,7 +220,9 @@ export default function ChatRoute() {
 
   return (
     <ToolCallsMapProvider conversationId={conversation.conversationId ?? ''}>
-      <ChatView index={index} />
+      <TraceDemoShell index={index}>
+        <ChatView index={index} />
+      </TraceDemoShell>
     </ToolCallsMapProvider>
   );
 }

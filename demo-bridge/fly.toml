@@ -9,6 +9,7 @@ primary_region = "fra"
   LATENCE_TRACE_URL = "https://api.runpod.ai/v2/campegd1dctnx2/runsync"
   LATENCE_TRACE_DEPLOYMENT = "runpod"
   LATENCE_TRACE_TIMEOUT = "600"
+  TRACE_DEMO_BRIDGE_CORS_ORIGINS = "https://demo.latence.ai,https://latenceai-trace-demo.fly.dev,http://localhost:3080,http://localhost:3090,http://localhost:3092"
 
 [http_service]
   internal_port = 8788

@@ -1,0 +1,37 @@
+name: Fly Deploy — LibreChat Demo
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "client/**"
+      - "api/**"
+      - "packages/**"
+      - "librechat.yaml"
+      - "Dockerfile"
+      - "fly.toml"
+      - ".github/workflows/fly-deploy-demo.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: fly-deploy-demo
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy latenceai-trace-demo
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_DEMO }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy to Fly
+        run: |
+          flyctl deploy \
+            --remote-only \
+            --build-arg VITE_TRACE_DEMO_BRIDGE_URL=https://latenceai-trace-bridge.fly.dev \
+            --build-arg VITE_LATENCE_DEMO_DISABLE_AUTH=true \
+            -a latenceai-trace-demo \
+            -c fly.toml

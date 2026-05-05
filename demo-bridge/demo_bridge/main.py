@@ -7,6 +7,7 @@ from typing import Any, Literal
 from uuid import uuid4
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from latence import Latence
 from latence.integrations.langchain import LatenceTraceCallback
 from pydantic import BaseModel, Field
@@ -46,6 +47,27 @@ class DemoTraceResponse(BaseModel):
 def create_app() -> FastAPI:
     app = FastAPI(title="Latence TRACE Demo Bridge", version="0.1.0")
 
+    cors_origins = [
+        origin.strip()
+        for origin in os.environ.get(
+            "TRACE_DEMO_BRIDGE_CORS_ORIGINS",
+            "https://latenceai-trace-demo.fly.dev,http://localhost:3080,http://localhost:3090,http://localhost:3092",
+        ).split(",")
+        if origin.strip()
+    ]
+    cors_origin_regex = os.environ.get(
+        "TRACE_DEMO_BRIDGE_CORS_ORIGIN_REGEX",
+        r"https://[a-z0-9-]+\.trycloudflare\.com",
+    )
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=cors_origins,
+        allow_origin_regex=cors_origin_regex,
+        allow_credentials=False,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
     @app.get("/healthz")
     def healthz() -> dict[str, Any]:
         return {
@@ -74,7 +96,7 @@ def _run_with_client(
     if request.kind == "privacy":
         result = trace.privacy.redact(
             text=_required(request.text, "text"),
-            labels=["email", "person", "iban", "account_number"],
+            labels=["email", "person", "account_number"],
             include_original_text=False,
         )
         return DemoTraceResponse(

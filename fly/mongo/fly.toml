@@ -1,0 +1,21 @@
+app = "latenceai-trace-mongo"
+primary_region = "fra"
+
+[build]
+  image = "mongo:7.0"
+
+[processes]
+  app = "mongod --bind_ip_all --ipv6"
+
+[env]
+  MONGO_INITDB_ROOT_USERNAME = "librechat"
+  MONGO_INITDB_DATABASE = "LibreChat"
+
+[mounts]
+  source = "mongo_data"
+  destination = "/data/db"
+
+[[vm]]
+  memory = "1gb"
+  cpu_kind = "shared"
+  cpus = 1

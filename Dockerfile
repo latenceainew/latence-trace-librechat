@@ -17,6 +17,13 @@ RUN uv --version
 # Set configurable max-old-space-size with default
 ARG NODE_MAX_OLD_SPACE_SIZE=6144
 
+# Vite build-time env vars for the TRACE demo. Vite inlines VITE_*
+# variables at build time, so they must be present during `npm run frontend`.
+ARG VITE_TRACE_DEMO_BRIDGE_URL=https://latenceai-trace-bridge.fly.dev
+ENV VITE_TRACE_DEMO_BRIDGE_URL=${VITE_TRACE_DEMO_BRIDGE_URL}
+ARG VITE_LATENCE_DEMO_DISABLE_AUTH=true
+ENV VITE_LATENCE_DEMO_DISABLE_AUTH=${VITE_LATENCE_DEMO_DISABLE_AUTH}
+
 RUN mkdir -p /app && chown node:node /app
 WORKDIR /app
 

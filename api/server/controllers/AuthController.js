@@ -18,6 +18,7 @@ const {
   findUser,
 } = require('~/models');
 const { getGraphApiToken } = require('~/server/services/GraphTokenService');
+const { isDemoAuthDisabled, getDemoUser } = require('~/server/services/DemoUser');
 const { getOpenIdConfig, getOpenIdEmail } = require('~/strategies');
 
 const registrationController = async (req, res) => {
@@ -65,6 +66,25 @@ const resetPasswordController = async (req, res) => {
 };
 
 const refreshController = async (req, res) => {
+  if (isDemoAuthDisabled()) {
+    try {
+      const demoUser = await getDemoUser();
+      const token = await setAuthTokens(demoUser._id, res);
+      const userObj = typeof demoUser.toObject === 'function' ? demoUser.toObject() : demoUser;
+      const {
+        password: _pw,
+        __v: _v,
+        totpSecret: _ts,
+        backupCodes: _bc,
+        ...safeUser
+      } = userObj;
+      return res.status(200).send({ token, user: safeUser });
+    } catch (err) {
+      logger.error('[refreshController] Demo no-auth refresh failed', err);
+      return res.status(500).send('Demo refresh failed');
+    }
+  }
+
   const parsedCookies = req.headers.cookie ? cookies.parse(req.headers.cookie) : {};
   const token_provider = parsedCookies.token_provider;
 
