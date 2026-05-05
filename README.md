@@ -1,3 +1,9 @@
+> Latence TRACE demo fork of LibreChat.
+>
+> This repository preserves upstream LibreChat while adding a public TRACE scenario
+> launcher, server-side OpenRouter configuration, and the baseline for SDK-backed
+> TRACE evidence panels. Start with [`docs/latence-demo-baseline.md`](docs/latence-demo-baseline.md).
+
 <p align="center">
   <a href="https://librechat.ai">
     <img src="client/public/assets/logo.svg" height="256">

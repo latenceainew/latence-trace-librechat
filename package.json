@@ -96,7 +96,10 @@
     "migrate:prompt-permissions:batch": "node config/migrate-prompt-permissions.js --batch-size=50",
     "migrate:orphaned-agent-files:dry-run": "node config/migrate-orphaned-agent-files.js --dry-run",
     "migrate:orphaned-agent-files": "node config/migrate-orphaned-agent-files.js",
-    "migrate:orphaned-agent-files:batch": "node config/migrate-orphaned-agent-files.js --batch-size=50"
+    "migrate:orphaned-agent-files:batch": "node config/migrate-orphaned-agent-files.js --batch-size=50",
+    "latence:demo:seed": "node scripts/seed-demo-data.mjs",
+    "latence:demo:reset": "node scripts/reset-demo-state.mjs",
+    "latence:demo:health": "node scripts/check-demo-health.mjs"
   },
   "repository": {
     "type": "git",

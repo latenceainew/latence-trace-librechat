@@ -18,6 +18,7 @@ import LoginLayout from './Layouts/Login';
 import dashboardRoutes from './Dashboard';
 import ShareRoute from './ShareRoute';
 import ChatRoute from './ChatRoute';
+import TraceDemo from './TraceDemo';
 import Search from './Search';
 import Root from './Root';
 
@@ -84,6 +85,11 @@ export const router = createBrowserRouter(
     {
       path: 'verify',
       element: <VerifyEmail />,
+      errorElement: <RouteErrorBoundary />,
+    },
+    {
+      path: 'trace-demo',
+      element: <TraceDemo />,
       errorElement: <RouteErrorBoundary />,
     },
     {

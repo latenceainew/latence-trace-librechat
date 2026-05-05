@@ -1,0 +1,96 @@
+{
+  "name": "Latence TRACE Demo - SDK Bridge",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "latence-trace-demo",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "trace-demo-webhook",
+      "name": "Demo Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "latence-trace-demo"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.TRACE_DEMO_BRIDGE_URL + '/api/trace/run'}}",
+        "sendBody": true,
+        "contentType": "json",
+        "jsonBody": "={{JSON.stringify($json.body)}}",
+        "options": {
+          "timeout": 600000
+        }
+      },
+      "id": "trace-sdk-bridge",
+      "name": "Call SDK Bridge",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [280, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const trace = $json;\nconst action = trace.runtime_decision?.graph_route || trace.runtime_decision?.action || trace.risk_band;\nreturn [{ json: { ok: true, action, trace } }];"
+      },
+      "id": "normalize-demo-response",
+      "name": "Normalize Demo Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [560, 0]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{$json}}",
+        "options": {}
+      },
+      "id": "respond-to-librechat",
+      "name": "Respond to LibreChat",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [840, 0]
+    }
+  ],
+  "connections": {
+    "Demo Webhook": {
+      "main": [
+        [
+          {
+            "node": "Call SDK Bridge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call SDK Bridge": {
+      "main": [
+        [
+          {
+            "node": "Normalize Demo Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Demo Response": {
+      "main": [
+        [
+          {
+            "node": "Respond to LibreChat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

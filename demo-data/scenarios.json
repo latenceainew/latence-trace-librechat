@@ -1,0 +1,24 @@
+[
+  {
+    "scenario": "support_refund_rag",
+    "integration": "native",
+    "kind": "rag",
+    "question": "Can I promise this customer a refund within 48 hours?",
+    "context": "Refunds require manual finance approval before timelines are promised.",
+    "answer": "Yes. The refund will arrive within 48 hours."
+  },
+  {
+    "scenario": "policy_compression",
+    "integration": "native",
+    "kind": "compression",
+    "text": "Refund policies require manual finance approval before timelines are promised. Finance approval is required before committing refund dates to customers."
+  },
+  {
+    "scenario": "coding_agent_retry",
+    "integration": "langgraph",
+    "kind": "code",
+    "question": "Does this patch add authorization checks before fetching a user?",
+    "context": "def handler(request):\n    return fetch_user(request.user_id)",
+    "answer": "The patch validates admin authorization before fetching the user."
+  }
+]
