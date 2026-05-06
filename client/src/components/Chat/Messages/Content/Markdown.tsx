@@ -195,6 +195,17 @@ const HEATMAP_BAND_STYLES: Record<
     chip: latence.rose,
     bg: latence.roseSoft ?? 'rgba(244, 63, 94, 0.12)',
   },
+  // ``skipped`` is painted in a neutral dashed grey so a long-response
+  // tail that the latency budget deferred is visibly distinct from
+  // both supported (green) and contradicted (red) claims. The
+  // tooltip / popover still renders so the user can hover the
+  // sentence and see ``skip_reason: latency_budget``.
+  skipped: {
+    underline: latence.border,
+    tooltipBorder: latence.border,
+    chip: latence.textSubtle,
+    bg: 'transparent',
+  },
   unknown: {
     underline: 'transparent',
     tooltipBorder: latence.border,
@@ -264,6 +275,43 @@ function TraceMessageInsights({
               {traceCopy.claims} {claimsSupported} / {claimsTotal}
             </span>
           )}
+          {(() => {
+            // Coverage chip. Renders only when the runtime's latency
+            // budget actually deferred some claims; in steady-state
+            // production every sentence is fully scored and this chip
+            // stays hidden. When it fires it reads
+            // ``claims_skipped_for_budget`` so the user knows exactly
+            // how many tail sentences were not entailment-scored
+            // (instead of silently colouring them red as
+            // contradictions). The neutral grey claim styling above
+            // already differentiates them visually.
+            const skippedForBudget = heatmapSummary.claimsSkippedForBudget ?? 0;
+            const totalKnown =
+              heatmapSummary.claimsTotal ??
+              ((heatmapSummary.claimsScored ?? 0) + skippedForBudget);
+            if (skippedForBudget <= 0 || totalKnown <= 0) {
+              return null;
+            }
+            const scored = totalKnown - skippedForBudget;
+            return (
+              <span
+                className="rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.18em]"
+                style={{
+                  backgroundColor: latence.amberSoft ?? latence.bgRaised,
+                  color: latence.amber,
+                  border: `1px solid ${latence.amber}`,
+                }}
+                title={
+                  `${skippedForBudget} sentence${skippedForBudget === 1 ? '' : 's'} ` +
+                  `deferred when the NLI latency budget was reached. ` +
+                  `These claims appear in the heatmap with a neutral grey ` +
+                  `band so the response stays fully covered visually.`
+                }
+              >
+                Coverage: {scored} / {totalKnown} scored
+              </span>
+            );
+          })()}
           {decision?.action && (
             <span
               className="rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.18em]"

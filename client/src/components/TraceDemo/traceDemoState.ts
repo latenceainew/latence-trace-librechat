@@ -116,7 +116,7 @@ export type TraceSpan = {
   confidence?: number;
 };
 
-export type TraceHeatBand = 'green' | 'amber' | 'red' | 'unknown';
+export type TraceHeatBand = 'green' | 'amber' | 'red' | 'skipped' | 'unknown';
 
 export type TraceEvidenceItem = {
   supportId?: string;
@@ -673,8 +673,13 @@ export type TraceClaimSpan = {
   neutral: number;
   contradiction: number;
   score: number;
-  band: 'green' | 'amber' | 'red';
+  // ``skipped`` is its own band so the renderer never paints a
+  // not-yet-scored sentence (entailment defaults to 0) the same red as
+  // a genuinely contradicted one. ``skipped`` claims are styled with a
+  // neutral grey underline in ``Markdown.tsx``.
+  band: TraceHeatBand;
   skipped: boolean;
+  skipReason?: string;
   premiseCount: number;
   supportIds: string[];
   supportUnitIndices: number[];
@@ -768,6 +773,12 @@ export function extractClaimSpans(result?: TraceDemoMessageResult): TraceClaimSp
           )
           .filter((a): a is TraceClaimAtom => a !== null) as TraceClaimAtom[])
       : [];
+    const isSkipped = typeof record.skipped === 'boolean' ? record.skipped : false;
+    const skipReason =
+      typeof record.skip_reason === 'string' ? record.skip_reason : undefined;
+    const band: TraceClaimSpan['band'] = isSkipped
+      ? 'skipped'
+      : bandForEntailment(entailment, { greenMin, amberMin });
     out.push({
       index: num(record.index) ?? out.length,
       text,
@@ -777,8 +788,9 @@ export function extractClaimSpans(result?: TraceDemoMessageResult): TraceClaimSp
       neutral: num(record.neutral) ?? 0,
       contradiction: num(record.contradiction) ?? 0,
       score: num(record.score) ?? 0,
-      band: bandForEntailment(entailment, { greenMin, amberMin }),
-      skipped: typeof record.skipped === 'boolean' ? record.skipped : false,
+      band,
+      skipped: isSkipped,
+      skipReason,
       premiseCount: num(record.premise_count) ?? 0,
       supportIds,
       supportUnitIndices,
@@ -831,6 +843,16 @@ export type TraceHeatmapSummary = {
   riskBand?: string;
   claimsTotal?: number;
   claimsSupported?: number;
+  // Coverage observability surfaced from ``nli_diagnostics``. When the
+  // runtime ran NLI on every sentence in the response (the production
+  // default), ``claimsScored == claimsTotal``. When the per-request
+  // latency budget triggered, ``claimsSkippedForBudget`` reports how
+  // many sentences were deferred; the demo renders an explicit
+  // "X of Y sentences fully scored" chip instead of silently
+  // colouring the unscored tail red.
+  claimsScored?: number;
+  claimsSkippedForBudget?: number;
+  claimsSkippedForNoPremises?: number;
   parseMode?: TraceParseInfo['mode'];
   parseQuery?: string;
   // Bridge-resolved language (chip on the heatmap header).
@@ -935,13 +957,27 @@ export function extractHeatmapSummary(result?: TraceDemoMessageResult): TraceHea
         ? bundleLanguage === displayLanguage
         : displayLanguage === 'en';
 
+  // Coverage diagnostics from the runtime's nli_diagnostics block. We
+  // prefer the runtime-reported total (``claims_total``) over the
+  // claims-array length so a budget-skipped tail is still counted as
+  // "we know there were N sentences, scored M" rather than silently
+  // collapsing into the array length.
+  const nliDiag = (raw as { nli_diagnostics?: Record<string, unknown> }).nli_diagnostics ?? {};
+  const claimsTotalRaw = num(nliDiag.claims_total) ?? (claims.length || undefined);
+  const claimsScoredRaw = num(nliDiag.claims_scored);
+  const claimsSkippedForBudgetRaw = num(nliDiag.claims_skipped_for_budget);
+  const claimsSkippedForNoPremisesRaw = num(nliDiag.claims_skipped_for_no_premises);
+
   return {
     headlineScore: num(summary.headline_score) ?? num(summary.groundedness_pct),
     groundednessPct: num(summary.groundedness_pct),
     deadWeightPct: num(summary.dead_weight_pct),
     riskBand: typeof summary.risk_band === 'string' ? summary.risk_band : undefined,
-    claimsTotal: claims.length || undefined,
+    claimsTotal: claimsTotalRaw,
     claimsSupported: claims.length ? claimsSupported : undefined,
+    claimsScored: claimsScoredRaw,
+    claimsSkippedForBudget: claimsSkippedForBudgetRaw,
+    claimsSkippedForNoPremises: claimsSkippedForNoPremisesRaw,
     parseMode: response?.parse?.mode,
     parseQuery: response?.parse?.query ?? undefined,
     bridgeLanguage,
