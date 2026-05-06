@@ -30,12 +30,16 @@ endpoints:
         X-Title: 'Latence TRACE Demo'
       models:
         default:
+          - 'openai/gpt-oss-120b:free'
+          - 'z-ai/glm-4.5-air:free'
           - 'google/gemma-4-26b-a4b-it:free'
-          - 'nvidia/nemotron-3-super-120b-a12b:free'
         fetch: false
       titleConvo: true
-      titleModel: 'google/gemma-4-26b-a4b-it:free'
+      titleModel: 'openai/gpt-oss-120b:free'
       summarize: false
+      # Hint a tiny per-chunk delay so providers that burst large deltas
+      # (e.g. Google AI Studio for Gemma) still feel like real streaming.
+      streamRate: 25
       dropParams:
         - stop
       modelDisplayLabel: 'OpenRouter demo models'
@@ -50,7 +54,7 @@ modelSpecs:
       preset:
         endpoint: 'OpenRouter'
         endpointType: 'custom'
-        model: 'google/gemma-4-26b-a4b-it:free'
+        model: 'openai/gpt-oss-120b:free'
         temperature: 0.2
     - name: 'trace-coding-demo'
       label: 'TRACE Coding Demo'
@@ -58,7 +62,7 @@ modelSpecs:
       preset:
         endpoint: 'OpenRouter'
         endpointType: 'custom'
-        model: 'google/gemma-4-26b-a4b-it:free'
+        model: 'openai/gpt-oss-120b:free'
         temperature: 0.1
 
 actions:

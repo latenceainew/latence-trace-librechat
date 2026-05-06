@@ -1,4 +1,4 @@
-import {
+import React, {
   useCallback,
   useEffect,
   useMemo,
@@ -258,6 +258,7 @@ export default function TraceDemoShell({
             band={decision?.band ?? riskInfo.risk}
           />
           <div className="min-h-0 flex-1">{children}</div>
+          <TraceInputHint />
           <TraceLogDashboard logs={logs} />
         </div>
         <aside
@@ -294,10 +295,11 @@ export default function TraceDemoShell({
             }
             isRunning={logs.some((log) => log.status === 'running')}
           />
-          <TraceContextUtilityCard
+          <TraceGroundednessCard
+            decision={decision}
+            riskInfo={riskInfo}
             evidence={evidence}
             deadWeights={deadWeights}
-            decision={decision}
           />
           <TracePrivacyCard detail={privacyDetail} />
           <TraceCompressionCard detail={compressionDetail} />
@@ -722,39 +724,89 @@ function TraceTelemetryCard({
   );
 }
 
-function TraceContextUtilityCard({
+/**
+ * Groundedness + retrieval-utility detail card.
+ * Combines the overall groundedness score, the per-chunk evidence list
+ * (deduplicated by support_id), and the unused/dead-weight ratio so the
+ * buyer sees one coherent story for "did the answer use the retrieved
+ * context?". Replaces the legacy TraceContextUtilityCard.
+ */
+function TraceGroundednessCard({
+  decision,
+  riskInfo,
   evidence,
   deadWeights,
-  decision,
 }: {
+  decision?: ReturnType<typeof extractDecision>;
+  riskInfo: { risk: string; score?: number | null };
   evidence: ReturnType<typeof extractGroundingEvidence>;
   deadWeights: ReturnType<typeof extractDeadWeights>;
-  decision?: ReturnType<typeof extractDecision>;
 }) {
-  const noData = evidence.length === 0 && deadWeights.files.length === 0;
-  if (noData) {
+  const score = decision?.score ?? riskInfo.score;
+  const band = decision?.band ?? riskInfo.risk;
+  const dedupedEvidence = dedupeEvidenceById(evidence);
+  const hasAnything =
+    typeof score === 'number' ||
+    (band && band !== 'unknown') ||
+    dedupedEvidence.length > 0 ||
+    typeof deadWeights.ratio === 'number';
+  if (!hasAnything) {
     return null;
   }
+  const style = getRiskStyle(band);
   return (
     <div
       className="rounded-2xl border p-3"
       style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
     >
-      <p className="mb-2 text-sm font-medium" style={{ color: latence.text }}>
-        Context utility
+      <div className="mb-1 flex items-center justify-between">
+        <p className="text-sm font-medium" style={{ color: latence.text }}>
+          Groundedness
+        </p>
+        {band && band !== 'unknown' && (
+          <span
+            className="rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em]"
+            style={{
+              backgroundColor: style.backgroundColor,
+              color: style.color,
+              borderColor: style.borderColor,
+            }}
+          >
+            {band}
+          </span>
+        )}
+      </div>
+      <p className="mb-2 text-[11px]" style={{ color: latence.textSubtle }}>
+        How much of the answer is supported by the retrieved context.
       </p>
-      {typeof deadWeights.ratio === 'number' && (
-        <MetaRow label="Dead weight ratio" value={`${Math.round(deadWeights.ratio * 100)}%`} />
+      {typeof score === 'number' && (
+        <MetaRow
+          label="Trace score"
+          value={score <= 1 ? `${Math.round(score * 100)}%` : score.toFixed(2)}
+        />
       )}
-      {evidence.length > 0 && (
+      {typeof deadWeights.ratio === 'number' && (
+        <MetaRow
+          label="Unused context"
+          value={`${Math.round(deadWeights.ratio * 100)}%`}
+        />
+      )}
+      {dedupedEvidence.length > 0 && (
         <div className="mt-2 space-y-1.5">
-          {evidence.slice(0, 3).map((item, index) => {
+          <p
+            className="text-[10px] uppercase tracking-[0.18em]"
+            style={{ color: latence.textSubtle }}
+          >
+            Evidence chunks
+          </p>
+          {dedupedEvidence.slice(0, 4).map((item, index) => {
             const coverage =
               typeof item.coverage === 'number' ? Math.round(item.coverage * 100) : null;
+            const usage = (item.usageState || '').toLowerCase();
             const stateColor =
-              item.usageState === 'used'
+              usage === 'used'
                 ? latence.greenText
-                : item.usageState === 'unused'
+                : usage === 'unused'
                   ? latence.rose
                   : latence.amber;
             return (
@@ -763,13 +815,16 @@ function TraceContextUtilityCard({
                 className="rounded-xl border p-2 text-[11px]"
                 style={{ borderColor: latence.border, backgroundColor: latence.bgSurface }}
               >
-                <div className="mb-1 flex items-center justify-between">
-                  <span style={{ color: latence.textSubtle }}>
-                    {item.supportId ?? `unit-${index}`}
+                <div className="mb-1 flex items-center justify-between gap-2">
+                  <span className="truncate" style={{ color: latence.textSubtle }}>
+                    {item.supportId ?? `chunk-${index}`}
                   </span>
-                  <span style={{ color: stateColor, textTransform: 'capitalize' }}>
+                  <span
+                    style={{ color: stateColor, textTransform: 'capitalize' }}
+                    className="text-[10px]"
+                  >
                     {item.usageState ?? 'unknown'}
-                    {coverage !== null ? ` • ${coverage}%` : ''}
+                    {coverage !== null ? ` · ${coverage}%` : ''}
                   </span>
                 </div>
                 {item.text && (
@@ -782,59 +837,46 @@ function TraceContextUtilityCard({
           })}
         </div>
       )}
-      {deadWeights.files.length > 0 && (
-        <div className="mt-3">
-          <p
-            className="mb-1 text-[11px] uppercase tracking-[0.16em]"
-            style={{ color: latence.textSubtle }}
-          >
-            Per file
-          </p>
-          {deadWeights.files.slice(0, 4).map((file) => (
-            <div
-              key={file.path}
-              className="flex items-center justify-between gap-2 rounded-lg px-2 py-1 text-[11px]"
-              style={{ backgroundColor: latence.bgSurface }}
+      {decision?.reasonCodes && decision.reasonCodes.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1">
+          {decision.reasonCodes.slice(0, 6).map((code) => (
+            <span
+              key={code}
+              className="rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.16em]"
+              style={{
+                backgroundColor: latence.bgSurface,
+                color: latence.textMuted,
+                border: `1px solid ${latence.border}`,
+              }}
             >
-              <span className="truncate" style={{ color: latence.textMuted }}>
-                {file.path}
-              </span>
-              <span
-                className="rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.16em]"
-                style={{
-                  color: file.deadWeight ? latence.amber : latence.greenText,
-                  backgroundColor: file.deadWeight ? latence.amberSoft : latence.greenSoft,
-                }}
-              >
-                {file.deadWeight ? 'dead weight' : 'active'}
-              </span>
-            </div>
+              {code.replace(/_/g, ' ')}
+            </span>
           ))}
         </div>
       )}
-      {decision?.reasonCodes && decision.reasonCodes.length > 0 && (
-        <div className="mt-3">
-          <p
-            className="mb-1 text-[11px] uppercase tracking-[0.16em]"
-            style={{ color: latence.textSubtle }}
-          >
-            Reason codes
-          </p>
-          <p className="text-[11px]" style={{ color: latence.textMuted }}>
-            {decision.reasonCodes.slice(0, 4).join(', ')}
-          </p>
-        </div>
-      )}
-      {noData && (
-        <p
-          className="rounded-2xl border border-dashed p-3 text-xs"
-          style={{ borderColor: latence.border, color: latence.textSubtle }}
-        >
-          Waiting for grounding evidence.
-        </p>
-      )}
     </div>
   );
+}
+
+function dedupeEvidenceById<T extends { supportId?: string; text?: string }>(items: T[]): T[] {
+  const byId = new Map<string, T>();
+  for (const item of items) {
+    const key = item.supportId ?? `_${byId.size}`;
+    const existing = byId.get(key);
+    if (!existing) {
+      byId.set(key, item);
+      continue;
+    }
+    // Keep the entry with the longer text (richer detail).
+    const existingLen = (existing.text ?? '').length;
+    const incomingLen = (item.text ?? '').length;
+    if (incomingLen > existingLen) {
+      byId.set(key, { ...existing, ...item });
+    } else {
+      byId.set(key, { ...item, ...existing });
+    }
+  }
+  return Array.from(byId.values());
 }
 
 function TracePrivacyCard({ detail }: { detail: ReturnType<typeof extractPrivacyDetail> }) {
@@ -847,8 +889,11 @@ function TracePrivacyCard({ detail }: { detail: ReturnType<typeof extractPrivacy
       className="rounded-2xl border p-3"
       style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
     >
-      <p className="mb-2 text-sm font-medium" style={{ color: latence.text }}>
+      <p className="text-sm font-medium" style={{ color: latence.text }}>
         Privacy
+      </p>
+      <p className="mb-2 text-[11px]" style={{ color: latence.textSubtle }}>
+        Sensitive entities detected in the prompt + answer before logging.
       </p>
       {typeof detail.entityCount === 'number' && (
         <MetaRow label="Entities found" value={String(detail.entityCount)} />
@@ -904,8 +949,11 @@ function TraceCompressionCard({ detail }: { detail: ReturnType<typeof extractCom
       className="rounded-2xl border p-3"
       style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
     >
-      <p className="mb-2 text-sm font-medium" style={{ color: latence.text }}>
+      <p className="text-sm font-medium" style={{ color: latence.text }}>
         Compression
+      </p>
+      <p className="mb-2 text-[11px]" style={{ color: latence.textSubtle }}>
+        Token savings on the retrieved context while preserving decision-critical terms.
       </p>
       {typeof detail.tokensSaved === 'number' && (
         <MetaRow label="Tokens saved" value={`${detail.tokensSaved}`} />
@@ -950,11 +998,14 @@ function TraceMemoryCard({ detail }: { detail: ReturnType<typeof extractMemoryDe
       className="rounded-2xl border p-3"
       style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
     >
-      <p className="mb-2 text-sm font-medium" style={{ color: latence.text }}>
+      <p className="text-sm font-medium" style={{ color: latence.text }}>
         InfiniMem
       </p>
+      <p className="mb-2 text-[11px]" style={{ color: latence.textSubtle }}>
+        Durable memory updates and the hot context carried into the next turn.
+      </p>
       {typeof detail.actionCount === 'number' && (
-        <MetaRow label="Actions" value={`${detail.actionCount}`} />
+        <MetaRow label="Memory actions" value={`${detail.actionCount}`} />
       )}
       {detail.hotContext && (
         <p
@@ -991,7 +1042,7 @@ function TraceDriftCard({ detail }: { detail: ReturnType<typeof extractDriftBand
       className="rounded-2xl border p-3"
       style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
     >
-      <div className="mb-2 flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <p className="text-sm font-medium" style={{ color: latence.text }}>
           Drift
         </p>
@@ -1008,6 +1059,9 @@ function TraceDriftCard({ detail }: { detail: ReturnType<typeof extractDriftBand
           </span>
         )}
       </div>
+      <p className="mb-2 text-[11px]" style={{ color: latence.textSubtle }}>
+        How far the session is drifting from the task / policy across turns.
+      </p>
       {typeof detail.score === 'number' && (
         <MetaRow
           label="Score"
@@ -1244,68 +1298,293 @@ function RiskPill({ risk }: { risk?: string | null }) {
   );
 }
 
-function TraceLogDashboard({ logs }: { logs: TraceDemoLog[] }) {
+function TraceInputHint() {
+  const [open, setOpen] = useState(false);
   return (
     <div
-      className="px-4 py-3"
+      className="relative flex items-start justify-end gap-3 px-4 py-1.5 text-[11px]"
+      style={{
+        backgroundColor: latence.bgPrimary,
+        borderTop: `1px solid ${latence.border}`,
+        color: latence.textSubtle,
+      }}
+    >
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="flex items-center gap-1.5 transition hover:opacity-80"
+        style={{ color: latence.textSubtle }}
+        aria-expanded={open}
+      >
+        <span
+          className="inline-flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold"
+          style={{
+            border: `1px solid ${latence.border}`,
+            color: latence.greenText,
+          }}
+        >
+          ?
+        </span>
+        <span>How TRACE reads your input</span>
+      </button>
+      {open && (
+        <div
+          className="absolute right-4 z-10 max-w-[420px] -translate-y-[calc(100%+8px)] rounded-2xl border px-3 py-2 text-[11px] shadow-lg"
+          style={{
+            backgroundColor: latence.bgRaised,
+            borderColor: latence.border,
+            color: latence.textMuted,
+          }}
+        >
+          <p className="mb-2 font-semibold uppercase tracking-wider" style={{ color: latence.greenText }}>
+            Input parsing
+          </p>
+          <p className="mb-1.5">
+            For best results, wrap your retrieved context in markers so TRACE knows
+            which part is the query and which is the supporting context:
+          </p>
+          <pre
+            className="mb-2 overflow-x-auto rounded-lg px-2 py-1 font-mono text-[10px]"
+            style={{ backgroundColor: latence.bgSurface, color: latence.text }}
+          >
+{`Wer war Roßmann?
+<START_CONTEXT>
+…paste your retrieved chunks here…
+</END_CONTEXT>`}
+          </pre>
+          <p className="mb-1.5">
+            Also accepted: <code style={{ color: latence.text }}>{'<CTX>…</CTX>'}</code> and
+            <code style={{ color: latence.text }}> [CONTEXT]…[/CONTEXT]</code>.
+          </p>
+          <p>
+            Without markers we infer the question from the first or last paragraph
+            (German + English question words, or trailing <code>?</code>). The
+            heatmap header shows which mode was applied.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function TraceLogDashboard({ logs }: { logs: TraceDemoLog[] }) {
+  const [expanded, setExpanded] = useState(false);
+  const [openRow, setOpenRow] = useState<string | null>(null);
+  const running = logs.filter((log) => log.status === 'running').length;
+  const completed = logs.filter((log) => log.status === 'completed').length;
+  const errored = logs.filter((log) => log.status === 'error').length;
+  const greenCount = logs.filter(
+    (log) => (log.response?.risk_band ?? '').toLowerCase() === 'green',
+  ).length;
+  const amberCount = logs.filter(
+    (log) => (log.response?.risk_band ?? '').toLowerCase() === 'amber',
+  ).length;
+  const redCount = logs.filter(
+    (log) => (log.response?.risk_band ?? '').toLowerCase() === 'red',
+  ).length;
+  const latencies = logs
+    .map((log) => log.response?.latency_ms ?? 0)
+    .filter((v): v is number => typeof v === 'number' && v > 0);
+  const avgLatency =
+    latencies.length > 0
+      ? Math.round(latencies.reduce((sum, v) => sum + v, 0) / latencies.length)
+      : 0;
+  const summary =
+    logs.length === 0
+      ? 'idle'
+      : running > 0
+        ? `${logs.length} features · ${running} running · ${greenCount}g · ${amberCount}a · ${redCount}r${errored ? ` · ${errored} err` : ''}${avgLatency ? ` · ${avgLatency} ms avg` : ''}`
+        : `${completed} features · ${greenCount}g · ${amberCount}a · ${redCount}r${errored ? ` · ${errored} err` : ''}${avgLatency ? ` · ${avgLatency} ms avg` : ''}`;
+  return (
+    <div
+      className="flex flex-col"
       style={{
         backgroundColor: latence.bgPrimary,
         borderTop: `1px solid ${latence.border}`,
       }}
     >
-      <div className="mb-2 flex items-center justify-between">
-        <div>
-          <p
-            className="text-xs font-medium uppercase tracking-[0.2em]"
-            style={{ color: latence.textMuted }}
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        className="flex items-center justify-between gap-3 px-4 py-2 text-left transition hover:opacity-90"
+        style={{ backgroundColor: latence.bgPrimary }}
+      >
+        <span className="flex items-center gap-2">
+          <span
+            className="text-[10px] font-semibold uppercase tracking-[0.22em]"
+            style={{ color: latence.greenText }}
           >
-            {copy.logsTitle}
-          </p>
-          <p className="text-xs" style={{ color: latence.textSubtle }}>
-            {copy.logsSubtitle}
-          </p>
-        </div>
-      </div>
-      {logs.length === 0 ? (
+            TRACE event log
+          </span>
+          <span className="text-[11px]" style={{ color: latence.textSubtle }}>
+            {summary}
+          </span>
+        </span>
+        <span className="text-[10px]" style={{ color: latence.textSubtle }}>
+          {expanded ? 'hide' : 'show'}
+        </span>
+      </button>
+      {!expanded ? null : logs.length === 0 ? (
         <p
-          className="rounded-2xl border border-dashed px-3 py-2 text-xs"
+          className="mx-4 mb-3 rounded-2xl border border-dashed px-3 py-2 text-xs"
           style={{ borderColor: latence.border, color: latence.textSubtle }}
         >
           {copy.emptyLogs}
         </p>
       ) : (
-        <div className="flex gap-2 overflow-x-auto pb-1">
-          {logs.slice(0, 12).map((log) => {
-            const visual = getStatusVisual(log.status);
-            return (
-              <div
-                key={log.id}
-                className="min-w-[220px] rounded-2xl border px-3 py-2 text-xs"
-                style={{
-                  backgroundColor: latence.bgSurface,
-                  borderColor: latence.border,
-                  color: latence.text,
-                }}
-              >
-                <div className="mb-1 flex items-center justify-between gap-2">
-                  <span className="truncate font-medium" style={{ color: latence.text }}>
-                    {log.feature}
-                  </span>
-                  <span
-                    className={cn('rounded-full px-2 py-0.5')}
-                    style={{ backgroundColor: visual.background, color: visual.color }}
-                  >
-                    {getStatusLabel(log.status)}
-                  </span>
-                </div>
-                <p className="line-clamp-2" style={{ color: latence.textSubtle }}>
-                  {log.detail}
-                </p>
-              </div>
-            );
-          })}
+        <div className="px-4 pb-3">
+          <div
+            className="overflow-hidden rounded-2xl border"
+            style={{ borderColor: latence.border, backgroundColor: latence.bgSurface }}
+          >
+            <table className="w-full text-[11px]" style={{ color: latence.text }}>
+              <thead>
+                <tr style={{ backgroundColor: latence.bgRaised, color: latence.textSubtle }}>
+                  <th className="px-3 py-2 text-left font-semibold uppercase tracking-wider">Feature</th>
+                  <th className="px-3 py-2 text-left font-semibold uppercase tracking-wider">Status</th>
+                  <th className="px-3 py-2 text-left font-semibold uppercase tracking-wider">Band</th>
+                  <th className="px-3 py-2 text-left font-semibold uppercase tracking-wider">Score</th>
+                  <th className="px-3 py-2 text-left font-semibold uppercase tracking-wider">Latency</th>
+                  <th className="px-3 py-2 text-left font-semibold uppercase tracking-wider">Request</th>
+                  <th className="px-3 py-2 text-right font-semibold uppercase tracking-wider"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {logs.map((log) => {
+                  const open = openRow === log.id;
+                  const visual = getStatusVisual(log.status);
+                  const band = (log.response?.risk_band ?? '').toLowerCase();
+                  const bandColor =
+                    band === 'green'
+                      ? latence.green
+                      : band === 'amber'
+                        ? latence.amber
+                        : band === 'red'
+                          ? latence.rose
+                          : latence.textSubtle;
+                  const score = log.response?.trace_score;
+                  const latency = log.response?.latency_ms;
+                  const reqId = log.response?.request_id;
+                  return (
+                    <React.Fragment key={log.id}>
+                      <tr
+                        onClick={() => setOpenRow((v) => (v === log.id ? null : log.id))}
+                        className="cursor-pointer transition"
+                        style={{ borderTop: `1px solid ${latence.border}` }}
+                      >
+                        <td className="px-3 py-2 font-medium">{log.feature}</td>
+                        <td className="px-3 py-2">
+                          <span
+                            className="rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wider"
+                            style={{ backgroundColor: visual.background, color: visual.color }}
+                          >
+                            {getStatusLabel(log.status)}
+                          </span>
+                        </td>
+                        <td className="px-3 py-2">
+                          {band ? (
+                            <span
+                              className="rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wider"
+                              style={{
+                                backgroundColor: bandColor + '22',
+                                color: bandColor,
+                                border: `1px solid ${bandColor}55`,
+                              }}
+                            >
+                              {band}
+                            </span>
+                          ) : (
+                            <span style={{ color: latence.textSubtle }}>—</span>
+                          )}
+                        </td>
+                        <td className="px-3 py-2 font-mono text-[11px]">
+                          {typeof score === 'number'
+                            ? score <= 1
+                              ? `${Math.round(score * 100)}%`
+                              : score.toFixed(2)
+                            : '—'}
+                        </td>
+                        <td className="px-3 py-2 font-mono text-[11px]">
+                          {typeof latency === 'number' ? `${Math.round(latency)} ms` : '—'}
+                        </td>
+                        <td
+                          className="px-3 py-2 font-mono text-[10px] truncate"
+                          style={{ color: latence.textSubtle, maxWidth: 160 }}
+                        >
+                          {reqId ?? '—'}
+                        </td>
+                        <td
+                          className="px-3 py-2 text-right text-[10px]"
+                          style={{ color: latence.textSubtle }}
+                        >
+                          {open ? '▼' : '▶'}
+                        </td>
+                      </tr>
+                      {open && (
+                        <tr style={{ backgroundColor: latence.bgPrimary }}>
+                          <td colSpan={7} className="px-3 py-3">
+                            <TraceLogRowDetails log={log} />
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function TraceLogRowDetails({ log }: { log: TraceDemoLog }) {
+  const [tab, setTab] = useState<'response' | 'request'>('response');
+  const payload =
+    tab === 'response'
+      ? log.response ?? (log.status === 'error' ? { error: log.detail } : {})
+      : log.request;
+  return (
+    <div>
+      <div className="mb-2 flex gap-2 text-[10px] uppercase tracking-wider">
+        <button
+          type="button"
+          onClick={() => setTab('response')}
+          className="rounded-full px-2 py-0.5"
+          style={{
+            backgroundColor: tab === 'response' ? latence.greenSoft : 'transparent',
+            color: tab === 'response' ? latence.greenText : latence.textSubtle,
+            border: `1px solid ${tab === 'response' ? latence.green + '55' : latence.border}`,
+          }}
+        >
+          Response
+        </button>
+        <button
+          type="button"
+          onClick={() => setTab('request')}
+          className="rounded-full px-2 py-0.5"
+          style={{
+            backgroundColor: tab === 'request' ? latence.greenSoft : 'transparent',
+            color: tab === 'request' ? latence.greenText : latence.textSubtle,
+            border: `1px solid ${tab === 'request' ? latence.green + '55' : latence.border}`,
+          }}
+        >
+          Request
+        </button>
+        <span style={{ color: latence.textSubtle }}>{log.detail}</span>
+      </div>
+      <pre
+        className="overflow-auto rounded-xl px-3 py-2 text-[10px] font-mono"
+        style={{
+          backgroundColor: latence.bgSurface,
+          color: latence.textMuted,
+          maxHeight: 320,
+          border: `1px solid ${latence.border}`,
+        }}
+      >
+        {JSON.stringify(payload, null, 2)}
+      </pre>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 const { logger } = require('@librechat/data-schemas');
 const { SystemRoles } = require('librechat-data-provider');
-const { findUser, createUser, getUserById } = require('~/models');
+const { findUser, createUser } = require('~/models');
 
 /**
  * Latence TRACE demo "no-auth" mode.
@@ -18,7 +18,7 @@ const DEFAULT_DEMO_EMAIL = 'demo+trace@latence.ai';
 const DEFAULT_DEMO_NAME = 'Latence TRACE Demo';
 const DEFAULT_DEMO_USERNAME = 'latence-trace-demo';
 
-let cachedUserId = null;
+let cachedUser = null;
 let warned = false;
 
 /**
@@ -54,15 +54,32 @@ function logBootWarningOnce() {
  * Returns the full user document (lean) so downstream code can
  * use _id, role, tenantId, email, etc.
  */
+/**
+ * Mirror what `jwtStrategy.js` does to a freshly fetched lean user doc:
+ * stringify `_id` into the virtual `id`, default the role, and stringify
+ * `tenantId` so AsyncLocalStorage / Mongo filters can compare without
+ * surprises. Downstream LibreChat code (BaseClient, controllers, prompts,
+ * transactions) reads `req.user.id`, never `_id`.
+ */
+function normalizeDemoUser(user) {
+  if (!user || !user._id) {
+    throw new Error('[DemoUser] Failed to resolve demo user document');
+  }
+  user.id = user._id.toString();
+  if (!user.role) {
+    user.role = SystemRoles.USER;
+  }
+  if (user.tenantId && typeof user.tenantId !== 'string') {
+    user.tenantId = String(user.tenantId);
+  }
+  return user;
+}
+
 async function getDemoUser() {
   logBootWarningOnce();
 
-  if (cachedUserId) {
-    const cached = await getUserById(cachedUserId, '-password -__v -totpSecret -backupCodes');
-    if (cached) {
-      return cached;
-    }
-    cachedUserId = null;
+  if (cachedUser) {
+    return cachedUser;
   }
 
   const email = getDemoEmail();
@@ -89,16 +106,21 @@ async function getDemoUser() {
       : await findUser({ email }, '-password -__v -totpSecret -backupCodes');
   }
 
-  if (!user || !user._id) {
-    throw new Error('[DemoUser] Failed to resolve demo user document');
-  }
+  cachedUser = normalizeDemoUser(user);
+  logger.info(
+    `[DemoUser] Resolved demo user id=${cachedUser.id} email=${cachedUser.email} role=${cachedUser.role}`,
+  );
+  return cachedUser;
+}
 
-  cachedUserId = user._id;
-  return user;
+/** Reset the in-memory cache (useful for tests / hot reload). */
+function resetDemoUserCache() {
+  cachedUser = null;
 }
 
 module.exports = {
   isDemoAuthDisabled,
   getDemoUser,
   getDemoEmail,
+  resetDemoUserCache,
 };

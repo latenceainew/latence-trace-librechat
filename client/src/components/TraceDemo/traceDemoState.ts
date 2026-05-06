@@ -384,12 +384,23 @@ export function getActiveOrDefaultSelection(searchParams: URLSearchParams): Trac
 }
 
 export function buildTraceChatSearchParams(selection: TraceDemoSelection) {
+  // ``OpenRouter`` is a user-defined custom endpoint declared in
+  // ``librechat.yaml`` -> ``endpoints.custom``. The data-provider parser
+  // (``packages/data-provider/src/parsers.ts``) requires either a known
+  // built-in schema name for ``endpoint`` *or* an explicit ``endpointType``
+  // so it can fall back to the ``custom`` schema; without ``endpointType``
+  // a fresh chat with no cached preset throws ``Unknown endpoint: OpenRouter``
+  // and the Ask call aborts before reaching the backend. Mirror what the
+  // ``trace-rag-demo`` / ``trace-coding-demo`` modelSpecs already declare in
+  // their preset so the URL handoff resolves identically with or without
+  // server-side preset hydration.
   return new URLSearchParams({
     trace_demo: '1',
     trace_use_case: selection.useCase,
     trace_integration: selection.integration,
     spec: selection.useCase === 'coding-agent' ? 'trace-coding-demo' : 'trace-rag-demo',
     endpoint: 'OpenRouter',
+    endpointType: 'custom',
     model: TRACE_DEMO_MODEL,
   });
 }
