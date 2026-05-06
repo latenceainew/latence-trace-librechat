@@ -81,6 +81,7 @@ librechat.yml
 my.secrets
 !**/.env.example
 !**/.env.test.example
+!**/.env.dev-trace-demo.example
 cache.json
 api/data/
 owner.yml
@@ -178,3 +179,6 @@ claude-flow
 hive-mind-prompt-*.txt
 CLAUDE.md
 .gsd
+
+# Local dev TRACE demo secrets (real values)
+scripts/.env.dev-trace-demo

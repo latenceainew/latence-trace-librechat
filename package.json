@@ -100,7 +100,10 @@
     "latence:demo:seed": "node scripts/seed-demo-data.mjs",
     "latence:demo:reset": "node scripts/reset-demo-state.mjs",
     "latence:demo:health": "node scripts/check-demo-health.mjs",
-    "trace:dev": "bash scripts/dev-trace-demo.sh"
+    "trace:dev": "bash scripts/dev-trace-demo.sh",
+    "trace:dev:backend": "bash scripts/dev-trace-demo-backend.sh",
+    "trace:dev:bridge": "bash scripts/dev-trace-demo-bridge.sh",
+    "trace:dev:tunnel": "bash scripts/dev-trace-demo-tunnel.sh"
   },
   "repository": {
     "type": "git",
