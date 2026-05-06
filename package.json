@@ -99,7 +99,8 @@
     "migrate:orphaned-agent-files:batch": "node config/migrate-orphaned-agent-files.js --batch-size=50",
     "latence:demo:seed": "node scripts/seed-demo-data.mjs",
     "latence:demo:reset": "node scripts/reset-demo-state.mjs",
-    "latence:demo:health": "node scripts/check-demo-health.mjs"
+    "latence:demo:health": "node scripts/check-demo-health.mjs",
+    "trace:dev": "bash scripts/dev-trace-demo.sh"
   },
   "repository": {
     "type": "git",
