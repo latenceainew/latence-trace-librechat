@@ -19,14 +19,15 @@ import { ArtifactProvider, CodeBlockProvider, useMessageContext } from '~/Provid
 import MarkdownErrorBoundary from './MarkdownErrorBoundary';
 import { latence } from '~/components/TraceDemo/brand';
 import {
+  extractClaimEvidence,
+  extractClaimSpans,
   extractDecision,
-  extractGroundingEvidence,
-  extractTokenHeatmap,
+  extractHeatmapSummary,
   getGroundingResponse,
   useTraceDemo,
+  type TraceClaimSpan,
   type TraceDemoMessageResult,
   type TraceHeatBand,
-  type TraceHeatToken,
 } from '~/components/TraceDemo/traceDemoState';
 import { langSubset, preprocessLaTeX } from '~/utils';
 import { unicodeCitation } from '~/components/Web';
@@ -43,14 +44,49 @@ const traceCopy = {
   show: 'Show TRACE heatmap',
   hide: 'Hide TRACE heatmap',
   decision: 'Decision',
-  band: 'Band',
   score: 'Score',
+  claims: 'Claims supported',
+  parseMode: 'Parse',
+  calibration: 'Calibration',
+  uncalibrated: 'uncalibrated',
+  channelReverse: 'reverse',
+  channelLiteral: 'literal',
+  channelNli: 'NLI',
+  noClaims:
+    'TRACE quality lane returned no per-claim NLI breakdown for this answer (the runtime may have skipped decomposition).',
+  hoverHint:
+    'Each highlighted span is one claim TRACE extracted from the answer. Hover for entailment, contradiction and the top supporting context chunk. Connective text between claims is shown plain.',
+  entailment: 'Entailment',
+  contradiction: 'Contradiction',
+  neutral: 'Neutral',
+  atoms: 'Atomic claims',
+  evidence: 'Top supporting chunk',
+  noEvidence: 'TRACE returned no support unit text for this claim.',
   reason: 'Reason codes',
-  evidence: 'Supporting context',
-  noEvidence: 'No matching context unit returned for this span.',
-  ungrouped: 'Ungrouped',
-  hoverHint: 'Hover any phrase for evidence and reason codes.',
 };
+
+const PARSE_MODE_LABELS: Record<string, string> = {
+  markers: 'markers',
+  head: 'auto: first line',
+  tail: 'auto: last line',
+  none: 'no question',
+  preparsed: 'pre-parsed',
+};
+
+const LANGUAGE_LABELS: Record<'de' | 'en', string> = {
+  de: 'de',
+  en: 'en',
+};
+
+function formatPercent(value: number | undefined): string | undefined {
+  if (value === undefined || Number.isNaN(value)) {
+    return undefined;
+  }
+  if (value >= -1 && value <= 1) {
+    return `${Math.round(value * 100)}%`;
+  }
+  return value.toFixed(2);
+}
 
 const Markdown = memo(function Markdown({ content = '', isLatestMessage }: TContentProps) {
   const LaTeXParsing = useRecoilValue<boolean>(store.LaTeXParsing);
@@ -129,7 +165,7 @@ const Markdown = memo(function Markdown({ content = '', isLatestMessage }: TCont
           >
             {currentContent}
           </ReactMarkdown>
-          <TraceMessageInsights result={traceResult} />
+          <TraceMessageInsights result={traceResult} responseText={currentContent} />
         </CodeBlockProvider>
       </ArtifactProvider>
     </MarkdownErrorBoundary>
@@ -139,46 +175,60 @@ Markdown.displayName = 'Markdown';
 
 const HEATMAP_BAND_STYLES: Record<
   TraceHeatBand,
-  { underline: string; tooltipBorder: string; chip: string }
+  { underline: string; tooltipBorder: string; chip: string; bg: string }
 > = {
   green: {
     underline: latence.green,
     tooltipBorder: latence.green,
     chip: latence.greenText,
+    bg: latence.greenSoft,
   },
   amber: {
     underline: latence.amber,
     tooltipBorder: latence.amber,
     chip: latence.amber,
+    bg: latence.amberSoft,
   },
   red: {
     underline: latence.rose,
     tooltipBorder: latence.rose,
     chip: latence.rose,
+    bg: latence.roseSoft ?? 'rgba(244, 63, 94, 0.12)',
   },
   unknown: {
     underline: 'transparent',
     tooltipBorder: latence.border,
     chip: latence.textSubtle,
+    bg: 'transparent',
   },
 };
 
-function TraceMessageInsights({ result }: { result?: TraceDemoMessageResult }) {
+function TraceMessageInsights({
+  result,
+  responseText,
+}: {
+  result?: TraceDemoMessageResult;
+  responseText: string;
+}) {
   const [open, setOpen] = useState(false);
   if (!result) {
     return null;
   }
   const grounding = getGroundingResponse(result);
-  const tokens = extractTokenHeatmap(result);
   const decision = extractDecision(result);
-  const evidence = extractGroundingEvidence(result);
-  if (!grounding && tokens.length === 0 && !decision) {
+  const heatmapSummary = extractHeatmapSummary(result);
+  const claims = extractClaimSpans(result);
+  if (!grounding && claims.length === 0 && !decision) {
     return null;
   }
-  const phrases = groupTokensIntoPhrases(tokens);
   const overallScore = decision?.score ?? grounding?.trace_score ?? undefined;
   const overallBand = decision?.band ?? grounding?.risk_band ?? 'unknown';
   const bandStyle = HEATMAP_BAND_STYLES[normalizeDecisionBand(overallBand)];
+  const claimsTotal = heatmapSummary.claimsTotal ?? claims.length;
+  const claimsSupported =
+    heatmapSummary.claimsSupported ?? claims.filter((c) => c.band === 'green').length;
+  const parseMode = heatmapSummary.parseMode;
+  const parseLabel = parseMode ? PARSE_MODE_LABELS[parseMode] : undefined;
   return (
     <div
       className="mt-3 rounded-2xl border text-xs"
@@ -193,7 +243,7 @@ function TraceMessageInsights({ result }: { result?: TraceDemoMessageResult }) {
         onClick={() => setOpen((value) => !value)}
         className="flex w-full items-center justify-between gap-3 rounded-2xl px-3 py-2 text-left transition"
       >
-        <span className="flex items-center gap-2">
+        <span className="flex flex-wrap items-center gap-2">
           <span
             className="rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.18em]"
             style={{
@@ -209,6 +259,11 @@ function TraceMessageInsights({ result }: { result?: TraceDemoMessageResult }) {
               {overallScore <= 1 ? `${Math.round(overallScore * 100)}%` : overallScore.toFixed(2)}
             </span>
           )}
+          {claimsTotal > 0 && (
+            <span style={{ color: latence.textMuted }}>
+              {traceCopy.claims} {claimsSupported} / {claimsTotal}
+            </span>
+          )}
           {decision?.action && (
             <span
               className="rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.18em]"
@@ -221,181 +276,355 @@ function TraceMessageInsights({ result }: { result?: TraceDemoMessageResult }) {
               {traceCopy.decision}: {decision.action}
             </span>
           )}
+          {parseLabel && (
+            <span
+              className="rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.18em]"
+              style={{
+                backgroundColor: latence.bgRaised,
+                color: latence.textSubtle,
+                border: `1px solid ${latence.border}`,
+              }}
+              title={
+                heatmapSummary.parseQuery
+                  ? `Detected query: "${heatmapSummary.parseQuery}"`
+                  : 'How the bridge parsed your input into query + context'
+              }
+            >
+              {traceCopy.parseMode}: {parseLabel}
+            </span>
+          )}
+          {(() => {
+            // Calibration chip. Show ``Calibration: en`` (or ``de``) and
+            // surface "uncalibrated" when the runtime is using the English
+            // fallback bundle on a German request -- the user must know
+            // when scoring is comparing German content against English
+            // thresholds. The chip never lies: the language we display is
+            // the one the runtime actually used when it returned that
+            // value; we fall back to the bridge's bridge-side detection
+            // only when the runtime did not yet expose the field.
+            const displayLanguage =
+              heatmapSummary.effectiveLanguage ?? heatmapSummary.bridgeLanguage;
+            if (!displayLanguage) {
+              return null;
+            }
+            const label = LANGUAGE_LABELS[displayLanguage];
+            const calibrated = heatmapSummary.bundleCalibrated;
+            const showUncalibratedHint = calibrated === false;
+            const tooltipParts: string[] = [];
+            if (heatmapSummary.effectiveLanguageSource) {
+              tooltipParts.push(`source: ${heatmapSummary.effectiveLanguageSource}`);
+            }
+            if (heatmapSummary.bundleLanguage) {
+              tooltipParts.push(`bundle: ${heatmapSummary.bundleLanguage}`);
+            }
+            if (showUncalibratedHint) {
+              tooltipParts.push(
+                'German bundles ship in v0.2; this request was scored against the English fallback.',
+              );
+            }
+            return (
+              <span
+                className="rounded-full px-2 py-0.5 text-[10px] uppercase tracking-[0.18em]"
+                style={{
+                  backgroundColor: showUncalibratedHint
+                    ? latence.amberSoft ?? latence.bgRaised
+                    : latence.bgRaised,
+                  color: latence.textSubtle,
+                  border: `1px solid ${latence.border}`,
+                }}
+                title={tooltipParts.join(' · ')}
+              >
+                {traceCopy.calibration}: {label}
+                {showUncalibratedHint ? ` (${traceCopy.uncalibrated})` : ''}
+              </span>
+            );
+          })()}
         </span>
         <span style={{ color: latence.textSubtle }}>{open ? traceCopy.hide : traceCopy.show}</span>
       </button>
+      {(() => {
+        // Per-channel score row, surfaced under the headline so the user
+        // can see which fused channel drove the band. We render only when
+        // at least one channel has a value so this strip never shows up
+        // empty on responses that skipped NLI / literal scoring.
+        const channels: Array<{ label: string; value: number | undefined }> = [
+          { label: traceCopy.channelReverse, value: heatmapSummary.reverseContext },
+          { label: traceCopy.channelLiteral, value: heatmapSummary.literalGuarded },
+          { label: traceCopy.channelNli, value: heatmapSummary.nliAggregate },
+        ];
+        const populated = channels.filter((c) => formatPercent(c.value) !== undefined);
+        if (populated.length === 0) {
+          return null;
+        }
+        return (
+          <div
+            className="flex flex-wrap items-center gap-2 border-t px-3 py-1.5 text-[10px]"
+            style={{
+              borderColor: latence.border,
+              color: latence.textMuted,
+            }}
+          >
+            {populated.map((channel) => (
+              <span
+                key={channel.label}
+                className="rounded-md px-1.5 py-0.5"
+                style={{
+                  backgroundColor: latence.bgRaised,
+                  color: latence.textSubtle,
+                }}
+                title={`Fused channel score (0-100%); higher means more grounded.`}
+              >
+                {channel.label}: {formatPercent(channel.value)}
+              </span>
+            ))}
+          </div>
+        );
+      })()}
       {open && (
         <div className="border-t px-3 py-3" style={{ borderColor: latence.border }}>
           <p className="mb-2 text-[11px]" style={{ color: latence.textSubtle }}>
             {traceCopy.hoverHint}
           </p>
-          <TraceHeatmapPhrases
-            phrases={phrases}
-            evidence={evidence}
+          <TraceClaimRenderer
+            claims={claims}
+            responseText={responseText}
+            result={result}
             reasonCodes={decision?.reasonCodes ?? []}
           />
-          {decision?.unsupportedSpans && decision.unsupportedSpans.length > 0 && (
-            <div
-              className="mt-3 rounded-xl border px-3 py-2"
-              style={{ borderColor: latence.amber, backgroundColor: latence.amberSoft }}
-            >
-              <p
-                className="mb-1 text-[11px] uppercase tracking-[0.16em]"
-                style={{ color: latence.amber }}
-              >
-                Unsupported spans
-              </p>
-              {decision.unsupportedSpans.slice(0, 3).map((span, index) => (
-                <p
-                  key={`${span.label}-${index}`}
-                  className="line-clamp-2"
-                  style={{ color: latence.textMuted }}
-                >
-                  {span.text}
-                </p>
-              ))}
-            </div>
-          )}
         </div>
       )}
     </div>
   );
 }
 
-type Phrase = {
-  band: TraceHeatBand;
-  display: string;
-  averageScore?: number;
-  tokens: TraceHeatToken[];
-};
-
-function groupTokensIntoPhrases(tokens: TraceHeatToken[]): Phrase[] {
-  const phrases: Phrase[] = [];
-  let buffer: TraceHeatToken[] = [];
-  const flush = () => {
-    if (buffer.length === 0) {
-      return;
-    }
-    const display = buffer
-      .map((token, index) => `${index === 0 ? '' : token.leadingSpace ? ' ' : ''}${token.display}`)
-      .join('')
-      .trim();
-    const scores = buffer
-      .map((token) => token.score)
-      .filter((value): value is number => typeof value === 'number');
-    const average =
-      scores.length > 0 ? scores.reduce((acc, value) => acc + value, 0) / scores.length : undefined;
-    phrases.push({ band: buffer[0].band, display, averageScore: average, tokens: [...buffer] });
-    buffer = [];
-  };
-  for (const token of tokens) {
-    if (token.isSpecial) {
-      flush();
-      continue;
-    }
-    if (buffer.length === 0) {
-      buffer.push(token);
-      continue;
-    }
-    if (token.band === buffer[0].band) {
-      buffer.push(token);
-    } else {
-      flush();
-      buffer.push(token);
-    }
-  }
-  flush();
-  return phrases;
-}
-
-function TraceHeatmapPhrases({
-  phrases,
-  evidence,
+/** Render the assistant text with each claim wrapped in a hoverable
+ * highlight using char_start/char_end from `nli_diagnostics.claims[]`.
+ * Connective tissue between claims renders plain so the reader can still
+ * follow the answer.
+ *
+ * The char ranges from TRACE refer to the *plain text* response that the
+ * bridge sent. We render against `responseText` (the markdown content),
+ * which is normally identical for short/medium answers. Edge cases
+ * (markdown formatting that shifts characters) degrade gracefully: a
+ * claim whose char range falls outside the available text simply falls
+ * back to its own `claim.text`. */
+function TraceClaimRenderer({
+  claims,
+  responseText,
+  result,
   reasonCodes,
 }: {
-  phrases: Phrase[];
-  evidence: ReturnType<typeof extractGroundingEvidence>;
+  claims: TraceClaimSpan[];
+  responseText: string;
+  result?: TraceDemoMessageResult;
   reasonCodes: string[];
 }) {
-  if (phrases.length === 0) {
+  if (claims.length === 0) {
     return (
-      <p style={{ color: latence.textSubtle }}>
-        TRACE did not return token-level heatmap data for this response.
+      <p style={{ color: latence.textSubtle }} className="text-[11px]">
+        {traceCopy.noClaims}
       </p>
     );
   }
+
+  const segments: React.ReactNode[] = [];
+  let cursor = 0;
+  claims.forEach((claim, index) => {
+    let displayText = '';
+    if (
+      claim.charStart < responseText.length &&
+      claim.charEnd <= responseText.length &&
+      claim.charEnd > claim.charStart
+    ) {
+      displayText = responseText.slice(claim.charStart, claim.charEnd);
+    }
+    if (!displayText.trim()) {
+      displayText = claim.text;
+    }
+    if (claim.charStart >= cursor && claim.charStart < responseText.length) {
+      const between = responseText.slice(cursor, claim.charStart);
+      if (between) {
+        segments.push(
+          <span key={`between-${index}`} style={{ color: latence.text }}>
+            {between}
+          </span>,
+        );
+      }
+    }
+    segments.push(
+      <ClaimSpan
+        key={`claim-${claim.index}`}
+        claim={claim}
+        displayText={displayText}
+        evidence={extractClaimEvidence(result, claim)}
+        reasonCodes={reasonCodes}
+      />,
+    );
+    cursor = Math.max(cursor, claim.charEnd);
+  });
+  if (cursor < responseText.length) {
+    const tail = responseText.slice(cursor);
+    if (tail) {
+      segments.push(
+        <span key="tail" style={{ color: latence.text }}>
+          {tail}
+        </span>,
+      );
+    }
+  }
   return (
-    <div className="leading-relaxed" style={{ color: latence.text }}>
-      {phrases.map((phrase, index) => {
-        if (!phrase.display) {
-          return null;
-        }
-        const style = HEATMAP_BAND_STYLES[phrase.band];
-        const evidenceForPhrase = phrase.band === 'green' ? evidence : evidence.slice(0, 1);
-        return (
-          <span key={index} className="trace-heatmap-phrase">
-            {index > 0 ? ' ' : ''}
-            <span
-              className="trace-heatmap-token"
-              style={{
-                borderBottom: `2px solid ${style.underline}`,
-                paddingBottom: 1,
-              }}
-            >
-              {phrase.display}
+    <div className="trace-claim-prose whitespace-pre-wrap leading-relaxed" style={{ color: latence.text }}>
+      {segments}
+    </div>
+  );
+}
+
+function ClaimSpan({
+  claim,
+  displayText,
+  evidence,
+  reasonCodes,
+}: {
+  claim: TraceClaimSpan;
+  displayText: string;
+  evidence: ReturnType<typeof extractClaimEvidence>;
+  reasonCodes: string[];
+}) {
+  const style = HEATMAP_BAND_STYLES[claim.band];
+  const fmt = (value: number) =>
+    Math.abs(value) <= 1 ? `${Math.round(value * 100)}%` : value.toFixed(2);
+  return (
+    <span
+      className="trace-heatmap-token trace-claim-span"
+      style={{
+        backgroundColor: style.bg,
+        borderBottom: `2px solid ${style.underline}`,
+        borderRadius: 4,
+        padding: '0 2px',
+        paddingBottom: 1,
+      }}
+    >
+      {displayText}
+      <span
+        className="trace-heatmap-popover"
+        style={{ borderColor: style.tooltipBorder, backgroundColor: latence.bgRaised }}
+      >
+        <span
+          className="trace-heatmap-row"
+          style={{ color: latence.textSubtle, fontWeight: 600 }}
+        >
+          Claim {claim.index + 1}
+        </span>
+        <span className="trace-heatmap-row">
+          <span style={{ color: style.chip, textTransform: 'capitalize' }}>{claim.band}</span>
+          <span style={{ color: latence.textMuted }}>
+            chars {claim.charStart}–{claim.charEnd}
+          </span>
+        </span>
+        <NliBars
+          entailment={claim.entailment}
+          neutral={claim.neutral}
+          contradiction={claim.contradiction}
+        />
+        {claim.atoms.length > 0 && (
+          <span className="trace-heatmap-evidence">
+            <span className="trace-heatmap-row" style={{ color: latence.textSubtle }}>
+              {traceCopy.atoms} ({claim.atoms.length})
+            </span>
+            {claim.atoms.slice(0, 4).map((atom) => (
               <span
-                className="trace-heatmap-popover"
-                style={{ borderColor: style.tooltipBorder, backgroundColor: latence.bgRaised }}
+                key={atom.atomIndex}
+                className="trace-heatmap-evidence-item"
+                style={{ borderLeft: `2px solid ${style.underline}`, paddingLeft: 6 }}
               >
-                <span className="trace-heatmap-row">
-                  <span style={{ color: latence.textSubtle }}>{traceCopy.band}</span>
-                  <span style={{ color: style.chip, textTransform: 'capitalize' }}>
-                    {phrase.band}
-                  </span>
-                </span>
-                {typeof phrase.averageScore === 'number' && (
-                  <span className="trace-heatmap-row">
-                    <span style={{ color: latence.textSubtle }}>{traceCopy.score}</span>
-                    <span>
-                      {phrase.averageScore <= 1
-                        ? `${Math.round(phrase.averageScore * 100)}%`
-                        : phrase.averageScore.toFixed(2)}
-                    </span>
-                  </span>
-                )}
-                {reasonCodes.length > 0 && (
-                  <span className="trace-heatmap-row">
-                    <span style={{ color: latence.textSubtle }}>{traceCopy.reason}</span>
-                    <span style={{ color: latence.textMuted }}>
-                      {reasonCodes.slice(0, 3).join(', ')}
-                    </span>
-                  </span>
-                )}
-                <span className="trace-heatmap-evidence">
-                  <span className="trace-heatmap-row" style={{ color: latence.textSubtle }}>
-                    {traceCopy.evidence}
-                  </span>
-                  {evidenceForPhrase.length === 0 ? (
-                    <span style={{ color: latence.textMuted }}>{traceCopy.noEvidence}</span>
-                  ) : (
-                    evidenceForPhrase.slice(0, 2).map((item, evidenceIndex) => (
-                      <span
-                        key={`${item.supportId ?? evidenceIndex}`}
-                        className="trace-heatmap-evidence-item"
-                      >
-                        <span style={{ color: latence.textMuted }}>
-                          {item.text ?? item.supportId ?? '—'}
-                        </span>
-                      </span>
-                    ))
-                  )}
+                <span style={{ color: latence.textMuted }}>{atom.text}</span>
+                <span className="text-[10px]" style={{ color: latence.textSubtle }}>
+                  ent {fmt(atom.entailment)} · con {fmt(atom.contradiction)}
                 </span>
               </span>
-            </span>
+            ))}
           </span>
-        );
-      })}
-    </div>
+        )}
+        <span className="trace-heatmap-evidence">
+          <span className="trace-heatmap-row" style={{ color: latence.textSubtle }}>
+            {traceCopy.evidence}
+          </span>
+          {!evidence || (!evidence.text && !evidence.supportId) ? (
+            <span style={{ color: latence.textMuted }}>{traceCopy.noEvidence}</span>
+          ) : (
+            <span className="trace-heatmap-evidence-item">
+              <span className="text-[10px]" style={{ color: latence.textSubtle }}>
+                {evidence.supportId ?? '—'}
+                {typeof evidence.coverage === 'number'
+                  ? ` · coverage ${fmt(evidence.coverage)}`
+                  : ''}
+                {evidence.usageState ? ` · ${evidence.usageState}` : ''}
+              </span>
+              <span style={{ color: latence.textMuted }}>
+                {evidence.text ? evidence.text.slice(0, 320) : '—'}
+                {evidence.text && evidence.text.length > 320 ? '…' : ''}
+              </span>
+            </span>
+          )}
+        </span>
+        {reasonCodes.length > 0 && (
+          <span className="trace-heatmap-row">
+            <span style={{ color: latence.textSubtle }}>{traceCopy.reason}</span>
+            <span style={{ color: latence.textMuted }}>{reasonCodes.slice(0, 3).join(', ')}</span>
+          </span>
+        )}
+      </span>
+    </span>
+  );
+}
+
+function NliBars({
+  entailment,
+  neutral,
+  contradiction,
+}: {
+  entailment: number;
+  neutral: number;
+  contradiction: number;
+}) {
+  const fmt = (value: number) => `${Math.round(value * 100)}%`;
+  const Bar = ({
+    label,
+    value,
+    color,
+  }: {
+    label: string;
+    value: number;
+    color: string;
+  }) => (
+    <span className="trace-heatmap-row" style={{ display: 'block' }}>
+      <span className="flex items-center gap-2">
+        <span className="text-[10px] uppercase tracking-wider" style={{ color: latence.textSubtle, minWidth: 80 }}>
+          {label}
+        </span>
+        <span
+          aria-hidden
+          style={{
+            display: 'inline-block',
+            height: 4,
+            width: `${Math.max(2, Math.round(Math.max(0, Math.min(1, value)) * 100))}%`,
+            maxWidth: 120,
+            backgroundColor: color,
+            borderRadius: 999,
+          }}
+        />
+        <span className="text-[10px]" style={{ color: latence.textMuted, marginLeft: 'auto' }}>
+          {fmt(value)}
+        </span>
+      </span>
+    </span>
+  );
+  return (
+    <span className="trace-heatmap-evidence" style={{ display: 'block' }}>
+      <Bar label={traceCopy.entailment} value={entailment} color={latence.green} />
+      <Bar label={traceCopy.neutral} value={neutral} color={latence.amber} />
+      <Bar label={traceCopy.contradiction} value={contradiction} color={latence.rose} />
+    </span>
   );
 }
 

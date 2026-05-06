@@ -6,6 +6,7 @@ requires-python = ">=3.11"
 dependencies = [
   "fastapi>=0.115",
   "langchain-core>=0.3",
+  "langdetect>=1.0.9",
   "latence @ git+https://github.com/latenceainew/latence-trace-python.git@main",
   "llama-index-core>=0.12",
   "pydantic>=2",

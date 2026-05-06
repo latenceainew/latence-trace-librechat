@@ -30,6 +30,8 @@ export type TraceBridgeRequest = {
   scenario: string;
   integration: TraceBridgeIntegration;
   kind: TraceBridgeKind;
+  user_input?: string;
+  assistant_response?: string;
   question?: string;
   context?: string | string[];
   answer?: string;
@@ -37,6 +39,21 @@ export type TraceBridgeRequest = {
   turns?: Array<Record<string, unknown>>;
   prior_memory_state?: Record<string, unknown>;
   metadata?: Record<string, unknown>;
+};
+
+export type TraceParseInfo = {
+  mode: 'markers' | 'head' | 'tail' | 'none' | 'preparsed';
+  query?: string | null;
+  context_char_count: number;
+  context_chunk_count: number;
+  marker_present: boolean;
+  // Bridge-side language detection. The runtime is the source of truth
+  // for the *effective* language used during scoring (see
+  // ``runtime_decision.profile_diagnostics.language``); this field is the
+  // bridge's view, set even when the runtime is unreachable so the
+  // calibration chip is never blank.
+  language?: 'de' | 'en' | null;
+  language_source?: 'request' | 'auto' | 'fallback_en' | null;
 };
 
 export type TraceBridgeResponse = {
@@ -51,6 +68,7 @@ export type TraceBridgeResponse = {
   privacy?: Record<string, unknown> | null;
   memory?: Record<string, unknown> | null;
   compression?: Record<string, unknown> | null;
+  parse?: TraceParseInfo | null;
   raw?: Record<string, unknown>;
 };
 
@@ -100,15 +118,6 @@ export type TraceSpan = {
 
 export type TraceHeatBand = 'green' | 'amber' | 'red' | 'unknown';
 
-export type TraceHeatToken = {
-  index: number;
-  display: string;
-  band: TraceHeatBand;
-  score?: number;
-  leadingSpace: boolean;
-  isSpecial: boolean;
-};
-
 export type TraceEvidenceItem = {
   supportId?: string;
   text?: string;
@@ -141,7 +150,7 @@ type TraceDemoContextValue = {
 };
 
 export const TRACE_DEMO_STORAGE_KEY = 'latence.trace.demo.selection';
-export const TRACE_DEMO_MODEL = 'google/gemma-4-26b-a4b-it:free';
+export const TRACE_DEMO_MODEL = 'openai/gpt-oss-120b:free';
 
 export const traceUseCases: Array<{
   id: TraceDemoUseCase;
@@ -250,7 +259,6 @@ const FEATURE_TO_KIND: Record<TraceFeatureKey, TraceBridgeKind> = {
 const RAG_FEATURES: TraceFeatureKey[] = [
   'groundedness',
   'context-util',
-  'drift',
   'memory',
   'privacy',
   'compression',
@@ -322,7 +330,12 @@ export function readStoredTraceDemoSelection(): TraceDemoSelection | null {
       isTraceUseCase(parsed.useCase) &&
       isTraceIntegration(parsed.integration)
     ) {
-      return parsed as TraceDemoSelection;
+      return {
+        active: true,
+        useCase: parsed.useCase,
+        integration: parsed.integration,
+        createdAt: typeof parsed.createdAt === 'number' ? parsed.createdAt : Date.now(),
+      };
     }
   } catch {
     return null;
@@ -417,24 +430,33 @@ export function buildTraceBridgeRequest({
 }: BuildRequestArgs): TraceBridgeRequest {
   const integration = mapTraceIntegration(selection.integration);
   const kind = getKindForFeature(feature, selection.useCase);
-  const context = getDemoContext(selection.useCase);
   const scenario = `trace_${selection.useCase}_${feature}_${selection.integration}`.replace(
     /-/g,
     '_',
   );
-  const metadata = {
+  const metadata: Record<string, unknown> = {
     use_case: selection.useCase,
     feature,
     integration: selection.integration,
     source: 'librechat_trace_demo',
   };
 
+  // The chat message is the verbatim user input; the bridge's parser
+  // splits it into (query, context). We DO NOT pre-split on the
+  // frontend, and we DO NOT inject a hardcoded refund-policy / coding
+  // fallback. Empty user_input is forwarded so the bridge can record
+  // mode='none'.
+  const userInput = question ?? '';
+  const assistantResponse = answer ?? '';
+
   if (kind === 'privacy') {
     return {
       scenario,
       integration,
       kind,
-      text: `${question}\n\n${answer}`,
+      user_input: userInput,
+      assistant_response: assistantResponse,
+      text: `${userInput}\n\n${assistantResponse}`,
       metadata,
     };
   }
@@ -443,9 +465,9 @@ export function buildTraceBridgeRequest({
       scenario,
       integration,
       kind,
-      text: answer,
-      question,
-      context,
+      user_input: userInput,
+      assistant_response: assistantResponse,
+      text: assistantResponse,
       prior_memory_state: priorMemoryState,
       metadata,
     };
@@ -455,10 +477,9 @@ export function buildTraceBridgeRequest({
       scenario,
       integration,
       kind,
-      question,
-      answer,
-      context,
-      text: `${contextAsText(context)}\n\nQuestion: ${question}\nAnswer: ${answer}`,
+      user_input: userInput,
+      assistant_response: assistantResponse,
+      text: `${userInput}\n\n${assistantResponse}`,
       metadata,
     };
   }
@@ -467,10 +488,9 @@ export function buildTraceBridgeRequest({
       scenario,
       integration,
       kind,
+      user_input: userInput,
+      assistant_response: assistantResponse,
       turns,
-      question,
-      answer,
-      context,
       metadata,
     };
   }
@@ -478,9 +498,8 @@ export function buildTraceBridgeRequest({
     scenario,
     integration,
     kind,
-    question,
-    answer,
-    context,
+    user_input: userInput,
+    assistant_response: assistantResponse,
     metadata,
   };
 }
@@ -554,33 +573,6 @@ export function getGroundingResponse(
   return result.results.groundedness?.response ?? result.results['context-util']?.response;
 }
 
-export function extractTokenHeatmap(result?: TraceDemoMessageResult): TraceHeatToken[] {
-  const response = getGroundingResponse(result);
-  const tokens = (response?.raw as { heatmap?: { tokens?: unknown } } | undefined)?.heatmap?.tokens;
-  if (!Array.isArray(tokens)) {
-    return [];
-  }
-  return tokens
-    .map((entry) => {
-      if (!entry || typeof entry !== 'object') {
-        return null;
-      }
-      const item = entry as Record<string, unknown>;
-      const rawToken = typeof item.token === 'string' ? item.token : '';
-      if (!rawToken) {
-        return null;
-      }
-      const isSpecial = rawToken.startsWith('[') && rawToken.endsWith(']');
-      const leadingSpace = rawToken.startsWith('Ġ') || rawToken.startsWith(' ');
-      const display = rawToken.replace(/^Ġ/, '').replace(/^\s+/, '');
-      const band = normalizeBand(item.band);
-      const score = typeof item.score === 'number' ? item.score : undefined;
-      const index = typeof item.index === 'number' ? item.index : 0;
-      return { index, display, band, score, leadingSpace, isSpecial };
-    })
-    .filter((token): token is TraceHeatToken => token !== null);
-}
-
 export function extractGroundingEvidence(result?: TraceDemoMessageResult): TraceEvidenceItem[] {
   const response = getGroundingResponse(result);
   if (!response) {
@@ -599,8 +591,12 @@ export function extractGroundingEvidence(result?: TraceDemoMessageResult): Trace
   if (Array.isArray(supportUnits)) {
     sources.push(...supportUnits);
   }
-  const seen = new Set<string>();
-  const evidence: TraceEvidenceItem[] = [];
+  // Dedupe by support_id and merge fields across the three sources, since
+  // `raw.support_units` carries usage/coverage signal but no text, while
+  // `runtime_decision.evidence` carries the actual chunk text. Keying purely
+  // on support_id (and falling back to text) avoids the duplicate "raw-0
+  // empty + raw-0 with text" rendering bug.
+  const merged = new Map<string, TraceEvidenceItem>();
   for (const item of sources) {
     if (!item || typeof item !== 'object') {
       continue;
@@ -613,26 +609,345 @@ export function extractGroundingEvidence(result?: TraceDemoMessageResult): Trace
           ? record.supportId
           : undefined;
     const text = typeof record.text === 'string' ? record.text : undefined;
-    const dedupeKey = `${supportId ?? ''}|${text ?? ''}`;
-    if (seen.has(dedupeKey)) {
-      continue;
-    }
-    seen.add(dedupeKey);
-    evidence.push({
-      supportId,
-      text,
-      coverage:
-        typeof record.coverage_score === 'number'
-          ? record.coverage_score
-          : typeof record.coverage === 'number'
-            ? record.coverage
-            : undefined,
-      usageState: typeof record.usage_state === 'string' ? record.usage_state : undefined,
-      trustState:
-        typeof record.context_trust_state === 'string' ? record.context_trust_state : undefined,
+    const coverage =
+      typeof record.coverage_score === 'number'
+        ? record.coverage_score
+        : typeof record.coverage === 'number'
+          ? record.coverage
+          : undefined;
+    const usageState = typeof record.usage_state === 'string' ? record.usage_state : undefined;
+    const trustState =
+      typeof record.context_trust_state === 'string' ? record.context_trust_state : undefined;
+    const key = supportId ?? `__txt:${(text ?? '').slice(0, 40)}` ?? `__pos:${merged.size}`;
+    const prev = merged.get(key);
+    merged.set(key, {
+      supportId: supportId ?? prev?.supportId,
+      text: text ?? prev?.text,
+      coverage: coverage ?? prev?.coverage,
+      usageState: usageState ?? prev?.usageState,
+      trustState: trustState ?? prev?.trustState,
     });
   }
-  return evidence;
+  const list = Array.from(merged.values());
+  // Strongest first by coverage so per-span popovers can pick the top chunk.
+  list.sort((a, b) => (b.coverage ?? 0) - (a.coverage ?? 0));
+  return list;
+}
+
+/**
+ * One claim span as parsed from `nli_diagnostics.claims[]` (TRACE quality
+ * lane). char_start/char_end refer into the assistant response text. Atoms
+ * are present when atomic decomposition fired (German requires de_core_news_sm).
+ */
+export type TraceClaimAtom = {
+  atomIndex: number;
+  text: string;
+  charStart: number;
+  charEnd: number;
+  entailment: number;
+  neutral: number;
+  contradiction: number;
+  score: number;
+  skipped?: boolean;
+  supportIds: string[];
+  supportUnitIndices: number[];
+};
+
+export type TraceClaimSpan = {
+  index: number;
+  text: string;
+  charStart: number;
+  charEnd: number;
+  entailment: number;
+  neutral: number;
+  contradiction: number;
+  score: number;
+  band: 'green' | 'amber' | 'red';
+  skipped: boolean;
+  premiseCount: number;
+  supportIds: string[];
+  supportUnitIndices: number[];
+  atoms: TraceClaimAtom[];
+};
+
+const DEFAULT_GREEN_THRESHOLD = 0.6;
+const DEFAULT_AMBER_THRESHOLD = 0.35;
+
+function bandForEntailment(
+  entailment: number,
+  thresholds?: { greenMin?: number; amberMin?: number },
+): 'green' | 'amber' | 'red' {
+  const green = thresholds?.greenMin ?? DEFAULT_GREEN_THRESHOLD;
+  const amber = thresholds?.amberMin ?? DEFAULT_AMBER_THRESHOLD;
+  if (entailment >= green) {
+    return 'green';
+  }
+  if (entailment >= amber) {
+    return 'amber';
+  }
+  return 'red';
+}
+
+function num(value: unknown): number | undefined {
+  return typeof value === 'number' && Number.isFinite(value) ? value : undefined;
+}
+
+function asAtom(record: Record<string, unknown>): TraceClaimAtom | null {
+  const text = typeof record.text === 'string' ? record.text : null;
+  if (text === null) {
+    return null;
+  }
+  const supportIds = Array.isArray(record.support_ids)
+    ? record.support_ids.filter((id): id is string => typeof id === 'string')
+    : [];
+  const supportUnitIndices = Array.isArray(record.support_unit_indices)
+    ? record.support_unit_indices.filter((i): i is number => typeof i === 'number')
+    : [];
+  return {
+    atomIndex: num(record.atom_index) ?? 0,
+    text,
+    charStart: num(record.char_start) ?? 0,
+    charEnd: num(record.char_end) ?? 0,
+    entailment: num(record.entailment) ?? 0,
+    neutral: num(record.neutral) ?? 0,
+    contradiction: num(record.contradiction) ?? 0,
+    score: num(record.score) ?? 0,
+    skipped: typeof record.skipped === 'boolean' ? record.skipped : undefined,
+    supportIds,
+    supportUnitIndices,
+  };
+}
+
+export function extractClaimSpans(result?: TraceDemoMessageResult): TraceClaimSpan[] {
+  const response = getGroundingResponse(result);
+  const raw = response?.raw as
+    | {
+        nli_diagnostics?: { claims?: unknown };
+        heatmap?: { thresholds?: Record<string, unknown> };
+      }
+    | undefined;
+  const claims = raw?.nli_diagnostics?.claims;
+  if (!Array.isArray(claims)) {
+    return [];
+  }
+  const thresholds = raw?.heatmap?.thresholds ?? {};
+  const greenMin = num((thresholds as Record<string, unknown>).token_green_min);
+  const amberMin = num((thresholds as Record<string, unknown>).token_amber_min);
+  const out: TraceClaimSpan[] = [];
+  for (const claim of claims) {
+    if (!claim || typeof claim !== 'object') {
+      continue;
+    }
+    const record = claim as Record<string, unknown>;
+    const text = typeof record.text === 'string' ? record.text : '';
+    if (!text) {
+      continue;
+    }
+    const entailment = num(record.entailment) ?? 0;
+    const supportIds = Array.isArray(record.support_ids)
+      ? record.support_ids.filter((id): id is string => typeof id === 'string')
+      : [];
+    const supportUnitIndices = Array.isArray(record.support_unit_indices)
+      ? record.support_unit_indices.filter((i): i is number => typeof i === 'number')
+      : [];
+    const atoms = Array.isArray(record.atoms)
+      ? (record.atoms
+          .map((entry) =>
+            entry && typeof entry === 'object' ? asAtom(entry as Record<string, unknown>) : null,
+          )
+          .filter((a): a is TraceClaimAtom => a !== null) as TraceClaimAtom[])
+      : [];
+    out.push({
+      index: num(record.index) ?? out.length,
+      text,
+      charStart: num(record.char_start) ?? 0,
+      charEnd: num(record.char_end) ?? text.length,
+      entailment,
+      neutral: num(record.neutral) ?? 0,
+      contradiction: num(record.contradiction) ?? 0,
+      score: num(record.score) ?? 0,
+      band: bandForEntailment(entailment, { greenMin, amberMin }),
+      skipped: typeof record.skipped === 'boolean' ? record.skipped : false,
+      premiseCount: num(record.premise_count) ?? 0,
+      supportIds,
+      supportUnitIndices,
+      atoms,
+    });
+  }
+  out.sort((a, b) => a.charStart - b.charStart);
+  return out;
+}
+
+/**
+ * Pick the single best supporting evidence chunk for a claim. Walks
+ * `claim.support_unit_indices` into `support_units[]` and returns the
+ * chunk with the highest coverage_score that actually carries text. If no
+ * indexed unit has text we fall back to the first text-bearing chunk
+ * across all evidence sources.
+ */
+export function extractClaimEvidence(
+  result: TraceDemoMessageResult | undefined,
+  claim: TraceClaimSpan,
+): TraceEvidenceItem | undefined {
+  const all = extractGroundingEvidence(result);
+  if (all.length === 0) {
+    return undefined;
+  }
+  const indexed: TraceEvidenceItem[] = [];
+  for (const i of claim.supportUnitIndices) {
+    const item = all[i];
+    if (item && (item.text ?? '').trim().length > 0) {
+      indexed.push(item);
+    }
+  }
+  if (indexed.length > 0) {
+    indexed.sort((a, b) => (b.coverage ?? 0) - (a.coverage ?? 0));
+    return indexed[0];
+  }
+  for (const id of claim.supportIds) {
+    const match = all.find((item) => item.supportId === id && (item.text ?? '').trim().length > 0);
+    if (match) {
+      return match;
+    }
+  }
+  return all.find((item) => (item.text ?? '').trim().length > 0);
+}
+
+export type TraceHeatmapSummary = {
+  headlineScore?: number;
+  groundednessPct?: number;
+  deadWeightPct?: number;
+  riskBand?: string;
+  claimsTotal?: number;
+  claimsSupported?: number;
+  parseMode?: TraceParseInfo['mode'];
+  parseQuery?: string;
+  // Bridge-resolved language (chip on the heatmap header).
+  bridgeLanguage?: 'de' | 'en';
+  // Runtime-effective language read out of
+  // ``runtime_decision.profile_diagnostics.language`` and
+  // ``language_source``. May differ from ``bridgeLanguage`` when the
+  // request explicitly forced a language.
+  effectiveLanguage?: 'de' | 'en';
+  effectiveLanguageSource?: 'request' | 'auto' | 'fallback_en';
+  // Whether the loaded calibration bundle is language-matched. Until
+  // Phase C ships German bundles, this is "uncalibrated" for de
+  // requests so the user knows the bundle is the English fallback.
+  bundleLanguage?: 'de' | 'en';
+  bundleCalibrated?: boolean;
+  // Raw fused channel scores, surfaced under the headline so the user
+  // can see the per-channel breakdown (reverse_context / literal_guarded
+  // / nli_aggregate). Numbers between 0 and 1; ``undefined`` when the
+  // scores block did not include the channel.
+  reverseContext?: number;
+  literalGuarded?: number;
+  nliAggregate?: number;
+  thresholds?: {
+    tokenGreenMin?: number;
+    tokenAmberMin?: number;
+    fileGreenMin?: number;
+    fileAmberMin?: number;
+  };
+};
+
+export function extractHeatmapSummary(result?: TraceDemoMessageResult): TraceHeatmapSummary {
+  const response = getGroundingResponse(result);
+  const raw = (response?.raw ?? {}) as Record<string, unknown>;
+  const heatmap = (raw as { heatmap?: Record<string, unknown> }).heatmap;
+  const summary =
+    heatmap && typeof heatmap === 'object'
+      ? ((heatmap as { summary?: Record<string, unknown> }).summary ?? {})
+      : {};
+  const thresholds =
+    heatmap && typeof heatmap === 'object'
+      ? ((heatmap as { thresholds?: Record<string, unknown> }).thresholds ?? {})
+      : {};
+  const claims = extractClaimSpans(result);
+  const claimsSupported = claims.filter((c) => c.band === 'green').length;
+
+  // Per-channel scores live under raw.scores. We surface them next to the
+  // headline so the user can see the *why* (e.g. high reverse_context but
+  // low nli_aggregate signals dilution).
+  const scores = (raw as { scores?: Record<string, unknown> }).scores ?? {};
+  const reverseContext = num(scores.reverse_context_calibrated) ?? num(scores.reverse_context);
+  const literalGuarded = num(scores.literal_guarded);
+  const nliAggregate = num(scores.nli_aggregate);
+
+  // Language: prefer the runtime's effective language (set by the
+  // service.py per-request language resolver) so the chip reflects what
+  // *actually* drove the calibration / NLI defaults. Fall back to the
+  // bridge's bridge-side detection when the runtime is older / not yet
+  // returning the field.
+  const profileDiag = (
+    (raw as { runtime_decision?: { profile_diagnostics?: Record<string, unknown> } })
+      .runtime_decision?.profile_diagnostics ?? {}
+  ) as Record<string, unknown>;
+  const effectiveLanguageRaw = profileDiag.language;
+  const effectiveLanguage =
+    effectiveLanguageRaw === 'de' || effectiveLanguageRaw === 'en'
+      ? (effectiveLanguageRaw as 'de' | 'en')
+      : undefined;
+  const effectiveLanguageSourceRaw = profileDiag.language_source;
+  const effectiveLanguageSource =
+    effectiveLanguageSourceRaw === 'request' ||
+    effectiveLanguageSourceRaw === 'auto' ||
+    effectiveLanguageSourceRaw === 'fallback_en'
+      ? (effectiveLanguageSourceRaw as 'request' | 'auto' | 'fallback_en')
+      : undefined;
+  const bridgeLanguageRaw = response?.parse?.language;
+  const bridgeLanguage =
+    bridgeLanguageRaw === 'de' || bridgeLanguageRaw === 'en'
+      ? (bridgeLanguageRaw as 'de' | 'en')
+      : undefined;
+
+  // Bundle calibration: until the German calibration bundles ship under
+  // ``latence_trace/data/calibration.<class>.de.json``, a German request
+  // gets routed through the English fallback bundle. The runtime logs
+  // this as ``bundle_language_fallback``; we read the bundle hint from
+  // ``profile_diagnostics.bundle_language`` once Phase C exposes it.
+  const bundleHintRaw =
+    typeof profileDiag.bundle_language === 'string'
+      ? (profileDiag.bundle_language as string)
+      : undefined;
+  const bundleLanguage =
+    bundleHintRaw === 'de' || bundleHintRaw === 'en'
+      ? (bundleHintRaw as 'de' | 'en')
+      : undefined;
+  // The chip says "calibrated" only when the language we display matches
+  // the bundle language the runtime actually loaded. A German request
+  // with the English fallback bundle is "uncalibrated".
+  const displayLanguage = effectiveLanguage ?? bridgeLanguage;
+  const bundleCalibrated =
+    displayLanguage === undefined
+      ? undefined
+      : bundleLanguage !== undefined
+        ? bundleLanguage === displayLanguage
+        : displayLanguage === 'en';
+
+  return {
+    headlineScore: num(summary.headline_score) ?? num(summary.groundedness_pct),
+    groundednessPct: num(summary.groundedness_pct),
+    deadWeightPct: num(summary.dead_weight_pct),
+    riskBand: typeof summary.risk_band === 'string' ? summary.risk_band : undefined,
+    claimsTotal: claims.length || undefined,
+    claimsSupported: claims.length ? claimsSupported : undefined,
+    parseMode: response?.parse?.mode,
+    parseQuery: response?.parse?.query ?? undefined,
+    bridgeLanguage,
+    effectiveLanguage,
+    effectiveLanguageSource,
+    bundleLanguage,
+    bundleCalibrated,
+    reverseContext,
+    literalGuarded,
+    nliAggregate,
+    thresholds: {
+      tokenGreenMin: num(thresholds.token_green_min),
+      tokenAmberMin: num(thresholds.token_amber_min),
+      fileGreenMin: num(thresholds.file_green_min),
+      fileAmberMin: num(thresholds.file_amber_min),
+    },
+  };
 }
 
 export function extractDecision(result?: TraceDemoMessageResult): TraceDecision | undefined {
@@ -708,8 +1023,8 @@ export function extractDeadWeights(result?: TraceDemoMessageResult): {
     return { files: [] };
   }
   const files: TraceFileAttribution[] = Array.isArray(attribution.per_file)
-    ? attribution.per_file
-        .map((entry) => {
+    ? (attribution.per_file
+        .map((entry): TraceFileAttribution | null => {
           if (!entry || typeof entry !== 'object') {
             return null;
           }
@@ -724,7 +1039,7 @@ export function extractDeadWeights(result?: TraceDemoMessageResult): {
               : [],
           };
         })
-        .filter((entry): entry is TraceFileAttribution => entry !== null)
+        .filter((entry): entry is TraceFileAttribution => entry !== null) as TraceFileAttribution[])
     : [];
   return {
     ratio:
@@ -876,13 +1191,6 @@ export function extractDriftBand(result?: TraceDemoMessageResult): {
   return {};
 }
 
-function normalizeBand(value: unknown): TraceHeatBand {
-  if (value === 'green' || value === 'amber' || value === 'yellow' || value === 'red') {
-    return value === 'yellow' ? 'amber' : value;
-  }
-  return 'unknown';
-}
-
 export function getRiskForResult(result: TraceDemoMessageResult | undefined): {
   risk: string;
   score?: number | null;
@@ -901,25 +1209,6 @@ export function getRiskForResult(result: TraceDemoMessageResult | undefined): {
     return { risk: first.response.risk_band || 'unknown', score: first.response.trace_score };
   }
   return { risk: 'unknown' };
-}
-
-function getDemoContext(useCase: TraceDemoUseCase): string | string[] {
-  if (useCase === 'coding-agent') {
-    return [
-      'Repository rule: validate all external input before writing to disk or calling shell commands.',
-      'Task file: implement a helper that stores uploaded reports and rejects unsafe paths.',
-      'Security note: user-controlled filenames must be normalized and checked against the workspace root.',
-    ];
-  }
-  return [
-    'Refund policy: opened devices may be returned within 30 days only if defective.',
-    'Refund policy: refunds after 30 days require manager approval and are not guaranteed.',
-    'Shipping FAQ: accessories ship separately and tracking can lag by one day.',
-  ];
-}
-
-function contextAsText(context: string | string[]) {
-  return Array.isArray(context) ? context.join('\n\n') : context;
 }
 
 function parseSpanList(value: unknown): TraceSpan[] {
