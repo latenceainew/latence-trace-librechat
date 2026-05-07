@@ -35,6 +35,7 @@ import {
   traceFeatureCatalog,
   traceIntegrations,
   traceUseCases,
+  TRACE_DEMO_URL,
   writeTraceDemoSelection,
   type TraceBridgeResponse,
   type TraceCallRecord,
@@ -124,7 +125,11 @@ function getRiskStyle(risk?: string | null) {
 const TURNSTILE_SITE_KEY = (import.meta as any).env?.VITE_TURNSTILE_SITE_KEY as string | undefined;
 const SUBMIT_COUNT_KEY = 'latence.trace.demo.submitCount';
 const DISMISS_COUNT_KEY = 'latence.trace.demo.dismissCount';
+const BONUS_TESTS_KEY = 'latence.trace.demo.bonusTests';
+const SHARE_REDEEMED_KEY = 'latence.trace.demo.shareRedeemed';
+const SOCIAL_SHARED_KEY = 'latence.trace.demo.socialShared';
 const MAX_DISMISSALS = 5;
+const BASE_FREE_TESTS = 2;
 
 function readSessionInt(key: string): number {
   try {
@@ -169,6 +174,9 @@ export default function TraceDemoShell({
   const [submitCount, setSubmitCount] = useState(() => readSessionInt(SUBMIT_COUNT_KEY));
   const [dismissCount, setDismissCount] = useState(() => readSessionInt(DISMISS_COUNT_KEY));
   const [showSignupModal, setShowSignupModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [bonusTests, setBonusTests] = useState(() => readSessionInt(BONUS_TESTS_KEY));
+  const freeTestLimit = BASE_FREE_TESTS + bonusTests;
   const isHardLocked = dismissCount >= MAX_DISMISSALS;
   const processedRef = useRef<Set<string>>(new Set());
   const isSubmitting = useRecoilValue(store.isSubmittingFamily(index));
@@ -225,7 +233,7 @@ export default function TraceDemoShell({
     const newCount = submitCount + 1;
     setSubmitCount(newCount);
     writeSessionInt(SUBMIT_COUNT_KEY, newCount);
-    if (newCount >= 2 && !isHardLocked) {
+    if (newCount >= freeTestLimit && !isHardLocked) {
       setShowSignupModal(true);
     }
     void fanoutTraceForTurn({
@@ -330,6 +338,7 @@ export default function TraceDemoShell({
                 .find((value) => !!value) ?? undefined
             }
             isRunning={logs.some((log) => log.status === 'running')}
+            onShare={() => setShowShareModal(true)}
           />
           <TraceGroundednessCard
             decision={decision}
@@ -358,6 +367,26 @@ export default function TraceDemoShell({
             setShowSignupModal(false);
           }}
           canDismiss={dismissCount < MAX_DISMISSALS}
+        />
+      )}
+      {showShareModal && latestResult && (
+        <TraceShareModal
+          result={latestResult}
+          selection={selection}
+          decision={decision}
+          riskInfo={riskInfo}
+          onClose={() => setShowShareModal(false)}
+          onLinkShared={() => {
+            try {
+              const already = window.sessionStorage.getItem(SHARE_REDEEMED_KEY);
+              if (!already) {
+                const newBonus = bonusTests + 50;
+                setBonusTests(newBonus);
+                writeSessionInt(BONUS_TESTS_KEY, newBonus);
+                window.sessionStorage.setItem(SHARE_REDEEMED_KEY, '1');
+              }
+            } catch { /* noop */ }
+          }}
         />
       )}
     </TraceDemoContext.Provider>
@@ -528,6 +557,7 @@ function TraceSummaryPanel({
   avgLatency,
   requestId,
   isRunning,
+  onShare,
 }: {
   features: TraceFeatureKey[];
   result?: TraceDemoMessageResult;
@@ -538,10 +568,14 @@ function TraceSummaryPanel({
   avgLatency?: number;
   requestId?: string;
   isRunning: boolean;
+  onShare?: () => void;
 }) {
   const band = decision?.band ?? riskInfo.risk;
   const style = getRiskStyle(band);
   const score = decision?.score ?? riskInfo.score;
+  const hasResult = Object.values(result?.results ?? {}).some(
+    (r) => r?.status === 'completed',
+  );
   return (
     <div
       className="rounded-2xl border"
@@ -568,6 +602,28 @@ function TraceSummaryPanel({
           )}
         </div>
         <div className="flex items-center gap-1.5">
+          {hasResult && onShare && (
+            <button
+              type="button"
+              onClick={onShare}
+              title="Share results"
+              className="flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] transition hover:opacity-80"
+              style={{
+                borderColor: latence.green,
+                color: latence.greenText,
+                backgroundColor: latence.greenSoft,
+              }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="18" cy="5" r="3" />
+                <circle cx="6" cy="12" r="3" />
+                <circle cx="18" cy="19" r="3" />
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+              </svg>
+              Share
+            </button>
+          )}
           {decision?.action && (
             <span
               className="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em]"
@@ -1703,6 +1759,393 @@ function TraceHowItWorksModal({ onClose }: { onClose: () => void }) {
           <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: latence.greenText }}>Code Example</p>
           <CopyBlock label="Grounded answer (correct API usage)" text={CODE_EXAMPLE_GOOD} />
           <CopyBlock label="Hallucinated answer (fabricated API calls)" text={CODE_EXAMPLE_BAD} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function generatePromoCode(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code = 'TRACE-';
+  for (let i = 0; i < 6; i++) {
+    code += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return code;
+}
+
+function TraceShareCard({
+  result,
+  selection,
+  decision,
+  riskInfo,
+  cardRef,
+}: {
+  result: TraceDemoMessageResult;
+  selection: TraceDemoSelection;
+  decision?: ReturnType<typeof extractDecision>;
+  riskInfo: { risk: string; score?: number | null };
+  cardRef: React.RefObject<HTMLDivElement>;
+}) {
+  const score = decision?.score ?? riskInfo.score;
+  const band = decision?.band ?? riskInfo.risk;
+  const bandStyle = getRiskStyle(band);
+  const useCaseMeta = traceUseCases.find((u) => u.id === selection.useCase);
+  const completedFeatures = Object.entries(result.results)
+    .filter(([, r]) => r?.status === 'completed' && r?.response)
+    .map(([key, r]) => {
+      const meta = traceFeatureCatalog.find((f) => f.key === key);
+      return { key, label: meta?.label ?? key, response: r!.response! };
+    });
+  const avgLatency = (() => {
+    const latencies = completedFeatures
+      .map((f) => f.response.latency_ms)
+      .filter((v): v is number => typeof v === 'number');
+    return latencies.length > 0
+      ? Math.round(latencies.reduce((a, b) => a + b, 0) / latencies.length)
+      : undefined;
+  })();
+
+  return (
+    <div
+      ref={cardRef as React.RefObject<HTMLDivElement>}
+      style={{
+        width: 1200,
+        height: 675,
+        backgroundColor: latence.bgPrimary,
+        color: latence.text,
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+        position: 'relative',
+        overflow: 'hidden',
+        padding: 48,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
+      {/* Decorative gradient orbs */}
+      <div style={{
+        position: 'absolute', top: -120, right: -120,
+        width: 400, height: 400, borderRadius: '50%',
+        background: `radial-gradient(circle, ${latence.greenSoft} 0%, transparent 70%)`,
+        pointerEvents: 'none',
+      }} />
+      <div style={{
+        position: 'absolute', bottom: -80, left: -80,
+        width: 300, height: 300, borderRadius: '50%',
+        background: `radial-gradient(circle, rgba(11,139,145,0.08) 0%, transparent 70%)`,
+        pointerEvents: 'none',
+      }} />
+
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <img src={LATENCE_LOGO_SRC} alt="Latence" style={{ height: 36 }} />
+          <span style={{ fontSize: 28, fontWeight: 700, letterSpacing: '0.06em', color: latence.greenText }}>TRACE</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={{
+            fontSize: 13, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.14em',
+            backgroundColor: latence.greenSoft, color: latence.greenText,
+            padding: '6px 16px', borderRadius: 999,
+          }}>
+            {useCaseMeta?.label ?? selection.useCase}
+          </span>
+          {band && band !== 'unknown' && (
+            <span style={{
+              fontSize: 13, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em',
+              backgroundColor: bandStyle.backgroundColor, color: bandStyle.color,
+              border: `1.5px solid ${bandStyle.borderColor}`,
+              padding: '6px 16px', borderRadius: 999,
+            }}>
+              {band}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Hero score */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 40, position: 'relative', zIndex: 1, flex: 1, paddingTop: 20 }}>
+        <div style={{ flex: '0 0 auto' }}>
+          <div style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.2em', color: latence.textSubtle, marginBottom: 6 }}>
+            Groundedness Score
+          </div>
+          <div style={{ fontSize: 96, fontWeight: 800, lineHeight: 1, color: bandStyle.color }}>
+            {typeof score === 'number' ? (score <= 1 ? `${Math.round(score * 100)}%` : score.toFixed(1)) : '—'}
+          </div>
+        </div>
+
+        {/* Metric tiles */}
+        <div style={{
+          display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12, flex: 1,
+        }}>
+          {completedFeatures.filter((f) => f.key !== 'groundedness').slice(0, 4).map((f) => {
+            const value = formatFeatureValue(f.key as TraceFeatureKey, f.response, result);
+            return (
+              <div key={f.key} style={{
+                backgroundColor: latence.bgRaised,
+                border: `1px solid ${latence.border}`,
+                borderRadius: 16, padding: '16px 20px',
+              }}>
+                <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.18em', color: latence.textSubtle, marginBottom: 4 }}>
+                  {f.label}
+                </div>
+                <div style={{ fontSize: 22, fontWeight: 700, color: latence.greenText }}>
+                  {value}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        position: 'relative', zIndex: 1,
+        borderTop: `1px solid ${latence.border}`, paddingTop: 16,
+      }}>
+        <div>
+          <div style={{ fontSize: 18, fontWeight: 600, color: latence.text }}>
+            Real-time AI output verification
+          </div>
+          <div style={{ fontSize: 13, color: latence.textSubtle, marginTop: 2 }}>
+            Groundedness, privacy, memory, and drift scoring for every LLM response
+          </div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          {typeof avgLatency === 'number' && (
+            <span style={{ fontSize: 13, color: latence.textMuted }}>{avgLatency}ms avg</span>
+          )}
+          <span style={{
+            fontSize: 14, fontWeight: 600, color: latence.green,
+            backgroundColor: latence.greenSoft, padding: '8px 18px', borderRadius: 999,
+          }}>
+            trace.latence.ai
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TraceShareModal({
+  result,
+  selection,
+  decision,
+  riskInfo,
+  onClose,
+  onLinkShared,
+}: {
+  result: TraceDemoMessageResult;
+  selection: TraceDemoSelection;
+  decision?: ReturnType<typeof extractDecision>;
+  riskInfo: { risk: string; score?: number | null };
+  onClose: () => void;
+  onLinkShared: () => void;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [linkCopied, setLinkCopied] = useState(false);
+  const [promoCode, setPromoCode] = useState<string | null>(null);
+  const [downloading, setDownloading] = useState(false);
+  const shareRedeemed = (() => {
+    try { return window.sessionStorage.getItem(SHARE_REDEEMED_KEY) === '1'; } catch { return false; }
+  })();
+  const socialShared = (() => {
+    try { return window.sessionStorage.getItem(SOCIAL_SHARED_KEY) === '1'; } catch { return false; }
+  })();
+
+  const captureCard = async (): Promise<string | null> => {
+    const node = cardRef.current;
+    if (!node) return null;
+    const { toPng } = await import('html-to-image');
+    return toPng(node, { pixelRatio: 2, cacheBust: true });
+  };
+
+  const handleDownload = async () => {
+    setDownloading(true);
+    try {
+      const dataUrl = await captureCard();
+      if (!dataUrl) return;
+      const link = document.createElement('a');
+      link.download = 'latence-trace-results.png';
+      link.href = dataUrl;
+      link.click();
+    } catch { /* noop */ }
+    setDownloading(false);
+  };
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(TRACE_DEMO_URL);
+      setLinkCopied(true);
+      if (!shareRedeemed) onLinkShared();
+      setTimeout(() => setLinkCopied(false), 2500);
+    } catch { /* noop */ }
+  };
+
+  const handleSocialShare = (platform: 'x' | 'linkedin') => {
+    const text = encodeURIComponent(
+      'Just tested my AI pipeline with Latence TRACE -- real-time groundedness, privacy, and drift scoring for every LLM response. Try it yourself:',
+    );
+    const url = encodeURIComponent(TRACE_DEMO_URL);
+
+    if (platform === 'x') {
+      window.open(
+        `https://twitter.com/intent/tweet?text=${text}&url=${url}&hashtags=AI,LLM,Observability`,
+        '_blank',
+        'noopener,noreferrer',
+      );
+    } else {
+      window.open(
+        `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
+        '_blank',
+        'noopener,noreferrer',
+      );
+    }
+
+    if (!socialShared) {
+      const code = generatePromoCode();
+      setPromoCode(code);
+      try { window.sessionStorage.setItem(SOCIAL_SHARED_KEY, '1'); } catch { /* noop */ }
+    }
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ backgroundColor: 'rgba(0,0,0,0.75)' }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div
+        className="relative mx-4 w-full max-w-2xl overflow-hidden rounded-3xl border shadow-2xl"
+        style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
+      >
+        {/* Close button */}
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute right-4 top-4 z-10 rounded-full p-1.5 transition hover:opacity-70"
+          style={{ color: latence.textSubtle }}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+
+        {/* Card preview */}
+        <div className="overflow-hidden" style={{ backgroundColor: latence.bgPrimary }}>
+          <div style={{ transform: 'scale(0.5)', transformOrigin: 'top left', width: 1200, height: 675 }}>
+            <TraceShareCard
+              result={result}
+              selection={selection}
+              decision={decision}
+              riskInfo={riskInfo}
+              cardRef={cardRef}
+            />
+          </div>
+        </div>
+        <div style={{ height: 675 * 0.5, marginTop: -(675 * 0.5) }} />
+
+        {/* Actions */}
+        <div className="space-y-3 p-5">
+          <div className="flex items-center gap-2">
+            <img src={LATENCE_LOGO_SRC} alt="Latence" className="h-5 w-auto" draggable={false} />
+            <span className="text-sm font-semibold" style={{ color: latence.text }}>Share your TRACE results</span>
+          </div>
+
+          {/* Copy link + bonus */}
+          <button
+            type="button"
+            onClick={handleCopyLink}
+            className="flex w-full items-center justify-between rounded-2xl border px-4 py-3 text-sm font-semibold transition hover:opacity-90"
+            style={{
+              backgroundColor: latence.green,
+              borderColor: latence.green,
+              color: '#fff',
+            }}
+          >
+            <span className="flex items-center gap-2">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+              </svg>
+              {linkCopied ? 'Link copied!' : 'Copy demo link'}
+            </span>
+            {!shareRedeemed && (
+              <span className="rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase" style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}>
+                +50 free tests
+              </span>
+            )}
+          </button>
+
+          {/* Social sharing */}
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => handleSocialShare('x')}
+              className="flex flex-1 items-center justify-center gap-2 rounded-2xl border px-4 py-3 text-sm font-semibold transition hover:opacity-80"
+              style={{ borderColor: latence.borderStrong, color: latence.text, backgroundColor: latence.bgSurface }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+              Share on X
+            </button>
+            <button
+              type="button"
+              onClick={() => handleSocialShare('linkedin')}
+              className="flex flex-1 items-center justify-center gap-2 rounded-2xl border px-4 py-3 text-sm font-semibold transition hover:opacity-80"
+              style={{ borderColor: latence.borderStrong, color: latence.text, backgroundColor: latence.bgSurface }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+              </svg>
+              Share on LinkedIn
+            </button>
+          </div>
+
+          {/* Download */}
+          <button
+            type="button"
+            onClick={handleDownload}
+            disabled={downloading}
+            className="flex w-full items-center justify-center gap-2 rounded-2xl border px-4 py-2.5 text-sm transition hover:opacity-80 disabled:opacity-50"
+            style={{ borderColor: latence.border, color: latence.textMuted, backgroundColor: 'transparent' }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            {downloading ? 'Generating...' : 'Download image'}
+          </button>
+
+          {/* Promo code after social share */}
+          {promoCode && (
+            <div
+              className="rounded-2xl border px-4 py-3 text-center"
+              style={{ backgroundColor: latence.greenSoft, borderColor: latence.green }}
+            >
+              <p className="mb-1 text-xs font-semibold uppercase tracking-wider" style={{ color: latence.greenText }}>
+                100 free API credits unlocked
+              </p>
+              <p className="text-lg font-bold tracking-[0.1em]" style={{ color: latence.text }}>
+                {promoCode}
+              </p>
+              <p className="mt-1 text-[11px]" style={{ color: latence.textSubtle }}>
+                Redeem this code when you sign up at latence.ai
+              </p>
+            </div>
+          )}
+
+          {/* Bonus info */}
+          {!shareRedeemed && !promoCode && (
+            <p className="text-center text-[11px]" style={{ color: latence.textSubtle }}>
+              Share the demo link to unlock 50 extra tests. Share on X or LinkedIn for 100 free API credits.
+            </p>
+          )}
         </div>
       </div>
     </div>

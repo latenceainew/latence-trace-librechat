@@ -156,6 +156,7 @@ type TraceDemoContextValue = {
 };
 
 export const TRACE_DEMO_STORAGE_KEY = 'latence.trace.demo.selection';
+export const TRACE_DEMO_URL = 'https://trace.latence.ai/trace-demo';
 
 const TRACE_DEMO_MODELS: Record<TraceDemoUseCase, string> = {
   rag: 'nvidia/nemotron-3-nano-30b-a3b:free',
