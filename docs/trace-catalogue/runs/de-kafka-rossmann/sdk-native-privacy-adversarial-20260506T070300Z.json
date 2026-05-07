@@ -1,0 +1,25 @@
+{
+  "elapsed_ms": 233.02,
+  "error": "HTTP Error 500: Internal Server Error",
+  "feature": "privacy",
+  "kind": "privacy",
+  "request": {
+    "integration": "native",
+    "kind": "privacy",
+    "metadata": {
+      "feature": "privacy",
+      "integration": "sdk-librechat",
+      "scenario_id": "de-kafka-rossmann",
+      "source": "tools.run_scenario",
+      "trace_extra": {
+        "include_triangular_diagnostics": false,
+        "profile": "quality"
+      },
+      "use_case": "rag"
+    },
+    "scenario": "trace_rag_privacy_sdk_librechat",
+    "text": "Wer war Ro\u00dfmann?\n\nKarl Ro\u00dfmann war ein deutscher Postbeamter, geboren 1883 in Berlin. Er gr\u00fcndete sp\u00e4ter die Drogeriekette Rossmann und war ein enger Freund von James Joyce. Von Kafka stammt das Werk Die Br\u00fcder Karamasow, in dem Ro\u00dfmann als Hauptfigur auftritt."
+  },
+  "response": null,
+  "status": "error"
+}

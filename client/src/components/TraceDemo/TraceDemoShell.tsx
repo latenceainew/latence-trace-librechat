@@ -24,6 +24,7 @@ import {
   extractGroundingEvidence,
   extractMemoryDetail,
   extractPrivacyDetail,
+  extractPromptGuardSummary,
   extractTraceSpans,
   getActiveOrDefaultSelection,
   getEnabledFeatures,
@@ -42,7 +43,11 @@ import {
   type TraceDemoMessageResult,
   type TraceDemoSelection,
   type TraceDemoUseCase,
+  type TraceEvidenceItem,
   type TraceFeatureKey,
+  type TraceMemorySpan,
+  type TracePrivacyEntity,
+  type TracePromptGuardSummary,
 } from './traceDemoState';
 import { cn, getAllContentText } from '~/utils';
 import store from '~/store';
@@ -234,6 +239,7 @@ export default function TraceDemoShell({
   const privacyDetail = extractPrivacyDetail(latestResult);
   const memoryDetail = extractMemoryDetail(latestResult);
   const driftDetail = extractDriftBand(latestResult);
+  const promptGuard = extractPromptGuardSummary(latestResult);
 
   const handleUseCaseChange = (next: TraceDemoUseCase) =>
     setSelection((current) => ({ ...current, useCase: next, createdAt: Date.now() }));
@@ -300,6 +306,7 @@ export default function TraceDemoShell({
             riskInfo={riskInfo}
             evidence={evidence}
             deadWeights={deadWeights}
+            promptGuard={promptGuard}
           />
           <TracePrivacyCard detail={privacyDetail} />
           <TraceCompressionCard detail={compressionDetail} />
@@ -736,11 +743,13 @@ function TraceGroundednessCard({
   riskInfo,
   evidence,
   deadWeights,
+  promptGuard,
 }: {
   decision?: ReturnType<typeof extractDecision>;
   riskInfo: { risk: string; score?: number | null };
   evidence: ReturnType<typeof extractGroundingEvidence>;
   deadWeights: ReturnType<typeof extractDeadWeights>;
+  promptGuard?: TracePromptGuardSummary;
 }) {
   const score = decision?.score ?? riskInfo.score;
   const band = decision?.band ?? riskInfo.risk;
@@ -791,50 +800,22 @@ function TraceGroundednessCard({
           value={`${Math.round(deadWeights.ratio * 100)}%`}
         />
       )}
+      {promptGuard && promptGuard.enabled && (
+        <div className="mt-2">
+          <PromptGuardBadge guard={promptGuard} />
+        </div>
+      )}
       {dedupedEvidence.length > 0 && (
         <div className="mt-2 space-y-1.5">
           <p
             className="text-[10px] uppercase tracking-[0.18em]"
             style={{ color: latence.textSubtle }}
           >
-            Evidence chunks
+            Evidence chunks ({dedupedEvidence.length})
           </p>
-          {dedupedEvidence.slice(0, 4).map((item, index) => {
-            const coverage =
-              typeof item.coverage === 'number' ? Math.round(item.coverage * 100) : null;
-            const usage = (item.usageState || '').toLowerCase();
-            const stateColor =
-              usage === 'used'
-                ? latence.greenText
-                : usage === 'unused'
-                  ? latence.rose
-                  : latence.amber;
-            return (
-              <div
-                key={`${item.supportId ?? index}`}
-                className="rounded-xl border p-2 text-[11px]"
-                style={{ borderColor: latence.border, backgroundColor: latence.bgSurface }}
-              >
-                <div className="mb-1 flex items-center justify-between gap-2">
-                  <span className="truncate" style={{ color: latence.textSubtle }}>
-                    {item.supportId ?? `chunk-${index}`}
-                  </span>
-                  <span
-                    style={{ color: stateColor, textTransform: 'capitalize' }}
-                    className="text-[10px]"
-                  >
-                    {item.usageState ?? 'unknown'}
-                    {coverage !== null ? ` · ${coverage}%` : ''}
-                  </span>
-                </div>
-                {item.text && (
-                  <p className="line-clamp-2" style={{ color: latence.textMuted }}>
-                    {item.text}
-                  </p>
-                )}
-              </div>
-            );
-          })}
+          {dedupedEvidence.map((item, index) => (
+            <ExpandableEvidenceChunk key={item.supportId ?? `chunk-${index}`} item={item} index={index} />
+          ))}
         </div>
       )}
       {decision?.reasonCodes && decision.reasonCodes.length > 0 && (
@@ -852,6 +833,128 @@ function TraceGroundednessCard({
               {code.replace(/_/g, ' ')}
             </span>
           ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PromptGuardBadge({ guard }: { guard: TracePromptGuardSummary }) {
+  const total = guard.trustedCount + guard.suspiciousCount + guard.blockedCount;
+  const hasThreat = guard.suspiciousCount > 0 || guard.blockedCount > 0;
+  const badgeColor = hasThreat ? latence.rose : latence.greenText;
+  const badgeBg = hasThreat ? latence.roseSoft : latence.greenSoft;
+  return (
+    <div
+      className="flex items-center gap-2 rounded-xl border px-2 py-1.5 text-[10px]"
+      style={{ borderColor: latence.border, backgroundColor: latence.bgSurface }}
+    >
+      <span
+        className="rounded-full px-2 py-0.5 font-semibold uppercase tracking-wider"
+        style={{ backgroundColor: badgeBg, color: badgeColor }}
+      >
+        PromptGuard
+      </span>
+      <span style={{ color: latence.textMuted }}>
+        {guard.trustedCount}/{total} trusted
+        {guard.suspiciousCount > 0 && (
+          <span style={{ color: latence.amber }}> · {guard.suspiciousCount} suspicious</span>
+        )}
+        {guard.blockedCount > 0 && (
+          <span style={{ color: latence.rose }}> · {guard.blockedCount} blocked</span>
+        )}
+      </span>
+      {guard.provider && (
+        <span style={{ color: latence.textSubtle }}>({guard.provider})</span>
+      )}
+    </div>
+  );
+}
+
+function ExpandableEvidenceChunk({ item, index }: { item: TraceEvidenceItem; index: number }) {
+  const [expanded, setExpanded] = useState(false);
+  const coverage = typeof item.coverage === 'number' ? Math.round(item.coverage * 100) : null;
+  const usage = (item.usageState || '').toLowerCase();
+  const usageColor =
+    usage === 'used' ? latence.greenText : usage === 'unused' ? latence.rose : latence.amber;
+  const trustColor =
+    item.trustState === 'trusted'
+      ? latence.greenText
+      : item.trustState === 'suspicious'
+        ? latence.amber
+        : item.trustState === 'blocked'
+          ? latence.rose
+          : latence.textSubtle;
+  const trustBg =
+    item.trustState === 'suspicious'
+      ? latence.amberSoft
+      : item.trustState === 'blocked'
+        ? latence.roseSoft
+        : 'transparent';
+  return (
+    <div
+      className="rounded-xl border text-[11px]"
+      style={{ borderColor: latence.border, backgroundColor: latence.bgSurface }}
+    >
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        className="flex w-full items-center justify-between gap-2 px-2 py-1.5 text-left"
+      >
+        <span className="flex items-center gap-1.5 truncate">
+          <span style={{ color: latence.textSubtle }}>
+            {item.supportId ?? item.metadataPath ?? `chunk-${index}`}
+          </span>
+          {item.trustState && (
+            <span
+              className="rounded-full px-1.5 py-0.5 text-[9px] uppercase"
+              style={{ backgroundColor: trustBg, color: trustColor, border: item.trustState !== 'trusted' ? `1px solid ${trustColor}55` : 'none' }}
+            >
+              {item.trustState}
+            </span>
+          )}
+        </span>
+        <span className="flex items-center gap-1.5 whitespace-nowrap">
+          <span style={{ color: usageColor, textTransform: 'capitalize' }} className="text-[10px]">
+            {item.usageState ?? 'unknown'}
+          </span>
+          {coverage !== null && (
+            <span className="text-[10px]" style={{ color: latence.textMuted }}>
+              {coverage}% cov
+            </span>
+          )}
+          {item.matchedTokens !== undefined && item.totalTokens !== undefined && (
+            <span className="text-[10px]" style={{ color: latence.textSubtle }}>
+              {item.matchedTokens}/{item.totalTokens} tok
+            </span>
+          )}
+          <span className="text-[9px]" style={{ color: latence.textSubtle }}>
+            {expanded ? '▼' : '▶'}
+          </span>
+        </span>
+      </button>
+      {expanded && (
+        <div className="border-t px-2 py-1.5" style={{ borderColor: latence.border }}>
+          {item.text ? (
+            <p className="mb-1.5 whitespace-pre-wrap" style={{ color: latence.textMuted }}>
+              {item.text}
+            </p>
+          ) : (
+            <p className="mb-1.5 italic" style={{ color: latence.textSubtle }}>
+              No chunk text available
+            </p>
+          )}
+          <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px]" style={{ color: latence.textSubtle }}>
+            {typeof item.usageConfidence === 'number' && (
+              <span>Usage conf: {Math.round(item.usageConfidence * 100)}%</span>
+            )}
+            {typeof item.trustScore === 'number' && item.trustScore > 0 && (
+              <span style={{ color: latence.amber }}>Risk: {item.trustScore.toFixed(2)}</span>
+            )}
+            {item.trustLabels && item.trustLabels.length > 0 && (
+              <span style={{ color: latence.rose }}>Labels: {item.trustLabels.join(', ')}</span>
+            )}
+          </div>
         </div>
       )}
     </div>
@@ -880,25 +983,48 @@ function dedupeEvidenceById<T extends { supportId?: string; text?: string }>(ite
 }
 
 function TracePrivacyCard({ detail }: { detail: ReturnType<typeof extractPrivacyDetail> }) {
-  const empty = detail.entityCount === undefined && detail.byLabel.length === 0;
+  const empty = detail.entityCount === undefined && detail.byLabel.length === 0 && detail.entities.length === 0;
   if (empty) {
     return null;
   }
+  const noEntities = detail.entityCount === 0 || (detail.entityCount === undefined && detail.entities.length === 0 && detail.byLabel.length === 0);
   return (
     <div
       className="rounded-2xl border p-3"
       style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
     >
-      <p className="text-sm font-medium" style={{ color: latence.text }}>
-        Privacy
-      </p>
+      <div className="mb-1 flex items-center justify-between">
+        <p className="text-sm font-medium" style={{ color: latence.text }}>
+          Privacy
+        </p>
+        {detail.band && (
+          <span
+            className="rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em]"
+            style={getRiskStyle(detail.band)}
+          >
+            {detail.band}
+          </span>
+        )}
+      </div>
       <p className="mb-2 text-[11px]" style={{ color: latence.textSubtle }}>
         Sensitive entities detected in the prompt + answer before logging.
       </p>
-      {typeof detail.entityCount === 'number' && (
-        <MetaRow label="Entities found" value={String(detail.entityCount)} />
+      {noEntities && (
+        <div
+          className="flex items-center gap-2 rounded-xl px-3 py-2 text-[11px]"
+          style={{ backgroundColor: latence.greenSoft, color: latence.greenText }}
+        >
+          <span className="font-semibold">No PII detected</span>
+        </div>
       )}
-      {detail.byLabel.length > 0 && (
+      {detail.entities.length > 0 && (
+        <div className="mt-1 space-y-1.5">
+          {detail.entities.map((entity, i) => (
+            <PrivacyEntityRow key={`${entity.label}-${i}`} entity={entity} />
+          ))}
+        </div>
+      )}
+      {detail.entities.length === 0 && detail.byLabel.length > 0 && (
         <div className="mt-2 flex flex-wrap gap-1.5">
           {detail.byLabel.map((entry) => (
             <span
@@ -910,31 +1036,90 @@ function TracePrivacyCard({ detail }: { detail: ReturnType<typeof extractPrivacy
                 border: `1px solid ${latence.amber}`,
               }}
             >
-              {entry.label} • {entry.count}
+              {entry.label} · {entry.count}
             </span>
           ))}
         </div>
       )}
       {detail.redacted && (
-        <p
-          className="mt-3 line-clamp-3 rounded-xl border p-2 text-[11px]"
+        <div className="mt-2">
+          <p
+            className="text-[10px] uppercase tracking-[0.18em]"
+            style={{ color: latence.textSubtle }}
+          >
+            Redacted preview
+          </p>
+          <p
+            className="mt-1 line-clamp-4 rounded-xl border p-2 text-[11px]"
+            style={{
+              backgroundColor: latence.bgSurface,
+              borderColor: latence.border,
+              color: latence.textMuted,
+            }}
+          >
+            {detail.redacted}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PrivacyEntityRow({ entity }: { entity: TracePrivacyEntity }) {
+  const confPct = Math.round(entity.score * 100);
+  return (
+    <div
+      className="rounded-xl border p-2 text-[11px]"
+      style={{ borderColor: latence.border, backgroundColor: latence.bgSurface }}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <span
+          className="rounded-full px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider"
           style={{
-            backgroundColor: latence.bgSurface,
-            borderColor: latence.border,
-            color: latence.textMuted,
+            backgroundColor: latence.amberSoft,
+            color: latence.amber,
+            border: `1px solid ${latence.amber}`,
           }}
         >
-          {detail.redacted}
-        </p>
-      )}
-      {empty && (
-        <p
-          className="rounded-2xl border border-dashed p-3 text-xs"
-          style={{ borderColor: latence.border, color: latence.textSubtle }}
+          {entity.label}
+        </span>
+        <span className="text-[10px]" style={{ color: latence.textSubtle }}>
+          {confPct}% confidence
+        </span>
+      </div>
+      <div className="mt-1 flex items-center gap-2">
+        <span
+          className="rounded px-1.5 py-0.5 font-mono"
+          style={{ backgroundColor: latence.roseSoft, color: latence.rose }}
         >
-          No entities surfaced for this turn.
-        </p>
-      )}
+          {entity.text}
+        </span>
+        {entity.redactedValue && (
+          <>
+            <span style={{ color: latence.textSubtle }}>→</span>
+            <span
+              className="rounded px-1.5 py-0.5 font-mono"
+              style={{ backgroundColor: latence.greenSoft, color: latence.greenText }}
+            >
+              {entity.redactedValue}
+            </span>
+          </>
+        )}
+      </div>
+      <div className="mt-0.5">
+        <div
+          className="h-1 rounded-full"
+          style={{ backgroundColor: latence.border }}
+        >
+          <div
+            className="h-1 rounded-full transition-all"
+            style={{
+              width: `${confPct}%`,
+              backgroundColor: confPct >= 80 ? latence.rose : confPct >= 50 ? latence.amber : latence.textSubtle,
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 }
@@ -989,7 +1174,7 @@ function TraceCompressionCard({ detail }: { detail: ReturnType<typeof extractCom
 }
 
 function TraceMemoryCard({ detail }: { detail: ReturnType<typeof extractMemoryDetail> }) {
-  const empty = detail.actionCount === undefined && !detail.hotContext;
+  const empty = detail.actionCount === undefined && !detail.hotContext && detail.spans.length === 0;
   if (empty) {
     return null;
   }
@@ -998,16 +1183,39 @@ function TraceMemoryCard({ detail }: { detail: ReturnType<typeof extractMemoryDe
       className="rounded-2xl border p-3"
       style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
     >
-      <p className="text-sm font-medium" style={{ color: latence.text }}>
-        InfiniMem
-      </p>
+      <div className="mb-1 flex items-center justify-between">
+        <p className="text-sm font-medium" style={{ color: latence.text }}>
+          InfiniMem
+        </p>
+        {detail.band && (
+          <span
+            className="rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em]"
+            style={getRiskStyle(detail.band)}
+          >
+            {detail.band}
+          </span>
+        )}
+      </div>
       <p className="mb-2 text-[11px]" style={{ color: latence.textSubtle }}>
         Durable memory updates and the hot context carried into the next turn.
       </p>
-      {typeof detail.actionCount === 'number' && (
+      {detail.spans.length > 0 && (
+        <div className="mb-2 flex items-center gap-2 text-[10px]" style={{ color: latence.textSubtle }}>
+          <span>{detail.spans.length} spans</span>
+          {detail.hotCount > 0 && <span style={{ color: latence.amber }}>{detail.hotCount} hot</span>}
+          {detail.coldCount > 0 && <span>{detail.coldCount} cold</span>}
+        </div>
+      )}
+      {typeof detail.actionCount === 'number' && detail.spans.length === 0 && (
         <MetaRow label="Memory actions" value={`${detail.actionCount}`} />
       )}
-      {detail.hotContext && (
+      {detail.spans.length > 0 ? (
+        <div className="space-y-1.5">
+          {detail.spans.map((span, i) => (
+            <ExpandableMemorySpan key={`mem-${i}`} span={span} />
+          ))}
+        </div>
+      ) : detail.hotContext ? (
         <p
           className="mt-2 line-clamp-3 rounded-xl border p-2 text-[11px]"
           style={{
@@ -1018,14 +1226,82 @@ function TraceMemoryCard({ detail }: { detail: ReturnType<typeof extractMemoryDe
         >
           {detail.hotContext}
         </p>
-      )}
-      {empty && (
-        <p
-          className="rounded-2xl border border-dashed p-3 text-xs"
-          style={{ borderColor: latence.border, color: latence.textSubtle }}
-        >
-          Waiting for memory step.
-        </p>
+      ) : null}
+    </div>
+  );
+}
+
+function ExpandableMemorySpan({ span }: { span: TraceMemorySpan }) {
+  const [expanded, setExpanded] = useState(false);
+  const layerColor = span.layer === 'hot' ? latence.amber : latence.textSubtle;
+  const truncText = span.text.length > 60 ? span.text.slice(0, 57) + '...' : span.text;
+  return (
+    <div
+      className="rounded-xl border text-[11px]"
+      style={{ borderColor: latence.border, backgroundColor: latence.bgSurface }}
+    >
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        className="flex w-full items-center justify-between gap-1.5 px-2 py-1.5 text-left"
+      >
+        <span className="flex items-center gap-1.5 truncate">
+          <span
+            className="rounded px-1 py-0.5 text-[9px] font-semibold uppercase"
+            style={{ color: layerColor, backgroundColor: span.layer === 'hot' ? latence.amberSoft : latence.bgPrimary }}
+          >
+            {span.layer}
+          </span>
+          <span className="text-[10px]" style={{ color: latence.textSubtle }}>
+            {span.spanType}
+          </span>
+          <span className="truncate" style={{ color: latence.textMuted }}>
+            "{truncText}"
+          </span>
+        </span>
+        <span className="flex items-center gap-1.5 whitespace-nowrap">
+          {span.survivalValue !== undefined && (
+            <span className="text-[10px]" style={{ color: latence.textSubtle }}>
+              surv: {(span.survivalValue * 100).toFixed(0)}%
+            </span>
+          )}
+          <span className="text-[9px]" style={{ color: latence.textSubtle }}>
+            {expanded ? '▼' : '▶'}
+          </span>
+        </span>
+      </button>
+      {expanded && (
+        <div className="border-t px-2 py-1.5" style={{ borderColor: latence.border }}>
+          <p className="mb-1.5 whitespace-pre-wrap" style={{ color: latence.textMuted }}>
+            {span.text}
+          </p>
+          <div className="grid grid-cols-3 gap-x-3 gap-y-0.5 text-[10px]" style={{ color: latence.textSubtle }}>
+            {span.relevance !== undefined && <span>Relevance: {(span.relevance * 100).toFixed(0)}%</span>}
+            {span.salience !== undefined && <span>Salience: {(span.salience * 100).toFixed(0)}%</span>}
+            {span.survivalValue !== undefined && <span>Survival: {(span.survivalValue * 100).toFixed(0)}%</span>}
+            {span.attribution !== undefined && <span>Attribution: {(span.attribution * 100).toFixed(0)}%</span>}
+            {span.redundancy !== undefined && <span>Redundancy: {(span.redundancy * 100).toFixed(0)}%</span>}
+            {span.tokenCount !== undefined && <span>Tokens: {span.tokenCount}</span>}
+          </div>
+          {span.rareTerms.length > 0 && (
+            <div className="mt-1 flex flex-wrap gap-1">
+              {span.rareTerms.map((term) => (
+                <span
+                  key={term}
+                  className="rounded-full px-1.5 py-0.5 text-[9px]"
+                  style={{ backgroundColor: latence.bgPrimary, color: latence.textMuted, border: `1px solid ${latence.border}` }}
+                >
+                  {term}
+                </span>
+              ))}
+            </div>
+          )}
+          {span.source && (
+            <span className="mt-0.5 block text-[9px]" style={{ color: latence.textSubtle }}>
+              Source: {span.source}
+            </span>
+          )}
+        </div>
       )}
     </div>
   );
@@ -1190,16 +1466,21 @@ function formatFeatureValue(
     return typeof fused === 'number' ? formatScore(fused) : copy.pending;
   }
   if (feature === 'context-util') {
-    return (
-      formatMetric(
-        getMetricFromResults(result, feature, [
-          'context_coverage_ratio',
-          'coverage_score_u',
-          'coverage',
-          'dead_weight_ratio',
-        ]),
-      ) ?? copy.pending
-    );
+    let ctxUtil = getMetricFromResults(result, feature, [
+      'context_usage_ratio',
+      'context_coverage_ratio',
+      'coverage_score_u',
+      'coverage',
+      'dead_weight_ratio',
+    ]);
+    if (ctxUtil === undefined || ctxUtil === null) {
+      const groundingResponse = result?.results.groundedness?.response;
+      if (groundingResponse) {
+        const gScores = (groundingResponse.raw as { scores?: Record<string, unknown> } | undefined)?.scores;
+        ctxUtil = gScores?.context_usage_ratio ?? gScores?.context_coverage_ratio;
+      }
+    }
+    return formatMetric(ctxUtil) ?? copy.pending;
   }
   if (feature === 'drift') {
     const drift = extractDriftBand(result);

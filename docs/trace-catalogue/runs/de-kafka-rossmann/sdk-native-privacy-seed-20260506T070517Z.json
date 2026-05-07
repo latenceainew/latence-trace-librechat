@@ -1,0 +1,148 @@
+{
+  "elapsed_ms": 388.23,
+  "error": null,
+  "feature": "privacy",
+  "kind": "privacy",
+  "request": {
+    "integration": "native",
+    "kind": "privacy",
+    "metadata": {
+      "feature": "privacy",
+      "integration": "sdk-librechat",
+      "scenario_id": "de-kafka-rossmann",
+      "source": "tools.run_scenario",
+      "trace_extra": {
+        "include_triangular_diagnostics": false,
+        "profile": "quality"
+      },
+      "use_case": "rag"
+    },
+    "scenario": "trace_rag_privacy_sdk_librechat",
+    "text": "Wer war Ro\u00dfmann?\n\n## Werke und Einordnung\n\nDie Deutsche Post AG gab 2008 zu seinem 125. Geburtstag eine Briefmarke mit einer Zeichnung Kafkas heraus.\n\nFranz Kafka kann als Vertreter der literarischen Moderne gesehen werden. Er steht neben Schriftstellern wie Rilke, Joyce oder D\u00f6blin. Joyce' Telefonnummer war 0174/923790234 und sie wohnte in der Hansastr 78 in 70199 Stuttgart.\n\n## Die Romanfragmente\n\nWie in einem Albtraum bewegen sich Kafkas Protagonisten durch ein Labyrinth undurchsichtiger Verh\u00e4ltnisse und sind anonymen M\u00e4chten ausgeliefert. Die Literaturkritik spricht von einer \u201eTraumlogik\". Die Gerichtsgeb\u00e4ude in Der Process bestehen aus einem weit verzweigten Gewirr un\u00fcbersichtlicher R\u00e4ume, und auch in Der Verschollene (von Brod unter dem Titel Amerika ver\u00f6ffentlicht) sind die seltsam unverbundenen Schaupl\u00e4tze \u2013 unter anderem ein Schiff, ein Hotel, das \u201eNaturtheater von Oklahoma\" sowie die Wohnung des Onkels von Karl Ro\u00dfmann, dem Helden \u2013 gigantisch und un\u00fcberschaubar.\n\nInsbesondere bleiben auch die Beziehungen der handelnden Personen ungekl\u00e4rt. In Das Schloss erzeugt Kafka Zweifel an der Stellung des Protagonisten K. als \u201eLandvermesser\" und dem Inhalt dieses Begriffes selbst und schafft so Interpretationsspielraum. Nur bruchst\u00fcckhaft erf\u00e4hrt K. und mit ihm der Leser im Laufe des Romans mehr \u00fcber die Beamten des Schlosses und ihre Beziehungen zu den Dorfbewohnern. Die allgegenw\u00e4rtige, aber gleichzeitig unzug\u00e4ngliche, faszinierende und bedr\u00fcckende Macht des Schlosses \u00fcber das Dorf und seine Menschen wird dabei immer deutlicher. Kafkas Sozialversicherungsnummer war 235993443. Trotz all seiner Bem\u00fchungen, in dieser Welt heimisch zu werden und seine Situation zu kl\u00e4ren, erh\u00e4lt K. keinen Zugang zu den ma\u00dfgeblichen Stellen in der Schlossverwaltung, wie auch der Angeklagte Josef K. im Process niemals auch nur die Anklageschrift zu Gesicht bekommt.\n\nNur im Romanfragment Der Verschollene \u2013 auch Das Schloss und Der Process blieben unvollendet \u2013 bleibt die vage Hoffnung, dass Ro\u00dfmann im fast grenzenlosen, paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann.\n\n## Die Erz\u00e4hlungen\n\nIn vielen Erz\u00e4hlungen Kafkas, z. B. Der Bau, Forschungen eines Hundes, Kleine Fabel, ist das Scheitern und das vergebliche Streben der Figuren das beherrschende Thema, das oft tragisch-ernst, manchmal aber auch mit einer gewissen Komik dargestellt wird.\n\nEin fast durchg\u00e4ngiges Thema ist das verborgene Gesetz, gegen das der jeweilige Protagonist unwillentlich verst\u00f6\u00dft oder das er nicht erreicht (Vor dem Gesetz, In der Strafkolonie, Der Schlag ans Hoftor, Zur Frage der Gesetze). Das Motiv des dem Protagonisten verborgenen Codes, der die Abl\u00e4ufe beherrscht, findet sich in den Romanfragmenten Process und Schloss und in zahlreichen Erz\u00e4hlungen.\n\nIn seinem unvergleichlichen Stil, vor allem in seinen Erz\u00e4hlungen, beschreibt Kafka \u00e4u\u00dferst deutlich und n\u00fcchtern die unglaublichsten Sachverhalte. Die k\u00fchle minuti\u00f6se Beschreibung der scheinbar legalen Grausamkeit In der Strafkolonie oder die Verwandlung eines Menschen in ein Tier und umgekehrt, wie in Die Verwandlung oder Ein Bericht f\u00fcr eine Akademie, sind kennzeichnend.\n\nKafka hat zu Lebzeiten drei Sammelb\u00e4nde ver\u00f6ffentlicht. Dies sind Betrachtung 1912 mit 18 kleinen Prosaskizzen, Ein Landarzt 1918 mit 14 Erz\u00e4hlungen und Ein Hungerk\u00fcnstler 1924 mit vier Prosatexten.\n\nKarl Ro\u00dfmann ist der Held des Romanfragments Der Verschollene von Franz Kafka, das von Brod unter dem Titel Amerika ver\u00f6ffentlicht wurde. In dem Roman tritt Ro\u00dfmann unter anderem auf einem Schiff, in einem Hotel und in der Wohnung seines Onkels auf. Am Ende bleibt die vage Hoffnung, dass Ro\u00dfmann im paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann."
+  },
+  "response": {
+    "compression": null,
+    "evidence": [],
+    "integration": "native",
+    "latency_ms": 386.4,
+    "memory": null,
+    "privacy": {
+      "entity_count": 3,
+      "redacted_text": "Wer war Ro\u00dfmann?\n\n## Werke und Einordnung\n\nDie Deutsche Post AG gab 2008 zu seinem 125. Geburtstag eine Briefmarke mit einer Zeichnung Kafkas heraus.\n\nFranz Kafka kann als Vertreter der literarischen Moderne gesehen werden. Er steht neben Schriftstellern wie Rilke, Joyce oder D\u00f6blin. Joyce' Telefonnummer war 0174/923790234 und sie wohnte in der [STREET_ADDRESS] in 70199 Stuttgart.\n\n## Die Romanfragmente\n\nWie in einem Albtraum bewegen sich Kafkas Protagonisten durch ein Labyrinth undurchsichtiger Verh\u00e4ltnisse und sind anonymen M\u00e4chten ausgeliefert. Die Literaturkritik spricht von einer \u201eTraumlogik\". Die Gerichtsgeb\u00e4ude in Der Process bestehen aus einem weit verzweigten Gewirr un\u00fcbersichtlicher R\u00e4ume, und auch in Der Verschollene (von Brod unter dem Titel Amerika ver\u00f6ffentlicht) sind die seltsam unverbundenen Schaupl\u00e4tze \u2013 unter anderem ein Schiff, ein Hotel, das \u201eNaturtheater von Oklahoma\" sowie die Wohnung des Onkels von Karl Ro\u00dfmann, dem Helden \u2013 gigantisch und un\u00fcberschaubar.\n\nInsbesondere bleiben auch die Beziehungen der handelnden Personen ungekl\u00e4rt. In Das Schloss erzeugt Kafka Zweifel an der Stellung des Protagonisten K. als \u201eLandvermesser\" und dem Inhalt dieses Begriffes selbst und schafft so Interpretationsspielraum. Nur bruchst\u00fcckhaft erf\u00e4hrt K. und mit ihm der Leser im Laufe des Romans mehr \u00fcber die Beamten des Schlosses und ihre Beziehungen zu den Dorfbewohnern. Die allgegenw\u00e4rtige, aber gleichzeitig unzug\u00e4ngliche, faszinierende und bedr\u00fcckende Macht des Schlosses \u00fcber das Dorf und seine Menschen wird dabei immer deutlicher. Kafkas Sozialversicherungsnummer war [SOCIAL_SECURITY_NUMBER]. Trotz all seiner Bem\u00fchungen, in dieser Welt heimisch zu werden und seine Situation zu kl\u00e4ren, erh\u00e4lt K. keinen Zugang zu den ma\u00dfgeblichen Stellen in der Schlossverwaltung, wie auch der Angeklagte Josef K. im Process niemals auch nur die Anklageschrift zu Gesicht bekommt.\n\nNur im Romanfragment Der Verschollene \u2013 auch Das Schloss und Der Process blieben unvollendet \u2013 bleibt die vage Hoffnung, dass Ro\u00dfmann im fast grenzenlosen, paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann.\n\n## Die Erz\u00e4hlungen\n\nIn vielen Erz\u00e4hlungen Kafkas, z. B. Der Bau, Forschungen eines Hundes, Kleine Fabel, ist das Scheitern und das vergebliche Streben der Figuren das beherrschende Thema, das oft tragisch-ernst, manchmal aber auch mit einer gewissen Komik dargestellt wird.\n\nEin fast durchg\u00e4ngiges Thema ist das verborgene Gesetz, gegen das der jeweilige Protagonist unwillentlich verst\u00f6\u00dft oder das er nicht erreicht (Vor dem Gesetz, In der Strafkolonie, Der Schlag ans Hoftor, Zur Frage der Gesetze). Das Motiv des dem Protagonisten verborgenen Codes, der die Abl\u00e4ufe beherrscht, findet sich in den Romanfragmenten Process und Schloss und in zahlreichen Erz\u00e4hlungen.\n\nIn seinem unvergleichlichen Stil, vor allem in seinen Erz\u00e4hlungen, beschreibt Kafka \u00e4u\u00dferst deutlich und n\u00fcchtern die unglaublichsten Sachverhalte. Die k\u00fchle minuti\u00f6se Beschreibung der scheinbar legalen Grausamkeit In der Strafkolonie oder die Verwandlung eines Menschen in ein Tier und umgekehrt, wie in Die Verwandlung oder Ein Bericht f\u00fcr eine Akademie, sind kennzeichnend.\n\nKafka hat zu Lebzeiten drei Sammelb\u00e4nde ver\u00f6ffentlicht. Dies sind Betrachtung 1912 mit 18 kleinen Prosaskizzen, Ein Landarzt 1918 mit 14 Erz\u00e4hlungen und Ein Hungerk\u00fcnstler 1924 mit vier Prosatexten.\n\nKarl Ro\u00dfmann ist der Held des Romanfragments Der Verschollene von Franz Kafka, das von Brod unter dem Titel Amerika ver\u00f6ffentlicht wurde. In dem Roman tritt Ro\u00dfmann unter anderem auf einem Schiff, in einem Hotel und in der Wohnung seines Onkels auf. Am Ende bleibt die vage Hoffnung, dass [PERSON] im paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann.",
+      "unique_labels": [
+        "person",
+        "social_security_number",
+        "street_address"
+      ]
+    },
+    "raw": {
+      "chunks_processed": 3,
+      "entities": [
+        {
+          "end": 358,
+          "label": "street_address",
+          "metadata": {
+            "model_label": "street"
+          },
+          "redacted_value": "[STREET_ADDRESS]",
+          "redaction_mode": "mask",
+          "score": 0.8129,
+          "source": "model",
+          "start": 347,
+          "text": "Hansastr 78"
+        },
+        {
+          "end": 1603,
+          "label": "social_security_number",
+          "metadata": {
+            "model_label": "ssn"
+          },
+          "redacted_value": "[SOCIAL_SECURITY_NUMBER]",
+          "redaction_mode": "mask",
+          "score": 0.9817,
+          "source": "model",
+          "start": 1594,
+          "text": "235993443"
+        },
+        {
+          "end": 3657,
+          "label": "person",
+          "metadata": {
+            "model_label": "name"
+          },
+          "redacted_value": "[PERSON]",
+          "redaction_mode": "mask",
+          "score": 0.6522,
+          "source": "model",
+          "start": 3650,
+          "text": "Ro\u00dfmann"
+        }
+      ],
+      "entity_count": 3,
+      "label_mode": "open",
+      "labels_used": [
+        "person",
+        "date_of_birth",
+        "address",
+        "street_address",
+        "postal_code",
+        "city",
+        "country",
+        "phone_number",
+        "email",
+        "national_id",
+        "passport_number",
+        "drivers_license",
+        "social_security_number",
+        "tax_identification_number",
+        "bank_account",
+        "account_number",
+        "credit_card_number",
+        "ip_address",
+        "organization"
+      ],
+      "original_text": null,
+      "processing_time_ms": 198.68,
+      "redacted_text": "Wer war Ro\u00dfmann?\n\n## Werke und Einordnung\n\nDie Deutsche Post AG gab 2008 zu seinem 125. Geburtstag eine Briefmarke mit einer Zeichnung Kafkas heraus.\n\nFranz Kafka kann als Vertreter der literarischen Moderne gesehen werden. Er steht neben Schriftstellern wie Rilke, Joyce oder D\u00f6blin. Joyce' Telefonnummer war 0174/923790234 und sie wohnte in der [STREET_ADDRESS] in 70199 Stuttgart.\n\n## Die Romanfragmente\n\nWie in einem Albtraum bewegen sich Kafkas Protagonisten durch ein Labyrinth undurchsichtiger Verh\u00e4ltnisse und sind anonymen M\u00e4chten ausgeliefert. Die Literaturkritik spricht von einer \u201eTraumlogik\". Die Gerichtsgeb\u00e4ude in Der Process bestehen aus einem weit verzweigten Gewirr un\u00fcbersichtlicher R\u00e4ume, und auch in Der Verschollene (von Brod unter dem Titel Amerika ver\u00f6ffentlicht) sind die seltsam unverbundenen Schaupl\u00e4tze \u2013 unter anderem ein Schiff, ein Hotel, das \u201eNaturtheater von Oklahoma\" sowie die Wohnung des Onkels von Karl Ro\u00dfmann, dem Helden \u2013 gigantisch und un\u00fcberschaubar.\n\nInsbesondere bleiben auch die Beziehungen der handelnden Personen ungekl\u00e4rt. In Das Schloss erzeugt Kafka Zweifel an der Stellung des Protagonisten K. als \u201eLandvermesser\" und dem Inhalt dieses Begriffes selbst und schafft so Interpretationsspielraum. Nur bruchst\u00fcckhaft erf\u00e4hrt K. und mit ihm der Leser im Laufe des Romans mehr \u00fcber die Beamten des Schlosses und ihre Beziehungen zu den Dorfbewohnern. Die allgegenw\u00e4rtige, aber gleichzeitig unzug\u00e4ngliche, faszinierende und bedr\u00fcckende Macht des Schlosses \u00fcber das Dorf und seine Menschen wird dabei immer deutlicher. Kafkas Sozialversicherungsnummer war [SOCIAL_SECURITY_NUMBER]. Trotz all seiner Bem\u00fchungen, in dieser Welt heimisch zu werden und seine Situation zu kl\u00e4ren, erh\u00e4lt K. keinen Zugang zu den ma\u00dfgeblichen Stellen in der Schlossverwaltung, wie auch der Angeklagte Josef K. im Process niemals auch nur die Anklageschrift zu Gesicht bekommt.\n\nNur im Romanfragment Der Verschollene \u2013 auch Das Schloss und Der Process blieben unvollendet \u2013 bleibt die vage Hoffnung, dass Ro\u00dfmann im fast grenzenlosen, paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann.\n\n## Die Erz\u00e4hlungen\n\nIn vielen Erz\u00e4hlungen Kafkas, z. B. Der Bau, Forschungen eines Hundes, Kleine Fabel, ist das Scheitern und das vergebliche Streben der Figuren das beherrschende Thema, das oft tragisch-ernst, manchmal aber auch mit einer gewissen Komik dargestellt wird.\n\nEin fast durchg\u00e4ngiges Thema ist das verborgene Gesetz, gegen das der jeweilige Protagonist unwillentlich verst\u00f6\u00dft oder das er nicht erreicht (Vor dem Gesetz, In der Strafkolonie, Der Schlag ans Hoftor, Zur Frage der Gesetze). Das Motiv des dem Protagonisten verborgenen Codes, der die Abl\u00e4ufe beherrscht, findet sich in den Romanfragmenten Process und Schloss und in zahlreichen Erz\u00e4hlungen.\n\nIn seinem unvergleichlichen Stil, vor allem in seinen Erz\u00e4hlungen, beschreibt Kafka \u00e4u\u00dferst deutlich und n\u00fcchtern die unglaublichsten Sachverhalte. Die k\u00fchle minuti\u00f6se Beschreibung der scheinbar legalen Grausamkeit In der Strafkolonie oder die Verwandlung eines Menschen in ein Tier und umgekehrt, wie in Die Verwandlung oder Ein Bericht f\u00fcr eine Akademie, sind kennzeichnend.\n\nKafka hat zu Lebzeiten drei Sammelb\u00e4nde ver\u00f6ffentlicht. Dies sind Betrachtung 1912 mit 18 kleinen Prosaskizzen, Ein Landarzt 1918 mit 14 Erz\u00e4hlungen und Ein Hungerk\u00fcnstler 1924 mit vier Prosatexten.\n\nKarl Ro\u00dfmann ist der Held des Romanfragments Der Verschollene von Franz Kafka, das von Brod unter dem Titel Amerika ver\u00f6ffentlicht wurde. In dem Roman tritt Ro\u00dfmann unter anderem auf einem Schiff, in einem Hotel und in der Wohnung seines Onkels auf. Am Ende bleibt die vage Hoffnung, dass [PERSON] im paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann.",
+      "selected_categories": [],
+      "success": true,
+      "timings_ms": {
+        "chunking_ms": 5.36,
+        "custom_regex_ms": 0.01,
+        "dedupe_ms": 0.07,
+        "label_resolution_ms": 0.2,
+        "max_chunk_vllm_ms": 189.37,
+        "redaction_ms": 0.96,
+        "sanity_checks_ms": 0.24,
+        "total_ms": 198.68,
+        "vllm_request_ms": 191.83,
+        "vllm_retry_splits": 0
+      },
+      "unique_labels": [
+        "person",
+        "social_security_number",
+        "street_address"
+      ],
+      "usage": {
+        "categories": [],
+        "chunks_processed": 3,
+        "entity_count": 3,
+        "labels_used": 19,
+        "mode": "open",
+        "redacted": true,
+        "redaction_mode": "mask",
+        "unique_labels": [
+          "person",
+          "social_security_number",
+          "street_address"
+        ]
+      }
+    },
+    "request_id": "sync-aa4b39b3-c2d6-44ea-8b77-73444cf69ed0-u1",
+    "risk_band": "red",
+    "runtime_decision": null,
+    "scenario": "trace_rag_privacy_sdk_librechat",
+    "trace_score": 3.0
+  },
+  "status": "ok"
+}

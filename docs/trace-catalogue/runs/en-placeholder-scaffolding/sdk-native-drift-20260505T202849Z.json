@@ -1,0 +1,74 @@
+{
+  "elapsed_ms": 273.45,
+  "error": null,
+  "feature": "drift",
+  "kind": "rollup",
+  "request": {
+    "answer": "A full self-service refund is no longer possible after 45 days; the documented\n30-day window only covers defective devices returned within that period.\nAfter 30 days a support manager must explicitly approve the refund, and the\npolicy makes clear that approval is not guaranteed even for a defective unit.\nThe refund timing itself is not stated in the policy excerpts above, so we\ncannot promise 48-hour processing \u2014 that detail is unsupported by the source\ntext.",
+    "context": [
+      "## Section 1 \u2014 Refund window\n\nOpened devices may be returned within 30 days only if defective. Customers\nmust include the original packaging, accessories, and a description of the\ndefect. The 30-day window starts on the delivery date confirmed by the\ncourier.",
+      "## Section 2 \u2014 Manager approval\n\nRefunds requested after the 30-day window require explicit approval from a\nsupport manager. Approval is not guaranteed even when the device is defective;\nthe manager weighs purchase history, prior returns, and the description of the\nissue.",
+      "## Section 3 \u2014 Shipping and tracking\n\nAccessories ship separately from the main device. Tracking numbers can lag by\nup to one business day, especially for international shipments. Lost packages\nare investigated by the carrier, not by the support team."
+    ],
+    "integration": "native",
+    "kind": "rollup",
+    "metadata": {
+      "feature": "drift",
+      "integration": "sdk-librechat",
+      "scenario_id": "en-placeholder-scaffolding",
+      "source": "tools.run_scenario",
+      "use_case": "rag"
+    },
+    "question": "A customer received a defective phone 45 days ago. They want to know whether\nthey can still return it for a full refund without contacting support, and how\nlong the refund will take. What should we tell them, and what conditions\napply?",
+    "scenario": "trace_rag_drift_sdk_librechat",
+    "turns": [
+      {
+        "role": "user",
+        "text": "A customer received a defective phone 45 days ago. They want to know whether\nthey can still return it for a full refund without contacting support, and how\nlong the refund will take. What should we tell them, and what conditions\napply?"
+      },
+      {
+        "role": "assistant",
+        "text": "A full self-service refund is no longer possible after 45 days; the documented\n30-day window only covers defective devices returned within that period.\nAfter 30 days a support manager must explicitly approve the refund, and the\npolicy makes clear that approval is not guaranteed even for a defective unit.\nThe refund timing itself is not stated in the policy excerpts above, so we\ncannot promise 48-hour processing \u2014 that detail is unsupported by the source\ntext."
+      }
+    ]
+  },
+  "response": {
+    "compression": null,
+    "evidence": [],
+    "integration": "native",
+    "latency_ms": 270.59,
+    "memory": null,
+    "privacy": null,
+    "raw": {
+      "action": "rollup",
+      "request_id": "sync-94f8400c-421d-430d-b3fb-b2d7ddf70311-u1",
+      "rollup": {
+        "drift_trend": {
+          "last": 0,
+          "max": 0,
+          "mean": 0,
+          "min": 0
+        },
+        "heatmap": null,
+        "heatmap_html": null,
+        "model_drift_pct": 1,
+        "noise_pct": 0,
+        "reason_code_histogram": {},
+        "recommendations": [],
+        "retrieval_waste_pct": 0,
+        "risk_band_trail": [],
+        "session_id": null,
+        "top_dead_files": [],
+        "turns": 2
+      },
+      "success": true,
+      "version": "0.1.0"
+    },
+    "request_id": "sync-94f8400c-421d-430d-b3fb-b2d7ddf70311-u1",
+    "risk_band": "unknown",
+    "runtime_decision": null,
+    "scenario": "trace_rag_drift_sdk_librechat",
+    "trace_score": null
+  },
+  "status": "ok"
+}

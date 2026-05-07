@@ -1,0 +1,25 @@
+{
+  "elapsed_ms": 4184.11,
+  "error": "HTTP Error 500: Internal Server Error",
+  "feature": "privacy",
+  "kind": "privacy",
+  "request": {
+    "integration": "native",
+    "kind": "privacy",
+    "metadata": {
+      "feature": "privacy",
+      "integration": "sdk-librechat",
+      "scenario_id": "de-kafka-rossmann",
+      "source": "tools.run_scenario",
+      "trace_extra": {
+        "include_triangular_diagnostics": false,
+        "profile": "quality"
+      },
+      "use_case": "rag"
+    },
+    "scenario": "trace_rag_privacy_sdk_librechat",
+    "text": "Wer war Ro\u00dfmann?\n\nKarl Ro\u00dfmann ist der Held des Romanfragments Der Verschollene von Franz Kafka, das von Brod unter dem Titel Amerika ver\u00f6ffentlicht wurde. In dem Roman tritt Ro\u00dfmann unter anderem auf einem Schiff, in einem Hotel und in der Wohnung seines Onkels auf. Am Ende bleibt die vage Hoffnung, dass Ro\u00dfmann im paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann."
+  },
+  "response": null,
+  "status": "error"
+}

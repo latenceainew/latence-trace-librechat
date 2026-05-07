@@ -1,0 +1,22 @@
+{
+  "id": "en-eu-ai-act-procurement",
+  "title": "EU AI Act procurement: classifying a CV-screening pilot",
+  "lang": "en",
+  "use_case": "rag",
+  "shape": null,
+  "source_url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+  "model_hint": "google/gemma-4-26b-a4b-it:free",
+  "expected_traits": {
+    "heatmap_bands": ["green", "amber", "red"],
+    "decision_action_in": ["review", "retry", "block"],
+    "min_evidence": 2,
+    "must_cite": [
+      "Annex III(4)(a)",
+      "Article 6(2)",
+      "Article 6(3)"
+    ]
+  },
+  "corpus_chunks": 6,
+  "tags": ["rag", "regulation", "eu-ai-act", "procurement", "high-risk"],
+  "notes_summary": "Planted contradiction: Art. 6(3) lets a provider exempt a system from high-risk if it performs a narrow procedural task; Annex III(4)(a) explicitly lists CV recruitment as high-risk. The model must wrestle both."
+}

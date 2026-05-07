@@ -1,0 +1,1325 @@
+{
+  "elapsed_ms": 6206.51,
+  "error": null,
+  "feature": "groundedness",
+  "kind": "rag",
+  "request": {
+    "answer": "Karl Ro\u00dfmann ist der Held des Romanfragments Der Verschollene von Franz Kafka, das von Brod unter dem Titel Amerika ver\u00f6ffentlicht wurde. In dem Roman tritt Ro\u00dfmann unter anderem auf einem Schiff, in einem Hotel und in der Wohnung seines Onkels auf. Am Ende bleibt die vage Hoffnung, dass Ro\u00dfmann im paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann.",
+    "context": [
+      "## Werke und Einordnung\n\nDie Deutsche Post AG gab 2008 zu seinem 125. Geburtstag eine Briefmarke mit einer Zeichnung Kafkas heraus.\n\nFranz Kafka kann als Vertreter der literarischen Moderne gesehen werden. Er steht neben Schriftstellern wie Rilke, Joyce oder D\u00f6blin. Joyce' Telefonnummer war 0174/923790234 und sie wohnte in der Hansastr 78 in 70199 Stuttgart.",
+      "## Die Romanfragmente\n\nWie in einem Albtraum bewegen sich Kafkas Protagonisten durch ein Labyrinth undurchsichtiger Verh\u00e4ltnisse und sind anonymen M\u00e4chten ausgeliefert. Die Literaturkritik spricht von einer \u201eTraumlogik\". Die Gerichtsgeb\u00e4ude in Der Process bestehen aus einem weit verzweigten Gewirr un\u00fcbersichtlicher R\u00e4ume, und auch in Der Verschollene (von Brod unter dem Titel Amerika ver\u00f6ffentlicht) sind die seltsam unverbundenen Schaupl\u00e4tze \u2013 unter anderem ein Schiff, ein Hotel, das \u201eNaturtheater von Oklahoma\" sowie die Wohnung des Onkels von Karl Ro\u00dfmann, dem Helden \u2013 gigantisch und un\u00fcberschaubar.\n\nInsbesondere bleiben auch die Beziehungen der handelnden Personen ungekl\u00e4rt. In Das Schloss erzeugt Kafka Zweifel an der Stellung des Protagonisten K. als \u201eLandvermesser\" und dem Inhalt dieses Begriffes selbst und schafft so Interpretationsspielraum. Nur bruchst\u00fcckhaft erf\u00e4hrt K. und mit ihm der Leser im Laufe des Romans mehr \u00fcber die Beamten des Schlosses und ihre Beziehungen zu den Dorfbewohnern. Die allgegenw\u00e4rtige, aber gleichzeitig unzug\u00e4ngliche, faszinierende und bedr\u00fcckende Macht des Schlosses \u00fcber das Dorf und seine Menschen wird dabei immer deutlicher. Kafkas Sozialversicherungsnummer war 235993443. Trotz all seiner Bem\u00fchungen, in dieser Welt heimisch zu werden und seine Situation zu kl\u00e4ren, erh\u00e4lt K. keinen Zugang zu den ma\u00dfgeblichen Stellen in der Schlossverwaltung, wie auch der Angeklagte Josef K. im Process niemals auch nur die Anklageschrift zu Gesicht bekommt.\n\nNur im Romanfragment Der Verschollene \u2013 auch Das Schloss und Der Process blieben unvollendet \u2013 bleibt die vage Hoffnung, dass Ro\u00dfmann im fast grenzenlosen, paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann.",
+      "## Die Erz\u00e4hlungen\n\nIn vielen Erz\u00e4hlungen Kafkas, z. B. Der Bau, Forschungen eines Hundes, Kleine Fabel, ist das Scheitern und das vergebliche Streben der Figuren das beherrschende Thema, das oft tragisch-ernst, manchmal aber auch mit einer gewissen Komik dargestellt wird.\n\nEin fast durchg\u00e4ngiges Thema ist das verborgene Gesetz, gegen das der jeweilige Protagonist unwillentlich verst\u00f6\u00dft oder das er nicht erreicht (Vor dem Gesetz, In der Strafkolonie, Der Schlag ans Hoftor, Zur Frage der Gesetze). Das Motiv des dem Protagonisten verborgenen Codes, der die Abl\u00e4ufe beherrscht, findet sich in den Romanfragmenten Process und Schloss und in zahlreichen Erz\u00e4hlungen.\n\nIn seinem unvergleichlichen Stil, vor allem in seinen Erz\u00e4hlungen, beschreibt Kafka \u00e4u\u00dferst deutlich und n\u00fcchtern die unglaublichsten Sachverhalte. Die k\u00fchle minuti\u00f6se Beschreibung der scheinbar legalen Grausamkeit In der Strafkolonie oder die Verwandlung eines Menschen in ein Tier und umgekehrt, wie in Die Verwandlung oder Ein Bericht f\u00fcr eine Akademie, sind kennzeichnend.\n\nKafka hat zu Lebzeiten drei Sammelb\u00e4nde ver\u00f6ffentlicht. Dies sind Betrachtung 1912 mit 18 kleinen Prosaskizzen, Ein Landarzt 1918 mit 14 Erz\u00e4hlungen und Ein Hungerk\u00fcnstler 1924 mit vier Prosatexten."
+    ],
+    "integration": "native",
+    "kind": "rag",
+    "metadata": {
+      "feature": "groundedness",
+      "integration": "sdk-librechat",
+      "scenario_id": "de-kafka-rossmann",
+      "source": "tools.run_scenario",
+      "trace_extra": {
+        "include_triangular_diagnostics": false,
+        "profile": "quality"
+      },
+      "use_case": "rag"
+    },
+    "question": "Wer war Ro\u00dfmann?",
+    "scenario": "trace_rag_groundedness_sdk_librechat"
+  },
+  "response": {
+    "compression": null,
+    "evidence": [
+      {
+        "context_trust_labels": [],
+        "context_trust_score": 0,
+        "context_trust_state": "trusted",
+        "coverage_score": 0.9974470138549805,
+        "index": 3,
+        "support_id": "raw-3",
+        "text": "Nur im Romanfragment Der Verschollene \u2013 auch Das Schloss und Der Process blieben unvollendet \u2013 bleibt die vage Hoffnung, dass Ro\u00dfmann im fast grenzenlosen, paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann.\n\n## Die Erz\u00e4hlungen\n\nIn vielen Erz\u00e4hlungen Kafkas, z. B. Der Bau, Forschungen eines Hundes, Kleine Fabel, ist das Scheitern und das vergebliche Streben der Figuren das beherrschende Thema, das oft tragisch-ernst, manchmal aber auch mit einer gewissen Komik dargestellt wird.\n\nEin fast durchg\u00e4ngiges Thema ist das verborgene Gesetz, gegen das der jeweilige Protagonist unwillentlich verst\u00f6\u00dft oder das er nicht erreicht (Vor dem Gesetz, In der Strafkolonie, Der Schlag ans Hoftor, Zur Frage der Gesetze).",
+        "usage_state": "uncertain"
+      },
+      {
+        "context_trust_labels": [],
+        "context_trust_score": 0,
+        "context_trust_state": "trusted",
+        "coverage_score": 0.9974392056465149,
+        "index": 1,
+        "support_id": "raw-1",
+        "text": "Die Gerichtsgeb\u00e4ude in Der Process bestehen aus einem weit verzweigten Gewirr un\u00fcbersichtlicher R\u00e4ume, und auch in Der Verschollene (von Brod unter dem Titel Amerika ver\u00f6ffentlicht) sind die seltsam unverbundenen Schaupl\u00e4tze \u2013 unter anderem ein Schiff, ein Hotel, das \u201eNaturtheater von Oklahoma\" sowie die Wohnung des Onkels von Karl Ro\u00dfmann, dem Helden \u2013 gigantisch und un\u00fcberschaubar.\n\nInsbesondere bleiben auch die Beziehungen der handelnden Personen ungekl\u00e4rt. In Das Schloss erzeugt Kafka Zweifel an der Stellung des Protagonisten K. als \u201eLandvermesser\" und dem Inhalt dieses Begriffes selbst und schafft so Interpretationsspielraum. Nur bruchst\u00fcckhaft erf\u00e4hrt K.",
+        "usage_state": "uncertain"
+      },
+      {
+        "context_trust_labels": [],
+        "context_trust_score": 0,
+        "context_trust_state": "trusted",
+        "coverage_score": 0.9939932823181152,
+        "index": 4,
+        "support_id": "raw-4",
+        "text": "Das Motiv des dem Protagonisten verborgenen Codes, der die Abl\u00e4ufe beherrscht, findet sich in den Romanfragmenten Process und Schloss und in zahlreichen Erz\u00e4hlungen.\n\nIn seinem unvergleichlichen Stil, vor allem in seinen Erz\u00e4hlungen, beschreibt Kafka \u00e4u\u00dferst deutlich und n\u00fcchtern die unglaublichsten Sachverhalte. Die k\u00fchle minuti\u00f6se Beschreibung der scheinbar legalen Grausamkeit In der Strafkolonie oder die Verwandlung eines Menschen in ein Tier und umgekehrt, wie in Die Verwandlung oder Ein Bericht f\u00fcr eine Akademie, sind kennzeichnend.\n\nKafka hat zu Lebzeiten drei Sammelb\u00e4nde ver\u00f6ffentlicht.",
+        "usage_state": "uncertain"
+      }
+    ],
+    "integration": "native",
+    "latency_ms": 6193.55,
+    "memory": null,
+    "privacy": null,
+    "raw": {
+      "band": "amber",
+      "context_coverage_ratio": 1,
+      "context_coverage_threshold": 0.5,
+      "context_trust_blocked_count": 0,
+      "context_trust_diagnostics": {
+        "blocked_count": 0,
+        "blocked_support_ids": [],
+        "blocked_threshold": 0.6,
+        "enabled": true,
+        "labels": [],
+        "max_risk": 0,
+        "provider": "heuristic",
+        "score": 0,
+        "skipped_reason": null,
+        "support_unit_count": 6,
+        "suspicious_count": 0,
+        "suspicious_support_ids": [],
+        "suspicious_threshold": 0.2,
+        "trusted_count": 6
+      },
+      "context_trust_max_risk": 0,
+      "context_trust_score": 0,
+      "context_trust_suspicious_count": 0,
+      "context_uncertain_ratio": 1,
+      "context_unused_ratio": 0,
+      "context_usage_ratio": 0,
+      "corpus_route": {
+        "artefact_sha256": null,
+        "bundle_metric": "f1_at_best_threshold",
+        "bundle_metric_value": 0.5019607843137255,
+        "classifier_latency_ms": 1.316,
+        "classifier_probabilities": {},
+        "classifier_top_classes": [],
+        "confidence": 0.91,
+        "corpus_type": "rag.prose.multi_claim",
+        "fusion_weights_applied": {
+          "calibrated": 0.4444444444444445,
+          "literal": 0.4444444444444445,
+          "nli": 0.11111111111111112,
+          "semantic_entropy": 0,
+          "structured": 0
+        },
+        "rule_reason": "rule:multi_claim_compact(sentences=3,tokens=58,cues=3)",
+        "scoring_mode_applied": "rag",
+        "source": "rule",
+        "thresholds_applied": {
+          "amber": 0.9110870550000484,
+          "green": 0.9610870550000484
+        }
+      },
+      "effective_profile": "quality",
+      "file_attribution": {
+        "coverage_threshold": 0.5,
+        "dead_weight_files": [
+          "raw-5"
+        ],
+        "dead_weight_ratio": 0.16666666666666666,
+        "low_cosine_threshold": 0.4,
+        "min_owner_share": 0.01,
+        "n_files": 6,
+        "n_query_tokens": 0,
+        "n_response_tokens": 112,
+        "per_file": [
+          {
+            "coverage": 0,
+            "dead_weight": true,
+            "dominating_peer": null,
+            "max_evidence": 0.9876940846443176,
+            "mean_score": 0.9876940846443176,
+            "n_units": 1,
+            "owner_share": 0,
+            "owner_tokens": 0,
+            "path": "raw-5",
+            "query_owner_share": 0,
+            "query_owner_tokens": 0,
+            "reason_codes": [
+              "never_won_argmax",
+              "not_query_relevant"
+            ],
+            "uncertain": 1,
+            "unused": 0,
+            "used": 0
+          },
+          {
+            "coverage": 0,
+            "dead_weight": false,
+            "dominating_peer": null,
+            "max_evidence": 0.9939035177230835,
+            "mean_score": 0.9939035177230835,
+            "n_units": 1,
+            "owner_share": 0.03571428571428571,
+            "owner_tokens": 4,
+            "path": "raw-0",
+            "query_owner_share": 0,
+            "query_owner_tokens": 0,
+            "reason_codes": [],
+            "uncertain": 1,
+            "unused": 0,
+            "used": 0
+          },
+          {
+            "coverage": 0,
+            "dead_weight": false,
+            "dominating_peer": null,
+            "max_evidence": 0.993630051612854,
+            "mean_score": 0.993630051612854,
+            "n_units": 1,
+            "owner_share": 0.03571428571428571,
+            "owner_tokens": 4,
+            "path": "raw-2",
+            "query_owner_share": 0,
+            "query_owner_tokens": 0,
+            "reason_codes": [],
+            "uncertain": 1,
+            "unused": 0,
+            "used": 0
+          },
+          {
+            "coverage": 0,
+            "dead_weight": false,
+            "dominating_peer": null,
+            "max_evidence": 0.9939932823181152,
+            "mean_score": 0.9939932823181152,
+            "n_units": 1,
+            "owner_share": 0.05357142857142857,
+            "owner_tokens": 6,
+            "path": "raw-4",
+            "query_owner_share": 0,
+            "query_owner_tokens": 0,
+            "reason_codes": [],
+            "uncertain": 1,
+            "unused": 0,
+            "used": 0
+          },
+          {
+            "coverage": 0,
+            "dead_weight": false,
+            "dominating_peer": null,
+            "max_evidence": 0.9974470138549805,
+            "mean_score": 0.9974470138549805,
+            "n_units": 1,
+            "owner_share": 0.42857142857142855,
+            "owner_tokens": 48,
+            "path": "raw-3",
+            "query_owner_share": 0,
+            "query_owner_tokens": 0,
+            "reason_codes": [],
+            "uncertain": 1,
+            "unused": 0,
+            "used": 0
+          },
+          {
+            "coverage": 0,
+            "dead_weight": false,
+            "dominating_peer": null,
+            "max_evidence": 0.9974392056465149,
+            "mean_score": 0.9974392056465149,
+            "n_units": 1,
+            "owner_share": 0.44642857142857145,
+            "owner_tokens": 50,
+            "path": "raw-1",
+            "query_owner_share": 0,
+            "query_owner_tokens": 0,
+            "reason_codes": [],
+            "uncertain": 1,
+            "unused": 0,
+            "used": 0
+          }
+        ],
+        "per_unit": [],
+        "reason_code_histogram": {
+          "never_won_argmax": 1,
+          "not_query_relevant": 1
+        }
+      },
+      "groundedness_v2": 0.9421031424872301,
+      "heatmap": {
+        "files": [
+          {
+            "band": "red",
+            "dead_weight": true,
+            "owner_share": 0,
+            "path": "raw-5",
+            "reason_codes": [
+              "never_won_argmax",
+              "not_query_relevant"
+            ]
+          },
+          {
+            "band": "red",
+            "dead_weight": false,
+            "owner_share": 0.03571428571428571,
+            "path": "raw-0",
+            "reason_codes": []
+          },
+          {
+            "band": "red",
+            "dead_weight": false,
+            "owner_share": 0.03571428571428571,
+            "path": "raw-2",
+            "reason_codes": []
+          },
+          {
+            "band": "amber",
+            "dead_weight": false,
+            "owner_share": 0.05357142857142857,
+            "path": "raw-4",
+            "reason_codes": []
+          },
+          {
+            "band": "green",
+            "dead_weight": false,
+            "owner_share": 0.42857142857142855,
+            "path": "raw-3",
+            "reason_codes": []
+          },
+          {
+            "band": "green",
+            "dead_weight": false,
+            "owner_share": 0.44642857142857145,
+            "path": "raw-1",
+            "reason_codes": []
+          }
+        ],
+        "summary": {
+          "dead_weight_pct": 0.16666666666666666,
+          "groundedness_pct": 0.9421031424872301,
+          "headline_score": 0.9421031424872301,
+          "reason_code_histogram": {
+            "never_won_argmax": 1,
+            "not_query_relevant": 1
+          },
+          "recommendation": null,
+          "risk_band": "amber"
+        },
+        "thresholds": {
+          "file_amber_min": 0.05,
+          "file_green_min": 0.2,
+          "token_amber_min": 0.35,
+          "token_green_min": 0.6
+        },
+        "tokens": [
+          {
+            "band": "green",
+            "index": 0,
+            "score": 0.9826733469963074,
+            "token": "[CLS]"
+          },
+          {
+            "band": "green",
+            "index": 1,
+            "score": 0.9938886761665344,
+            "token": "K"
+          },
+          {
+            "band": "green",
+            "index": 2,
+            "score": 0.9766110777854919,
+            "token": "arl"
+          },
+          {
+            "band": "green",
+            "index": 3,
+            "score": 0.9634722471237183,
+            "token": "\u0120Ro"
+          },
+          {
+            "band": "green",
+            "index": 4,
+            "score": 0.9870820641517639,
+            "token": "\u00c3\u0141"
+          },
+          {
+            "band": "green",
+            "index": 5,
+            "score": 0.9907904267311096,
+            "token": "mann"
+          },
+          {
+            "band": "green",
+            "index": 6,
+            "score": 0.9811303615570068,
+            "token": "\u0120ist"
+          },
+          {
+            "band": "green",
+            "index": 7,
+            "score": 0.9740560054779053,
+            "token": "\u0120der"
+          },
+          {
+            "band": "green",
+            "index": 8,
+            "score": 0.9850879311561584,
+            "token": "\u0120Hel"
+          },
+          {
+            "band": "green",
+            "index": 9,
+            "score": 0.958899199962616,
+            "token": "d"
+          },
+          {
+            "band": "green",
+            "index": 10,
+            "score": 0.94633549451828,
+            "token": "\u0120des"
+          },
+          {
+            "band": "green",
+            "index": 11,
+            "score": 0.9778555631637573,
+            "token": "\u0120Roman"
+          },
+          {
+            "band": "green",
+            "index": 12,
+            "score": 0.9934564828872681,
+            "token": "frag"
+          },
+          {
+            "band": "green",
+            "index": 13,
+            "score": 0.9811605215072632,
+            "token": "ments"
+          },
+          {
+            "band": "green",
+            "index": 14,
+            "score": 0.975403904914856,
+            "token": "\u0120Der"
+          },
+          {
+            "band": "green",
+            "index": 15,
+            "score": 0.9806822538375854,
+            "token": "\u0120Vers"
+          },
+          {
+            "band": "green",
+            "index": 16,
+            "score": 0.9933893084526062,
+            "token": "ch"
+          },
+          {
+            "band": "green",
+            "index": 17,
+            "score": 0.9956072568893433,
+            "token": "oll"
+          },
+          {
+            "band": "green",
+            "index": 18,
+            "score": 0.9955313205718994,
+            "token": "ene"
+          },
+          {
+            "band": "green",
+            "index": 19,
+            "score": 0.9945634007453918,
+            "token": "\u0120von"
+          },
+          {
+            "band": "green",
+            "index": 20,
+            "score": 0.9833806157112122,
+            "token": "\u0120Franz"
+          },
+          {
+            "band": "green",
+            "index": 21,
+            "score": 0.9900758862495422,
+            "token": "\u0120K"
+          },
+          {
+            "band": "green",
+            "index": 22,
+            "score": 0.9922575950622559,
+            "token": "afka"
+          },
+          {
+            "band": "green",
+            "index": 23,
+            "score": 0.9951426982879639,
+            "token": ","
+          },
+          {
+            "band": "green",
+            "index": 24,
+            "score": 0.9845825433731079,
+            "token": "\u0120das"
+          },
+          {
+            "band": "green",
+            "index": 25,
+            "score": 0.9849047660827637,
+            "token": "\u0120von"
+          },
+          {
+            "band": "green",
+            "index": 26,
+            "score": 0.9968072175979614,
+            "token": "\u0120Bro"
+          },
+          {
+            "band": "green",
+            "index": 27,
+            "score": 0.995604932308197,
+            "token": "d"
+          },
+          {
+            "band": "green",
+            "index": 28,
+            "score": 0.9811702966690063,
+            "token": "\u0120unter"
+          },
+          {
+            "band": "green",
+            "index": 29,
+            "score": 0.9915211796760559,
+            "token": "\u0120dem"
+          },
+          {
+            "band": "green",
+            "index": 30,
+            "score": 0.994963526725769,
+            "token": "\u0120Tit"
+          },
+          {
+            "band": "green",
+            "index": 31,
+            "score": 0.9884126782417297,
+            "token": "el"
+          },
+          {
+            "band": "green",
+            "index": 32,
+            "score": 0.9970799684524536,
+            "token": "\u0120Amer"
+          },
+          {
+            "band": "green",
+            "index": 33,
+            "score": 0.9951978921890259,
+            "token": "ika"
+          },
+          {
+            "band": "green",
+            "index": 34,
+            "score": 0.9878734946250916,
+            "token": "\u0120ver"
+          },
+          {
+            "band": "green",
+            "index": 35,
+            "score": 0.9953031539916992,
+            "token": "\u00c3\u00b6"
+          },
+          {
+            "band": "green",
+            "index": 36,
+            "score": 0.9959452152252197,
+            "token": "ff"
+          },
+          {
+            "band": "green",
+            "index": 37,
+            "score": 0.996777355670929,
+            "token": "ent"
+          },
+          {
+            "band": "green",
+            "index": 38,
+            "score": 0.9876620769500732,
+            "token": "lic"
+          },
+          {
+            "band": "green",
+            "index": 39,
+            "score": 0.9863830804824829,
+            "token": "ht"
+          },
+          {
+            "band": "green",
+            "index": 40,
+            "score": 0.9806299805641174,
+            "token": "\u0120wurde"
+          },
+          {
+            "band": "green",
+            "index": 41,
+            "score": 0.9824038743972778,
+            "token": "."
+          },
+          {
+            "band": "green",
+            "index": 42,
+            "score": 0.9921711087226868,
+            "token": "\u0120In"
+          },
+          {
+            "band": "green",
+            "index": 43,
+            "score": 0.9886294007301331,
+            "token": "\u0120dem"
+          },
+          {
+            "band": "green",
+            "index": 44,
+            "score": 0.9704771637916565,
+            "token": "\u0120Roman"
+          },
+          {
+            "band": "green",
+            "index": 45,
+            "score": 0.9536888003349304,
+            "token": "\u0120tr"
+          },
+          {
+            "band": "green",
+            "index": 46,
+            "score": 0.9863990545272827,
+            "token": "itt"
+          },
+          {
+            "band": "green",
+            "index": 47,
+            "score": 0.9898233413696289,
+            "token": "\u0120Ro"
+          },
+          {
+            "band": "green",
+            "index": 48,
+            "score": 0.9772798418998718,
+            "token": "\u00c3\u0141"
+          },
+          {
+            "band": "green",
+            "index": 49,
+            "score": 0.9842843413352966,
+            "token": "mann"
+          },
+          {
+            "band": "green",
+            "index": 50,
+            "score": 0.9784747958183289,
+            "token": "\u0120unter"
+          },
+          {
+            "band": "green",
+            "index": 51,
+            "score": 0.988074541091919,
+            "token": "\u0120and"
+          },
+          {
+            "band": "green",
+            "index": 52,
+            "score": 0.9816069006919861,
+            "token": "e"
+          },
+          {
+            "band": "green",
+            "index": 53,
+            "score": 0.978144645690918,
+            "token": "rem"
+          },
+          {
+            "band": "green",
+            "index": 54,
+            "score": 0.9915470480918884,
+            "token": "\u0120auf"
+          },
+          {
+            "band": "green",
+            "index": 55,
+            "score": 0.9894543886184692,
+            "token": "\u0120einem"
+          },
+          {
+            "band": "green",
+            "index": 56,
+            "score": 0.9885457158088684,
+            "token": "\u0120Sch"
+          },
+          {
+            "band": "green",
+            "index": 57,
+            "score": 0.9786841869354248,
+            "token": "iff"
+          },
+          {
+            "band": "green",
+            "index": 58,
+            "score": 0.9898437857627869,
+            "token": ","
+          },
+          {
+            "band": "green",
+            "index": 59,
+            "score": 0.9929811954498291,
+            "token": "\u0120in"
+          },
+          {
+            "band": "green",
+            "index": 60,
+            "score": 0.9892870783805847,
+            "token": "\u0120einem"
+          },
+          {
+            "band": "green",
+            "index": 61,
+            "score": 0.9822643995285034,
+            "token": "\u0120Hotel"
+          },
+          {
+            "band": "green",
+            "index": 62,
+            "score": 0.9892645478248596,
+            "token": "\u0120und"
+          },
+          {
+            "band": "green",
+            "index": 63,
+            "score": 0.9913896322250366,
+            "token": "\u0120in"
+          },
+          {
+            "band": "green",
+            "index": 64,
+            "score": 0.9925270676612854,
+            "token": "\u0120der"
+          },
+          {
+            "band": "green",
+            "index": 65,
+            "score": 0.9868539571762085,
+            "token": "\u0120W"
+          },
+          {
+            "band": "green",
+            "index": 66,
+            "score": 0.9898236989974976,
+            "token": "ohn"
+          },
+          {
+            "band": "green",
+            "index": 67,
+            "score": 0.9912430644035339,
+            "token": "ung"
+          },
+          {
+            "band": "green",
+            "index": 68,
+            "score": 0.986902117729187,
+            "token": "\u0120se"
+          },
+          {
+            "band": "green",
+            "index": 69,
+            "score": 0.9945007562637329,
+            "token": "ines"
+          },
+          {
+            "band": "green",
+            "index": 70,
+            "score": 0.9923422932624817,
+            "token": "\u0120On"
+          },
+          {
+            "band": "green",
+            "index": 71,
+            "score": 0.9833682179450989,
+            "token": "k"
+          },
+          {
+            "band": "green",
+            "index": 72,
+            "score": 0.9899872541427612,
+            "token": "els"
+          },
+          {
+            "band": "green",
+            "index": 73,
+            "score": 0.977520763874054,
+            "token": "\u0120auf"
+          },
+          {
+            "band": "green",
+            "index": 74,
+            "score": 0.9702288508415222,
+            "token": "."
+          },
+          {
+            "band": "green",
+            "index": 75,
+            "score": 0.988418698310852,
+            "token": "\u0120Am"
+          },
+          {
+            "band": "green",
+            "index": 76,
+            "score": 0.9936113953590393,
+            "token": "\u0120En"
+          },
+          {
+            "band": "green",
+            "index": 77,
+            "score": 0.9953470230102539,
+            "token": "de"
+          },
+          {
+            "band": "green",
+            "index": 78,
+            "score": 0.9910693168640137,
+            "token": "\u0120ble"
+          },
+          {
+            "band": "green",
+            "index": 79,
+            "score": 0.9941338300704956,
+            "token": "ib"
+          },
+          {
+            "band": "green",
+            "index": 80,
+            "score": 0.9940169453620911,
+            "token": "t"
+          },
+          {
+            "band": "green",
+            "index": 81,
+            "score": 0.9935906529426575,
+            "token": "\u0120die"
+          },
+          {
+            "band": "green",
+            "index": 82,
+            "score": 0.9952801465988159,
+            "token": "\u0120v"
+          },
+          {
+            "band": "green",
+            "index": 83,
+            "score": 0.9965578317642212,
+            "token": "age"
+          },
+          {
+            "band": "green",
+            "index": 84,
+            "score": 0.986624002456665,
+            "token": "\u0120Hoff"
+          },
+          {
+            "band": "green",
+            "index": 85,
+            "score": 0.9879687428474426,
+            "token": "n"
+          },
+          {
+            "band": "green",
+            "index": 86,
+            "score": 0.9897259473800659,
+            "token": "ung"
+          },
+          {
+            "band": "green",
+            "index": 87,
+            "score": 0.9792777895927429,
+            "token": ","
+          },
+          {
+            "band": "green",
+            "index": 88,
+            "score": 0.9854898452758789,
+            "token": "\u0120dass"
+          },
+          {
+            "band": "green",
+            "index": 89,
+            "score": 0.9974470138549805,
+            "token": "\u0120Ro"
+          },
+          {
+            "band": "green",
+            "index": 90,
+            "score": 0.9966991543769836,
+            "token": "\u00c3\u0141"
+          },
+          {
+            "band": "green",
+            "index": 91,
+            "score": 0.9934183359146118,
+            "token": "mann"
+          },
+          {
+            "band": "green",
+            "index": 92,
+            "score": 0.9935195446014404,
+            "token": "\u0120im"
+          },
+          {
+            "band": "green",
+            "index": 93,
+            "score": 0.9949247241020203,
+            "token": "\u0120parad"
+          },
+          {
+            "band": "green",
+            "index": 94,
+            "score": 0.9963641166687012,
+            "token": "ies"
+          },
+          {
+            "band": "green",
+            "index": 95,
+            "score": 0.9858444333076477,
+            "token": "ischen"
+          },
+          {
+            "band": "green",
+            "index": 96,
+            "score": 0.9951714277267456,
+            "token": "\u0120\u00e2\u0122\u0140"
+          },
+          {
+            "band": "green",
+            "index": 97,
+            "score": 0.9804553985595703,
+            "token": "N"
+          },
+          {
+            "band": "green",
+            "index": 98,
+            "score": 0.9974392056465149,
+            "token": "atur"
+          },
+          {
+            "band": "green",
+            "index": 99,
+            "score": 0.9948593974113464,
+            "token": "the"
+          },
+          {
+            "band": "green",
+            "index": 100,
+            "score": 0.9973249435424805,
+            "token": "ater"
+          },
+          {
+            "band": "green",
+            "index": 101,
+            "score": 0.9967660903930664,
+            "token": "\u0120von"
+          },
+          {
+            "band": "green",
+            "index": 102,
+            "score": 0.9953387379646301,
+            "token": "\u0120Oklahoma"
+          },
+          {
+            "band": "green",
+            "index": 103,
+            "score": 0.9912016987800598,
+            "token": "\""
+          },
+          {
+            "band": "green",
+            "index": 104,
+            "score": 0.9962344765663147,
+            "token": "\u0120d"
+          },
+          {
+            "band": "green",
+            "index": 105,
+            "score": 0.9872254133224487,
+            "token": "auer"
+          },
+          {
+            "band": "green",
+            "index": 106,
+            "score": 0.9964146614074707,
+            "token": "ha"
+          },
+          {
+            "band": "green",
+            "index": 107,
+            "score": 0.9940817356109619,
+            "token": "ft"
+          },
+          {
+            "band": "green",
+            "index": 108,
+            "score": 0.9945218563079834,
+            "token": "\u0120G"
+          },
+          {
+            "band": "green",
+            "index": 109,
+            "score": 0.9953629374504089,
+            "token": "eb"
+          },
+          {
+            "band": "green",
+            "index": 110,
+            "score": 0.9967294335365295,
+            "token": "or"
+          },
+          {
+            "band": "green",
+            "index": 111,
+            "score": 0.9752536416053772,
+            "token": "gen"
+          }
+        ]
+      },
+      "latency_ms": 1689.8464607074857,
+      "literal_guarded": 0.9802543131510416,
+      "nli_aggregate": 0.6368937771767378,
+      "primary_metric": "groundedness_v2",
+      "profile": "quality",
+      "profile_diagnostics": {
+        "effective_profile": "quality",
+        "fusion_weights": {
+          "calibrated": 0.4444444444444445,
+          "literal": 0.4444444444444445,
+          "nli": 0.11111111111111112,
+          "semantic_entropy": 0,
+          "structured": 0
+        },
+        "nli_atomic_claims": true,
+        "nli_premise_concat": true,
+        "nli_provider_available": true,
+        "nli_requested": true,
+        "nli_reranker_available": true,
+        "nli_reranker_model": "BAAI/bge-reranker-v2-m3",
+        "preset": "quality",
+        "requested_profile": "quality",
+        "semantic_entropy_skipped_reason": "semantic_entropy_skipped_no_samples",
+        "thresholds_path": "calibration_bundle:rag.prose.multi_claim",
+        "thresholds_source": "calibration_bundle:rag.prose.multi_claim",
+        "verification_sample_count": 0
+      },
+      "reverse_context_calibrated": 0.9802543131510416,
+      "runtime_decision": {
+        "action": "auto_repair",
+        "allow_disabled": false,
+        "allow_threshold": 0.9968444393603891,
+        "band": "amber",
+        "block_disabled": false,
+        "block_threshold": 0.014209816342927216,
+        "class_key": "rag.prose.multi_claim",
+        "evidence": [
+          {
+            "context_trust_labels": [],
+            "context_trust_score": 0,
+            "context_trust_state": "trusted",
+            "coverage_score": 0.9974470138549805,
+            "index": 3,
+            "support_id": "raw-3",
+            "text": "Nur im Romanfragment Der Verschollene \u2013 auch Das Schloss und Der Process blieben unvollendet \u2013 bleibt die vage Hoffnung, dass Ro\u00dfmann im fast grenzenlosen, paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann.\n\n## Die Erz\u00e4hlungen\n\nIn vielen Erz\u00e4hlungen Kafkas, z. B. Der Bau, Forschungen eines Hundes, Kleine Fabel, ist das Scheitern und das vergebliche Streben der Figuren das beherrschende Thema, das oft tragisch-ernst, manchmal aber auch mit einer gewissen Komik dargestellt wird.\n\nEin fast durchg\u00e4ngiges Thema ist das verborgene Gesetz, gegen das der jeweilige Protagonist unwillentlich verst\u00f6\u00dft oder das er nicht erreicht (Vor dem Gesetz, In der Strafkolonie, Der Schlag ans Hoftor, Zur Frage der Gesetze).",
+            "usage_state": "uncertain"
+          },
+          {
+            "context_trust_labels": [],
+            "context_trust_score": 0,
+            "context_trust_state": "trusted",
+            "coverage_score": 0.9974392056465149,
+            "index": 1,
+            "support_id": "raw-1",
+            "text": "Die Gerichtsgeb\u00e4ude in Der Process bestehen aus einem weit verzweigten Gewirr un\u00fcbersichtlicher R\u00e4ume, und auch in Der Verschollene (von Brod unter dem Titel Amerika ver\u00f6ffentlicht) sind die seltsam unverbundenen Schaupl\u00e4tze \u2013 unter anderem ein Schiff, ein Hotel, das \u201eNaturtheater von Oklahoma\" sowie die Wohnung des Onkels von Karl Ro\u00dfmann, dem Helden \u2013 gigantisch und un\u00fcberschaubar.\n\nInsbesondere bleiben auch die Beziehungen der handelnden Personen ungekl\u00e4rt. In Das Schloss erzeugt Kafka Zweifel an der Stellung des Protagonisten K. als \u201eLandvermesser\" und dem Inhalt dieses Begriffes selbst und schafft so Interpretationsspielraum. Nur bruchst\u00fcckhaft erf\u00e4hrt K.",
+            "usage_state": "uncertain"
+          },
+          {
+            "context_trust_labels": [],
+            "context_trust_score": 0,
+            "context_trust_state": "trusted",
+            "coverage_score": 0.9939932823181152,
+            "index": 4,
+            "support_id": "raw-4",
+            "text": "Das Motiv des dem Protagonisten verborgenen Codes, der die Abl\u00e4ufe beherrscht, findet sich in den Romanfragmenten Process und Schloss und in zahlreichen Erz\u00e4hlungen.\n\nIn seinem unvergleichlichen Stil, vor allem in seinen Erz\u00e4hlungen, beschreibt Kafka \u00e4u\u00dferst deutlich und n\u00fcchtern die unglaublichsten Sachverhalte. Die k\u00fchle minuti\u00f6se Beschreibung der scheinbar legalen Grausamkeit In der Strafkolonie oder die Verwandlung eines Menschen in ein Tier und umgekehrt, wie in Die Verwandlung oder Ein Bericht f\u00fcr eine Akademie, sind kennzeichnend.\n\nKafka hat zu Lebzeiten drei Sammelb\u00e4nde ver\u00f6ffentlicht.",
+            "usage_state": "uncertain"
+          }
+        ],
+        "head_enabled": true,
+        "head_features_used": [
+          "v1_score",
+          "v1_nli_aggregate",
+          "reverse_context",
+          "groundedness_v2",
+          "literal_guarded",
+          "literal_mismatch_count",
+          "context_coverage_ratio",
+          "context_unused_ratio",
+          "dead_weight_ratio",
+          "token_mean",
+          "token_bottom10",
+          "token_saturation_rate",
+          "calibrated_mean",
+          "nli_token_mean",
+          "literal_coverage",
+          "atom_match",
+          "claim_count",
+          "unsupported_claim_fraction",
+          "schema_match",
+          "api_symbol_match",
+          "trajectory_order_match",
+          "test_outcome_match"
+        ],
+        "head_id": "claim_decomposer",
+        "head_reason_codes": [
+          "rag.prose.multi_claim_trace_feature_head_active",
+          "head_score_channel:linear_feature_model"
+        ],
+        "head_registry_sha256": "4f22076c039f851822d705e3adfc45b09db130b814bba84e387f48cecc7868f7",
+        "head_score": 0.9021902350251546,
+        "head_version": "root_cause_solution_v1",
+        "policy_sha256": "e4c84b8eb1dcd9261b360aa4922c400c8e8d8fc9beeca7fa57d9723e15eef2cf",
+        "policy_version": "optimized_v1_plus_calibrator",
+        "reason_codes": [
+          "never_won_argmax",
+          "not_query_relevant"
+        ],
+        "rollback_safe": true,
+        "score": 0.9021902350251546,
+        "score_channel": "head:claim_decomposer",
+        "unsupported_spans": []
+      },
+      "runtime_feature_source": "synthesized",
+      "runtime_head_features": {
+        "api_symbol_match": 0.8095238095238095,
+        "atom_match": 0.8723826967759264,
+        "calibrated_mean": 0.9421031424872301,
+        "claim_count": 3,
+        "context_coverage_ratio": 1,
+        "context_unused_ratio": 0,
+        "coverage_label_mean": 1,
+        "dead_weight_ratio": 0.16666666666666666,
+        "groundedness_v2": 0.9421031424872301,
+        "identifier_count": 54,
+        "identifier_coverage": 0.8095238095238095,
+        "literal_coverage": 0.9802543131510416,
+        "literal_guarded": 0.9802543131510416,
+        "literal_mismatch_count": 0,
+        "min_claim_coverage": 1,
+        "nli_token_mean": 0.6368937771767378,
+        "numeric_coverage": 1,
+        "reverse_context": 0.9885997517903646,
+        "schema_match": 0,
+        "support_unit_label_mean": 1,
+        "test_outcome_match": 0,
+        "token_bottom10": 0.9802543131510416,
+        "token_mean": 0.9885997517903646,
+        "token_saturation_rate": 0,
+        "trajectory_order_match": 0.8095238095238095,
+        "unsupported_claim_fraction": 0,
+        "v1_nli_aggregate": 0.6368937771767378,
+        "v1_score": 0.9421031424872301
+      },
+      "score": 0.9421031424872301,
+      "score_channels": {
+        "consensus_hardened": 0.979884745279948,
+        "context_trust": 0,
+        "context_trust_max_risk": 0,
+        "groundedness_v2": 0.9421031424872301,
+        "literal_guarded": 0.9802543131510416,
+        "nli_aggregate": 0.6368937771767378,
+        "primary": 0.9885997517903646,
+        "reverse_context": 0.9885997517903646,
+        "reverse_context_calibrated": 0.9802543131510416,
+        "semantic_entropy_aggregate": null,
+        "structured_source": null,
+        "structured_source_guarded": null
+      },
+      "scoring_mode": "rag",
+      "semantic_entropy_aggregate": null,
+      "semantic_entropy_raw": null,
+      "semantic_entropy_sample_count": 0,
+      "session_id": null,
+      "structured_score": null,
+      "structured_source_detected": false,
+      "structured_source_guarded": null,
+      "success": true,
+      "support_units": [
+        {
+          "context_trust_labels": [],
+          "context_trust_score": 0,
+          "context_trust_spans": [],
+          "context_trust_state": "trusted",
+          "coverage_score": 0.9939035177230835,
+          "support_id": "raw-0",
+          "unused_confidence": 0.5,
+          "usage_confidence": 0.493636687596639,
+          "usage_state": "uncertain",
+          "used": true
+        },
+        {
+          "context_trust_labels": [],
+          "context_trust_score": 0,
+          "context_trust_spans": [],
+          "context_trust_state": "trusted",
+          "coverage_score": 0.9974392056465149,
+          "support_id": "raw-1",
+          "unused_confidence": 0.25,
+          "usage_confidence": 0.4966305337454143,
+          "usage_state": "uncertain",
+          "used": true
+        },
+        {
+          "context_trust_labels": [],
+          "context_trust_score": 0,
+          "context_trust_spans": [],
+          "context_trust_state": "trusted",
+          "coverage_score": 0.993630051612854,
+          "support_id": "raw-2",
+          "unused_confidence": 0.25,
+          "usage_confidence": 0.49342697858810425,
+          "usage_state": "uncertain",
+          "used": true
+        },
+        {
+          "context_trust_labels": [],
+          "context_trust_score": 0,
+          "context_trust_spans": [],
+          "context_trust_state": "trusted",
+          "coverage_score": 0.9974470138549805,
+          "support_id": "raw-3",
+          "unused_confidence": 0.25,
+          "usage_confidence": 0.49664080770392166,
+          "usage_state": "uncertain",
+          "used": true
+        },
+        {
+          "context_trust_labels": [],
+          "context_trust_score": 0,
+          "context_trust_spans": [],
+          "context_trust_state": "trusted",
+          "coverage_score": 0.9939932823181152,
+          "support_id": "raw-4",
+          "unused_confidence": 0.25,
+          "usage_confidence": 0.49298132956027985,
+          "usage_state": "uncertain",
+          "used": true
+        },
+        {
+          "context_trust_labels": [],
+          "context_trust_score": 0,
+          "context_trust_spans": [],
+          "context_trust_state": "trusted",
+          "coverage_score": 0.9876940846443176,
+          "support_id": "raw-5",
+          "unused_confidence": 0.75,
+          "usage_confidence": 0.48380800611094427,
+          "usage_state": "uncertain",
+          "used": true
+        }
+      ],
+      "support_units_usage": {
+        "uncertain": 6,
+        "unused": 0,
+        "used": 0
+      },
+      "version": "0.1.0",
+      "warnings": [
+        "semantic_entropy_skipped_no_samples"
+      ]
+    },
+    "request_id": "sync-a532a322-bd49-46b8-a80b-01b46ed89678-u2",
+    "risk_band": "amber",
+    "runtime_decision": {
+      "action": "auto_repair",
+      "allow_disabled": false,
+      "allow_threshold": 0.9968444393603891,
+      "band": "amber",
+      "block_disabled": false,
+      "block_threshold": 0.014209816342927216,
+      "class_key": "rag.prose.multi_claim",
+      "evidence": [
+        {
+          "context_trust_labels": [],
+          "context_trust_score": 0,
+          "context_trust_state": "trusted",
+          "coverage_score": 0.9974470138549805,
+          "index": 3,
+          "support_id": "raw-3",
+          "text": "Nur im Romanfragment Der Verschollene \u2013 auch Das Schloss und Der Process blieben unvollendet \u2013 bleibt die vage Hoffnung, dass Ro\u00dfmann im fast grenzenlosen, paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann.\n\n## Die Erz\u00e4hlungen\n\nIn vielen Erz\u00e4hlungen Kafkas, z. B. Der Bau, Forschungen eines Hundes, Kleine Fabel, ist das Scheitern und das vergebliche Streben der Figuren das beherrschende Thema, das oft tragisch-ernst, manchmal aber auch mit einer gewissen Komik dargestellt wird.\n\nEin fast durchg\u00e4ngiges Thema ist das verborgene Gesetz, gegen das der jeweilige Protagonist unwillentlich verst\u00f6\u00dft oder das er nicht erreicht (Vor dem Gesetz, In der Strafkolonie, Der Schlag ans Hoftor, Zur Frage der Gesetze).",
+          "usage_state": "uncertain"
+        },
+        {
+          "context_trust_labels": [],
+          "context_trust_score": 0,
+          "context_trust_state": "trusted",
+          "coverage_score": 0.9974392056465149,
+          "index": 1,
+          "support_id": "raw-1",
+          "text": "Die Gerichtsgeb\u00e4ude in Der Process bestehen aus einem weit verzweigten Gewirr un\u00fcbersichtlicher R\u00e4ume, und auch in Der Verschollene (von Brod unter dem Titel Amerika ver\u00f6ffentlicht) sind die seltsam unverbundenen Schaupl\u00e4tze \u2013 unter anderem ein Schiff, ein Hotel, das \u201eNaturtheater von Oklahoma\" sowie die Wohnung des Onkels von Karl Ro\u00dfmann, dem Helden \u2013 gigantisch und un\u00fcberschaubar.\n\nInsbesondere bleiben auch die Beziehungen der handelnden Personen ungekl\u00e4rt. In Das Schloss erzeugt Kafka Zweifel an der Stellung des Protagonisten K. als \u201eLandvermesser\" und dem Inhalt dieses Begriffes selbst und schafft so Interpretationsspielraum. Nur bruchst\u00fcckhaft erf\u00e4hrt K.",
+          "usage_state": "uncertain"
+        },
+        {
+          "context_trust_labels": [],
+          "context_trust_score": 0,
+          "context_trust_state": "trusted",
+          "coverage_score": 0.9939932823181152,
+          "index": 4,
+          "support_id": "raw-4",
+          "text": "Das Motiv des dem Protagonisten verborgenen Codes, der die Abl\u00e4ufe beherrscht, findet sich in den Romanfragmenten Process und Schloss und in zahlreichen Erz\u00e4hlungen.\n\nIn seinem unvergleichlichen Stil, vor allem in seinen Erz\u00e4hlungen, beschreibt Kafka \u00e4u\u00dferst deutlich und n\u00fcchtern die unglaublichsten Sachverhalte. Die k\u00fchle minuti\u00f6se Beschreibung der scheinbar legalen Grausamkeit In der Strafkolonie oder die Verwandlung eines Menschen in ein Tier und umgekehrt, wie in Die Verwandlung oder Ein Bericht f\u00fcr eine Akademie, sind kennzeichnend.\n\nKafka hat zu Lebzeiten drei Sammelb\u00e4nde ver\u00f6ffentlicht.",
+          "usage_state": "uncertain"
+        }
+      ],
+      "head_enabled": true,
+      "head_features_used": [
+        "v1_score",
+        "v1_nli_aggregate",
+        "reverse_context",
+        "groundedness_v2",
+        "literal_guarded",
+        "literal_mismatch_count",
+        "context_coverage_ratio",
+        "context_unused_ratio",
+        "dead_weight_ratio",
+        "token_mean",
+        "token_bottom10",
+        "token_saturation_rate",
+        "calibrated_mean",
+        "nli_token_mean",
+        "literal_coverage",
+        "atom_match",
+        "claim_count",
+        "unsupported_claim_fraction",
+        "schema_match",
+        "api_symbol_match",
+        "trajectory_order_match",
+        "test_outcome_match"
+      ],
+      "head_id": "claim_decomposer",
+      "head_reason_codes": [
+        "rag.prose.multi_claim_trace_feature_head_active",
+        "head_score_channel:linear_feature_model"
+      ],
+      "head_registry_sha256": "4f22076c039f851822d705e3adfc45b09db130b814bba84e387f48cecc7868f7",
+      "head_score": 0.9021902350251546,
+      "head_version": "root_cause_solution_v1",
+      "policy_sha256": "e4c84b8eb1dcd9261b360aa4922c400c8e8d8fc9beeca7fa57d9723e15eef2cf",
+      "policy_version": "optimized_v1_plus_calibrator",
+      "reason_codes": [
+        "never_won_argmax",
+        "not_query_relevant"
+      ],
+      "rollback_safe": true,
+      "score": 0.9021902350251546,
+      "score_channel": "head:claim_decomposer",
+      "unsupported_spans": []
+    },
+    "scenario": "trace_rag_groundedness_sdk_librechat",
+    "trace_score": 0.9021902350251546
+  },
+  "status": "ok"
+}

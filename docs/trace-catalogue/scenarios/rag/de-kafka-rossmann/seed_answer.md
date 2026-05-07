@@ -1,0 +1,1 @@
+Karl Roßmann ist der Held des Romanfragments Der Verschollene von Franz Kafka, das von Brod unter dem Titel Amerika veröffentlicht wurde. In dem Roman tritt Roßmann unter anderem auf einem Schiff, in einem Hotel und in der Wohnung seines Onkels auf. Am Ende bleibt die vage Hoffnung, dass Roßmann im paradiesischen „Naturtheater von Oklahoma" dauerhaft Geborgenheit finden kann.

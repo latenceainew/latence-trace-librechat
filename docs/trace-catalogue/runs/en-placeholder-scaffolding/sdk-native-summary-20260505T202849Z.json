@@ -1,0 +1,54 @@
+{
+  "bridge_url": "http://127.0.0.1:8788",
+  "features": [
+    "groundedness",
+    "context-util",
+    "drift",
+    "memory",
+    "privacy",
+    "compression"
+  ],
+  "integration": "native",
+  "integration_label": "sdk-librechat",
+  "iso": "20260505T202849Z",
+  "results": {
+    "compression": {
+      "elapsed_ms": 1785.49,
+      "error": null,
+      "risk_band": "green",
+      "status": "ok"
+    },
+    "context-util": {
+      "elapsed_ms": 1662.09,
+      "error": null,
+      "risk_band": "amber",
+      "status": "ok"
+    },
+    "drift": {
+      "elapsed_ms": 273.45,
+      "error": null,
+      "risk_band": "unknown",
+      "status": "ok"
+    },
+    "groundedness": {
+      "elapsed_ms": 4887.23,
+      "error": null,
+      "risk_band": "amber",
+      "status": "ok"
+    },
+    "memory": {
+      "elapsed_ms": 195.93,
+      "error": null,
+      "risk_band": "green",
+      "status": "ok"
+    },
+    "privacy": {
+      "elapsed_ms": 6540.05,
+      "error": null,
+      "risk_band": "green",
+      "status": "ok"
+    }
+  },
+  "scenario_id": "en-placeholder-scaffolding",
+  "use_case": "rag"
+}

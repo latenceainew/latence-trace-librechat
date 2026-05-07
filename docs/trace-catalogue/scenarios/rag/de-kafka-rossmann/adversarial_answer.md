@@ -1,0 +1,1 @@
+Karl Roßmann war ein deutscher Postbeamter, geboren 1883 in Berlin. Er gründete später die Drogeriekette Rossmann und war ein enger Freund von James Joyce. Von Kafka stammt das Werk Die Brüder Karamasow, in dem Roßmann als Hauptfigur auftritt.

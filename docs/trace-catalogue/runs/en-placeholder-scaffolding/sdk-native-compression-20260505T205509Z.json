@@ -1,0 +1,86 @@
+{
+  "elapsed_ms": 5140.03,
+  "error": null,
+  "feature": "compression",
+  "kind": "compression",
+  "request": {
+    "answer": "A full self-service refund is no longer possible after 45 days; the documented\n30-day window only covers defective devices returned within that period.\nAfter 30 days a support manager must explicitly approve the refund, and the\npolicy makes clear that approval is not guaranteed even for a defective unit.\nThe refund timing itself is not stated in the policy excerpts above, so we\ncannot promise 48-hour processing \u2014 that detail is unsupported by the source\ntext.",
+    "context": [
+      "## Section 1 \u2014 Refund window\n\nOpened devices may be returned within 30 days only if defective. Customers\nmust include the original packaging, accessories, and a description of the\ndefect. The 30-day window starts on the delivery date confirmed by the\ncourier.",
+      "## Section 2 \u2014 Manager approval\n\nRefunds requested after the 30-day window require explicit approval from a\nsupport manager. Approval is not guaranteed even when the device is defective;\nthe manager weighs purchase history, prior returns, and the description of the\nissue.",
+      "## Section 3 \u2014 Shipping and tracking\n\nAccessories ship separately from the main device. Tracking numbers can lag by\nup to one business day, especially for international shipments. Lost packages\nare investigated by the carrier, not by the support team."
+    ],
+    "integration": "native",
+    "kind": "compression",
+    "metadata": {
+      "feature": "compression",
+      "integration": "sdk-librechat",
+      "scenario_id": "en-placeholder-scaffolding",
+      "source": "tools.run_scenario",
+      "use_case": "rag"
+    },
+    "question": "A customer received a defective phone 45 days ago. They want to know whether\nthey can still return it for a full refund without contacting support, and how\nlong the refund will take. What should we tell them, and what conditions\napply?",
+    "scenario": "trace_rag_compression_sdk_librechat",
+    "text": "## Section 1 \u2014 Refund window\n\nOpened devices may be returned within 30 days only if defective. Customers\nmust include the original packaging, accessories, and a description of the\ndefect. The 30-day window starts on the delivery date confirmed by the\ncourier.\n## Section 2 \u2014 Manager approval\n\nRefunds requested after the 30-day window require explicit approval from a\nsupport manager. Approval is not guaranteed even when the device is defective;\nthe manager weighs purchase history, prior returns, and the description of the\nissue.\n## Section 3 \u2014 Shipping and tracking\n\nAccessories ship separately from the main device. Tracking numbers can lag by\nup to one business day, especially for international shipments. Lost packages\nare investigated by the carrier, not by the support team.\n\nQuestion: A customer received a defective phone 45 days ago. They want to know whether\nthey can still return it for a full refund without contacting support, and how\nlong the refund will take. What should we tell them, and what conditions\napply?\nAnswer: A full self-service refund is no longer possible after 45 days; the documented\n30-day window only covers defective devices returned within that period.\nAfter 30 days a support manager must explicitly approve the refund, and the\npolicy makes clear that approval is not guaranteed even for a defective unit.\nThe refund timing itself is not stated in the policy excerpts above, so we\ncannot promise 48-hour processing \u2014 that detail is unsupported by the source\ntext."
+  },
+  "response": {
+    "compression": {
+      "compressed_text": "## Section 1 \u2014 Refund window Opened devices may be returned within 30 days only if defective. Customers must include the original packaging, accessories, and a description of the defect. The 30-day window starts on the delivery date confirmed the courier. ## Section 2 \u2014 Manager approval Refunds requested after the 30-day window require explicit approval from a support manager. Approval is not guaranteed even when the device is defective; the manager weighs purchase history, prior returns, and the description of the issue. ## Section 3 \u2014 Shipping and tracking Accessories ship separately from the main device. Tracking numbers can lag up to one business day, especially for international shipments. Lost packages are investigated the carrier, not the support team. Question: customer received a defective phone 45 days They want to know whether they can still return it for a full refund without contacting support, and how",
+      "compression_ratio": 0.5678233438485805,
+      "preserved_terms": [
+        "##",
+        "## Section 1 \u2014 Refund window",
+        "## Section 2 \u2014 Manager approval",
+        "## Section 3 \u2014 Shipping and tracking"
+      ],
+      "tokens_saved": 137
+    },
+    "evidence": [],
+    "integration": "native",
+    "latency_ms": 5137.6,
+    "memory": null,
+    "privacy": null,
+    "raw": {
+      "compressed_messages": null,
+      "compressed_text": "## Section 1 \u2014 Refund window Opened devices may be returned within 30 days only if defective. Customers must include the original packaging, accessories, and a description of the defect. The 30-day window starts on the delivery date confirmed the courier. ## Section 2 \u2014 Manager approval Refunds requested after the 30-day window require explicit approval from a support manager. Approval is not guaranteed even when the device is defective; the manager weighs purchase history, prior returns, and the description of the issue. ## Section 3 \u2014 Shipping and tracking Accessories ship separately from the main device. Tracking numbers can lag up to one business day, especially for international shipments. Lost packages are investigated the carrier, not the support team. Question: customer received a defective phone 45 days They want to know whether they can still return it for a full refund without contacting support, and how",
+      "compressed_tokens": 180,
+      "compression_percentage": 43.22,
+      "compression_ratio": 0.5678233438485805,
+      "diagnostics": {
+        "chunks_processed": 1,
+        "config_used": {
+          "chunk_size": 4096,
+          "compression_rate": 0.4,
+          "fallback_mode": true,
+          "force_preserve_digit": true,
+          "force_tokens": [
+            "##",
+            "## Section 1 \u2014 Refund window",
+            "## Section 2 \u2014 Manager approval",
+            "## Section 3 \u2014 Shipping and tracking"
+          ]
+        },
+        "fallback_chunks": 0,
+        "request_id": "comp_c8d9c6e26a86",
+        "restored_force_tokens": [],
+        "toon_applied": false
+      },
+      "original_tokens": 317,
+      "preserved_terms": [
+        "##",
+        "## Section 1 \u2014 Refund window",
+        "## Section 2 \u2014 Manager approval",
+        "## Section 3 \u2014 Shipping and tracking"
+      ],
+      "provider": "superpod_vllm",
+      "spans": [],
+      "tokens_saved": 137
+    },
+    "request_id": "sync-4106b5dc-61b6-4f0b-b0d6-5c371c38b2c6-u1",
+    "risk_band": "green",
+    "runtime_decision": null,
+    "scenario": "trace_rag_compression_sdk_librechat",
+    "trace_score": 137.0
+  },
+  "status": "ok"
+}

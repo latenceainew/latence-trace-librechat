@@ -1,0 +1,76 @@
+{
+  "elapsed_ms": 6540.05,
+  "error": null,
+  "feature": "privacy",
+  "kind": "privacy",
+  "request": {
+    "integration": "native",
+    "kind": "privacy",
+    "metadata": {
+      "feature": "privacy",
+      "integration": "sdk-librechat",
+      "scenario_id": "en-placeholder-scaffolding",
+      "source": "tools.run_scenario",
+      "use_case": "rag"
+    },
+    "scenario": "trace_rag_privacy_sdk_librechat",
+    "text": "A customer received a defective phone 45 days ago. They want to know whether\nthey can still return it for a full refund without contacting support, and how\nlong the refund will take. What should we tell them, and what conditions\napply?\n\nA full self-service refund is no longer possible after 45 days; the documented\n30-day window only covers defective devices returned within that period.\nAfter 30 days a support manager must explicitly approve the refund, and the\npolicy makes clear that approval is not guaranteed even for a defective unit.\nThe refund timing itself is not stated in the policy excerpts above, so we\ncannot promise 48-hour processing \u2014 that detail is unsupported by the source\ntext."
+  },
+  "response": {
+    "compression": null,
+    "evidence": [],
+    "integration": "native",
+    "latency_ms": 6537.22,
+    "memory": null,
+    "privacy": {
+      "entity_count": 0,
+      "redacted_text": "A customer received a defective phone 45 days ago. They want to know whether\nthey can still return it for a full refund without contacting support, and how\nlong the refund will take. What should we tell them, and what conditions\napply?\n\nA full self-service refund is no longer possible after 45 days; the documented\n30-day window only covers defective devices returned within that period.\nAfter 30 days a support manager must explicitly approve the refund, and the\npolicy makes clear that approval is not guaranteed even for a defective unit.\nThe refund timing itself is not stated in the policy excerpts above, so we\ncannot promise 48-hour processing \u2014 that detail is unsupported by the source\ntext.",
+      "unique_labels": []
+    },
+    "raw": {
+      "chunks_processed": 1,
+      "entities": [],
+      "entity_count": 0,
+      "label_mode": "open",
+      "labels_used": [
+        "email",
+        "person",
+        "account_number"
+      ],
+      "original_text": null,
+      "processing_time_ms": 1407.82,
+      "redacted_text": "A customer received a defective phone 45 days ago. They want to know whether\nthey can still return it for a full refund without contacting support, and how\nlong the refund will take. What should we tell them, and what conditions\napply?\n\nA full self-service refund is no longer possible after 45 days; the documented\n30-day window only covers defective devices returned within that period.\nAfter 30 days a support manager must explicitly approve the refund, and the\npolicy makes clear that approval is not guaranteed even for a defective unit.\nThe refund timing itself is not stated in the policy excerpts above, so we\ncannot promise 48-hour processing \u2014 that detail is unsupported by the source\ntext.",
+      "selected_categories": [],
+      "success": true,
+      "timings_ms": {
+        "chunking_ms": 5.61,
+        "custom_regex_ms": 0.02,
+        "dedupe_ms": 0.03,
+        "label_resolution_ms": 0.23,
+        "max_chunk_vllm_ms": 1400.99,
+        "redaction_ms": 0.02,
+        "sanity_checks_ms": 0,
+        "total_ms": 1407.82,
+        "vllm_request_ms": 1401.88,
+        "vllm_retry_splits": 0
+      },
+      "unique_labels": [],
+      "usage": {
+        "categories": [],
+        "chunks_processed": 1,
+        "entity_count": 0,
+        "labels_used": 3,
+        "mode": "open",
+        "redacted": true,
+        "redaction_mode": "mask",
+        "unique_labels": []
+      }
+    },
+    "request_id": "sync-77a9a331-939a-4323-9f8d-da505d4ce39a-u2",
+    "risk_band": "green",
+    "runtime_decision": null,
+    "scenario": "trace_rag_privacy_sdk_librechat",
+    "trace_score": 0.0
+  },
+  "status": "ok"
+}

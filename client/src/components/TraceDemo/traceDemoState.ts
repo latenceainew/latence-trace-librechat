@@ -123,7 +123,13 @@ export type TraceEvidenceItem = {
   text?: string;
   coverage?: number;
   usageState?: string;
+  usageConfidence?: number;
   trustState?: string;
+  trustScore?: number;
+  trustLabels?: string[];
+  matchedTokens?: number;
+  totalTokens?: number;
+  metadataPath?: string;
 };
 
 export type TraceDecision = {
@@ -549,9 +555,11 @@ export function getMetricFromResults(
     return undefined;
   }
   const response = record.response;
+  const rawScores = (response.raw as { scores?: Record<string, unknown> } | undefined)?.scores;
   for (const key of keys) {
     const value =
       response.raw?.[key] ??
+      rawScores?.[key] ??
       response.runtime_decision?.[key] ??
       response.privacy?.[key] ??
       response.memory?.[key] ??
@@ -627,8 +635,17 @@ export function extractGroundingEvidence(result?: TraceDemoMessageResult): Trace
           ? record.coverage
           : undefined;
     const usageState = typeof record.usage_state === 'string' ? record.usage_state : undefined;
+    const usageConfidence = typeof record.usage_confidence === 'number' ? record.usage_confidence : undefined;
     const trustState =
       typeof record.context_trust_state === 'string' ? record.context_trust_state : undefined;
+    const trustScore = typeof record.context_trust_score === 'number' ? record.context_trust_score : undefined;
+    const trustLabels = Array.isArray(record.context_trust_labels)
+      ? record.context_trust_labels.filter((l): l is string => typeof l === 'string')
+      : undefined;
+    const matchedTokens = typeof record.matched_response_tokens === 'number' ? record.matched_response_tokens : undefined;
+    const totalTokens = typeof record.token_count === 'number' ? record.token_count : undefined;
+    const meta = (record.metadata ?? {}) as Record<string, unknown>;
+    const metadataPath = typeof meta.path === 'string' ? meta.path : undefined;
     const key = supportId ?? `__txt:${(text ?? '').slice(0, 40)}` ?? `__pos:${merged.size}`;
     const prev = merged.get(key);
     merged.set(key, {
@@ -636,7 +653,13 @@ export function extractGroundingEvidence(result?: TraceDemoMessageResult): Trace
       text: text ?? prev?.text,
       coverage: coverage ?? prev?.coverage,
       usageState: usageState ?? prev?.usageState,
+      usageConfidence: usageConfidence ?? prev?.usageConfidence,
       trustState: trustState ?? prev?.trustState,
+      trustScore: trustScore ?? prev?.trustScore,
+      trustLabels: trustLabels ?? prev?.trustLabels,
+      matchedTokens: matchedTokens ?? prev?.matchedTokens,
+      totalTokens: totalTokens ?? prev?.totalTokens,
+      metadataPath: metadataPath ?? prev?.metadataPath,
     });
   }
   const list = Array.from(merged.values());
@@ -686,19 +709,38 @@ export type TraceClaimSpan = {
   atoms: TraceClaimAtom[];
 };
 
-const DEFAULT_GREEN_THRESHOLD = 0.6;
-const DEFAULT_AMBER_THRESHOLD = 0.35;
+const NLI_CLAIM_GREEN_MIN = 0.30;
+const NLI_CLAIM_AMBER_MIN = 0.05;
+const NLI_CONTRADICTION_FLOOR = 0.50;
 
-function bandForEntailment(
-  entailment: number,
-  thresholds?: { greenMin?: number; amberMin?: number },
-): 'green' | 'amber' | 'red' {
-  const green = thresholds?.greenMin ?? DEFAULT_GREEN_THRESHOLD;
-  const amber = thresholds?.amberMin ?? DEFAULT_AMBER_THRESHOLD;
-  if (entailment >= green) {
+/**
+ * Compute a claim-level band from NLI scores. Uses the backend's
+ * ``claim.band`` when already stamped (single source of truth); falls
+ * back to a client-side replica of the same ``_claim_band`` logic from
+ * ``groundedness.py`` so older runtimes still get correct rendering.
+ */
+function bandForClaim(
+  claim: {
+    score: number;
+    entailment: number;
+    contradiction: number;
+    skipped?: boolean;
+    band?: string;
+  },
+): 'green' | 'amber' | 'red' | 'skipped' {
+  if (claim.band === 'green' || claim.band === 'amber' || claim.band === 'red' || claim.band === 'skipped') {
+    return claim.band;
+  }
+  if (claim.skipped) {
+    return 'skipped';
+  }
+  if (claim.contradiction >= NLI_CONTRADICTION_FLOOR) {
+    return 'red';
+  }
+  if (claim.score >= NLI_CLAIM_GREEN_MIN) {
     return 'green';
   }
-  if (entailment >= amber) {
+  if (claim.score >= NLI_CLAIM_AMBER_MIN) {
     return 'amber';
   }
   return 'red';
@@ -746,9 +788,6 @@ export function extractClaimSpans(result?: TraceDemoMessageResult): TraceClaimSp
   if (!Array.isArray(claims)) {
     return [];
   }
-  const thresholds = raw?.heatmap?.thresholds ?? {};
-  const greenMin = num((thresholds as Record<string, unknown>).token_green_min);
-  const amberMin = num((thresholds as Record<string, unknown>).token_amber_min);
   const out: TraceClaimSpan[] = [];
   for (const claim of claims) {
     if (!claim || typeof claim !== 'object') {
@@ -760,6 +799,8 @@ export function extractClaimSpans(result?: TraceDemoMessageResult): TraceClaimSp
       continue;
     }
     const entailment = num(record.entailment) ?? 0;
+    const contradiction = num(record.contradiction) ?? 0;
+    const score = num(record.score) ?? 0;
     const supportIds = Array.isArray(record.support_ids)
       ? record.support_ids.filter((id): id is string => typeof id === 'string')
       : [];
@@ -776,9 +817,14 @@ export function extractClaimSpans(result?: TraceDemoMessageResult): TraceClaimSp
     const isSkipped = typeof record.skipped === 'boolean' ? record.skipped : false;
     const skipReason =
       typeof record.skip_reason === 'string' ? record.skip_reason : undefined;
-    const band: TraceClaimSpan['band'] = isSkipped
-      ? 'skipped'
-      : bandForEntailment(entailment, { greenMin, amberMin });
+    const backendBand = typeof record.band === 'string' ? record.band : undefined;
+    const band: TraceClaimSpan['band'] = bandForClaim({
+      score,
+      entailment,
+      contradiction,
+      skipped: isSkipped,
+      band: backendBand,
+    });
     out.push({
       index: num(record.index) ?? out.length,
       text,
@@ -1135,6 +1181,33 @@ export function extractDeadWeights(result?: TraceDemoMessageResult): {
   };
 }
 
+export type TracePromptGuardSummary = {
+  enabled: boolean;
+  provider?: string;
+  trustedCount: number;
+  suspiciousCount: number;
+  blockedCount: number;
+  score: number;
+  labels: string[];
+};
+
+export function extractPromptGuardSummary(result?: TraceDemoMessageResult): TracePromptGuardSummary | undefined {
+  const response = getGroundingResponse(result);
+  if (!response) return undefined;
+  const raw = (response.raw ?? {}) as Record<string, unknown>;
+  const diag = raw.context_trust_diagnostics as Record<string, unknown> | undefined;
+  if (!diag) return undefined;
+  return {
+    enabled: diag.enabled === true,
+    provider: typeof diag.provider === 'string' ? diag.provider : undefined,
+    trustedCount: typeof diag.trusted_count === 'number' ? diag.trusted_count : 0,
+    suspiciousCount: typeof diag.suspicious_count === 'number' ? diag.suspicious_count : 0,
+    blockedCount: typeof diag.blocked_count === 'number' ? diag.blocked_count : 0,
+    score: typeof diag.score === 'number' ? diag.score : 0,
+    labels: Array.isArray(diag.labels) ? diag.labels.filter((l): l is string => typeof l === 'string') : [],
+  };
+}
+
 export function extractCompressionDetail(result?: TraceDemoMessageResult): {
   tokensSaved?: number;
   ratio?: number;
@@ -1172,62 +1245,112 @@ export function extractCompressionDetail(result?: TraceDemoMessageResult): {
   return { tokensSaved, ratio, summary, band: record.risk_band };
 }
 
+export type TracePrivacyEntity = {
+  label: string;
+  text: string;
+  score: number;
+  start?: number;
+  end?: number;
+  redactedValue?: string;
+};
+
 export function extractPrivacyDetail(result?: TraceDemoMessageResult): {
   entityCount?: number;
   byLabel: Array<{ label: string; count: number }>;
+  entities: TracePrivacyEntity[];
   redacted?: string;
   band?: string;
 } {
   const record = result?.results.privacy?.response;
   if (!record) {
-    return { byLabel: [] };
+    return { byLabel: [], entities: [] };
   }
   const privacy = (record.privacy ?? {}) as Record<string, unknown>;
+  const raw = (record.raw ?? {}) as Record<string, unknown>;
   const entityCount = typeof privacy.entity_count === 'number' ? privacy.entity_count : undefined;
   const byLabel: Array<{ label: string; count: number }> = [];
-  const labelMap = (privacy.entities_by_label ?? privacy.by_label) as
-    | Record<string, unknown>
-    | undefined;
-  if (labelMap && typeof labelMap === 'object') {
-    for (const [label, count] of Object.entries(labelMap)) {
-      if (typeof count === 'number') {
-        byLabel.push({ label, count });
-      }
+  const entities: TracePrivacyEntity[] = [];
+
+  const rawEntities = (Array.isArray(raw.entities) ? raw.entities : Array.isArray(privacy.entities) ? privacy.entities : []) as Array<Record<string, unknown>>;
+  for (const entity of rawEntities) {
+    if (!entity || typeof entity !== 'object') {
+      continue;
     }
-  } else if (Array.isArray(privacy.entities)) {
+    const label = typeof entity.label === 'string' ? entity.label : '';
+    const text = typeof entity.text === 'string' ? entity.text : '';
+    const score = typeof entity.score === 'number' ? entity.score : 0;
+    if (label && text) {
+      entities.push({
+        label,
+        text,
+        score,
+        start: typeof entity.start === 'number' ? entity.start : undefined,
+        end: typeof entity.end === 'number' ? entity.end : undefined,
+        redactedValue: typeof entity.redacted_value === 'string' ? entity.redacted_value : undefined,
+      });
+    }
+  }
+
+  if (entities.length > 0) {
     const counter = new Map<string, number>();
-    for (const entity of privacy.entities) {
-      if (!entity || typeof entity !== 'object') {
-        continue;
-      }
-      const label = (entity as Record<string, unknown>).label;
-      if (typeof label === 'string') {
-        counter.set(label, (counter.get(label) ?? 0) + 1);
-      }
+    for (const e of entities) {
+      counter.set(e.label, (counter.get(e.label) ?? 0) + 1);
     }
     for (const [label, count] of counter) {
       byLabel.push({ label, count });
     }
+  } else {
+    const labelMap = (privacy.entities_by_label ?? privacy.by_label) as
+      | Record<string, unknown>
+      | undefined;
+    if (labelMap && typeof labelMap === 'object') {
+      for (const [label, count] of Object.entries(labelMap)) {
+        if (typeof count === 'number') {
+          byLabel.push({ label, count });
+        }
+      }
+    }
   }
+
   const redacted =
     typeof privacy.redacted_text === 'string'
       ? privacy.redacted_text
       : typeof privacy.redacted === 'string'
         ? privacy.redacted
-        : undefined;
-  return { entityCount, byLabel, redacted, band: record.risk_band };
+        : typeof raw.redacted_text === 'string'
+          ? raw.redacted_text
+          : undefined;
+  return { entityCount, byLabel, entities, redacted, band: record.risk_band };
 }
+
+export type TraceMemorySpan = {
+  text: string;
+  spanType: string;
+  layer: string;
+  relevance?: number;
+  salience?: number;
+  survivalValue?: number;
+  attribution?: number;
+  redundancy?: number;
+  rareTerms: string[];
+  source?: string;
+  tokenCount?: number;
+};
 
 export function extractMemoryDetail(result?: TraceDemoMessageResult): {
   actionCount?: number;
   hotContext?: string;
   band?: string;
+  spans: TraceMemorySpan[];
+  hotCount: number;
+  coldCount: number;
 } {
   const record = result?.results.memory?.response;
   if (!record) {
-    return {};
+    return { spans: [], hotCount: 0, coldCount: 0 };
   }
   const memory = (record.memory ?? {}) as Record<string, unknown>;
+  const raw = (record.raw ?? {}) as Record<string, unknown>;
   const actions = memory.actions;
   const actionCount = Array.isArray(actions) ? actions.length : undefined;
   const hot =
@@ -1236,7 +1359,38 @@ export function extractMemoryDetail(result?: TraceDemoMessageResult): {
       : typeof memory.summary === 'string'
         ? memory.summary
         : undefined;
-  return { actionCount, hotContext: hot, band: record.risk_band };
+
+  const spans: TraceMemorySpan[] = [];
+  const nextState = (memory.next_memory_state ?? raw.next_memory_state) as Record<string, unknown> | undefined;
+  const rawSpans = nextState?.spans;
+  if (Array.isArray(rawSpans)) {
+    for (const s of rawSpans) {
+      if (!s || typeof s !== 'object') continue;
+      const rec = s as Record<string, unknown>;
+      const text = typeof rec.text === 'string' ? rec.text : '';
+      if (!text) continue;
+      const scores = (rec.scores ?? {}) as Record<string, unknown>;
+      const sig = (rec.signature ?? {}) as Record<string, unknown>;
+      spans.push({
+        text,
+        spanType: typeof rec.span_type === 'string' ? rec.span_type : 'unknown',
+        layer: typeof rec.layer === 'string' ? rec.layer : 'unknown',
+        relevance: typeof scores.relevance === 'number' ? scores.relevance : undefined,
+        salience: typeof scores.salience === 'number' ? scores.salience : undefined,
+        survivalValue: typeof scores.survival_value === 'number' ? scores.survival_value : undefined,
+        attribution: typeof scores.attribution === 'number' ? scores.attribution : undefined,
+        redundancy: typeof scores.redundancy === 'number' ? scores.redundancy : undefined,
+        rareTerms: Array.isArray(sig.rare_terms) ? sig.rare_terms.filter((t): t is string => typeof t === 'string') : [],
+        source: typeof rec.source === 'string' ? rec.source : undefined,
+        tokenCount: typeof rec.token_count === 'number' ? rec.token_count : undefined,
+      });
+    }
+  }
+
+  const hotCount = spans.filter((s) => s.layer === 'hot').length;
+  const coldCount = spans.filter((s) => s.layer === 'cold').length;
+
+  return { actionCount, hotContext: hot, band: record.risk_band, spans, hotCount, coldCount };
 }
 
 export function extractDriftBand(result?: TraceDemoMessageResult): {

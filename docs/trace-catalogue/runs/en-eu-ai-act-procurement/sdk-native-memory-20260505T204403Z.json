@@ -1,0 +1,4856 @@
+{
+  "elapsed_ms": 264.53,
+  "error": null,
+  "feature": "memory",
+  "kind": "memory",
+  "request": {
+    "context": [
+      "## Source 1 \u2014 Regulation (EU) 2024/1689, Article 6 \"Classification rules for high-risk AI systems\"\n\nArticle 6(1). Irrespective of whether an AI system is placed on the market or\nput into service independently of the products referred to in points (a) and\n(b), that AI system shall be considered to be high-risk where both of the\nfollowing conditions are fulfilled: (a) the AI system is intended to be used\nas a safety component of a product, or the AI system is itself a product,\ncovered by the Union harmonisation legislation listed in Annex I; (b) the\nproduct whose safety component pursuant to point (a) is the AI system, or the\nAI system itself as a product, is required to undergo a third-party\nconformity assessment, with a view to the placing on the market or the\nputting into service of that product pursuant to the Union harmonisation\nlegislation listed in Annex I.\n\nArticle 6(2). In addition to the high-risk AI systems referred to in\nparagraph 1, AI systems referred to in Annex III shall be considered to be\nhigh-risk.\n\nArticle 6(3). By derogation from paragraph 2, an AI system referred to in\nAnnex III shall not be considered to be high-risk where it does not pose a\nsignificant risk of harm to the health, safety or fundamental rights of\nnatural persons, including by not materially influencing the outcome of\ndecision making. The first subparagraph shall apply where any of the\nfollowing conditions is fulfilled: (a) the AI system is intended to perform\na narrow procedural task; (b) the AI system is intended to improve the\nresult of a previously completed human activity; (c) the AI system is\nintended to detect decision-making patterns or deviations from prior\ndecision-making patterns and is not meant to replace or influence the\npreviously completed human assessment, without proper human review; or\n(d) the AI system is intended to perform a preparatory task to an assessment\nrelevant for the purposes of the use cases listed in Annex III.\n\nNotwithstanding the first subparagraph, an AI system referred to in Annex III\nshall always be considered to be high-risk where the AI system performs\nprofiling of natural persons.",
+      "## Source 2 \u2014 Annex III, point 4(a) \"Employment, workers' management and access to self-employment\"\n\nHigh-risk AI systems pursuant to Article 6(2) are the AI systems listed in any\nof the following areas: ... 4. Employment, workers' management and access to\nself-employment: (a) AI systems intended to be used for the recruitment or\nselection of natural persons, in particular to place targeted job\nadvertisements, to analyse and filter job applications, and to evaluate\ncandidates;",
+      "## Source 3 \u2014 Article 9 \"Risk management system\" (excerpt)\n\nA risk management system shall be established, implemented, documented and\nmaintained in relation to high-risk AI systems. The risk management system\nshall be understood as a continuous iterative process planned and run\nthroughout the entire lifecycle of a high-risk AI system, requiring regular\nsystematic review and updating. The risk management system shall comprise\nthe following steps: (a) the identification and analysis of the known and\nthe reasonably foreseeable risks that the high-risk AI system can pose to\nhealth, safety or fundamental rights when the high-risk AI system is used in\naccordance with its intended purpose; (b) the estimation and evaluation of\nthe risks that may emerge when the high-risk AI system is used in accordance\nwith its intended purpose, and under conditions of reasonably foreseeable\nmisuse; (c) the evaluation of other risks possibly arising, based on the\nanalysis of data gathered from the post-market monitoring system referred to\nin Article 72; (d) the adoption of appropriate and targeted risk management\nmeasures designed to address the risks identified pursuant to point (a).",
+      "## Source 4 \u2014 Article 26 \"Obligations of deployers of high-risk AI systems\" (excerpt)\n\nDeployers of high-risk AI systems shall take appropriate technical and\norganisational measures to ensure they use such systems in accordance with\nthe instructions for use accompanying the systems, pursuant to paragraphs 3\nand 6. Deployers shall assign human oversight to natural persons who have\nthe necessary competence, training and authority, as well as the necessary\nsupport. Deployers shall ensure that input data is relevant and sufficiently\nrepresentative in view of the intended purpose of the high-risk AI system.\nDeployers shall monitor the operation of the high-risk AI system on the\nbasis of the instructions for use and, where relevant, inform providers in\naccordance with Article 72.",
+      "## Source 5 \u2014 Article 27 \"Fundamental rights impact assessment for high-risk AI systems\" (excerpt)\n\nPrior to deploying a high-risk AI system referred to in Article 6(2), with\nthe exception of high-risk AI systems intended to be used in the area\nlisted in point 2 of Annex III, deployers that are bodies governed by public\nlaw, or are private entities providing public services, and deployers of\nhigh-risk AI systems referred to in point 5(b) and (c) of Annex III, shall\nperform an assessment of the impact on fundamental rights that the use of\nsuch system may produce. For that purpose, deployers shall carry out an\nassessment consisting of: (a) a description of the deployer's processes in\nwhich the high-risk AI system will be used in line with its intended purpose;\n(b) a description of the period of time within which, and the frequency with\nwhich, each high-risk AI system is intended to be used; (c) the categories\nof natural persons and groups likely to be affected by its use in the\nspecific context.",
+      "## Source 6 \u2014 Article 50 \"Transparency obligations for providers and deployers of certain AI systems\" (excerpt)\n\nDeployers of an emotion recognition system or a biometric categorisation\nsystem shall inform the natural persons exposed thereto of the operation of\nthe system, and shall process the personal data in accordance with\nRegulations (EU) 2016/679 and (EU) 2018/1725 and Directive (EU) 2016/680, as\napplicable. This obligation shall not apply to AI systems used for biometric\ncategorisation and emotion recognition, which are permitted by law to detect,\nprevent or investigate criminal offences, subject to appropriate safeguards\nfor the rights and freedoms of third parties, and in accordance with Union\nlaw.",
+      "## Source 7 \u2014 Recital 53 (interpretive guidance, non-binding)\n\nIt is also important to clarify that there may be specific cases in which AI\nsystems referred to in pre-defined areas specified in this Regulation do not\nlead to a significant risk of harm to the legal interests protected under\nthose areas because they do not materially influence the decision-making or\ndo not harm those interests substantially. For the purposes of this\nRegulation, an AI system that does not materially influence the outcome of\ndecision-making should be understood to be an AI system that does not have\nan impact on the substance, and thereby the outcome, of decision-making,\nwhether human or automated. An AI system that does not materially influence\nthe outcome of decision-making could include situations in which one or more\nof the following conditions are fulfilled. The first such condition should\nbe that the AI system is intended to perform a narrow procedural task, such\nas an AI system that transforms unstructured data into structured data, an\nAI system that classifies incoming documents into categories or an AI system\nthat is used to detect duplicates among a large number of applications. Those\ntasks are of such narrow and limited nature that they pose only limited risks.",
+      "## Source 8 \u2014 EU Commission AI Office FAQ, \"Recruitment and HR AI systems\" (May 2025, summary)\n\nRecruitment and HR systems that score, rank, or shortlist candidates fall\nwithin Annex III(4)(a) and are presumed to be high-risk under Article 6(2).\nThe derogation in Article 6(3) is narrowly framed and is not intended to\napply to systems that materially influence which candidates progress to a\nhuman interview. A system whose only function is to extract structured fields\nfrom a CV and store them \u2014 without any scoring, ranking, comparison, or\nshortlisting \u2014 may qualify for the derogation under Article 6(3)(a) (narrow\nprocedural task) provided that the recruiter still performs the substantive\nevaluation. Profiling of natural persons (within the meaning of Article 4(4)\nof Regulation (EU) 2016/679) by an HR AI system always reverts the system to\nhigh-risk under the last subparagraph of Article 6(3)."
+    ],
+    "integration": "native",
+    "kind": "memory",
+    "metadata": {
+      "feature": "memory",
+      "integration": "sdk-librechat",
+      "scenario_id": "en-eu-ai-act-procurement",
+      "source": "tools.run_scenario",
+      "use_case": "rag"
+    },
+    "question": "We are evaluating a vendor pilot called **TalentScout AI** for our European\nHR team. The system ingests CVs in PDF format, scores each candidate against\nthe job description on a 0\u2013100 fit scale, ranks the top 20, and forwards\nthat shortlist to the recruiter. The recruiter still does every interview.\nThe vendor argues that under Article 6(3) of the EU AI Act the system is\n**not** high-risk because it merely \"performs a narrow procedural task\" of\nturning unstructured CVs into a structured ranking and the human recruiter\nmakes the final call.\n\nThree concrete decisions we need from you, grounded strictly in the cited\nArticles and Annex III:\n\n1. Is TalentScout AI a high-risk AI system within the meaning of the AI Act?\n2. If yes, what are the **two** most relevant deployer-side obligations we\n   take on the moment we go live (with article numbers)?\n3. Would your answer to (1) change if the vendor disabled scoring and\n   ranking and only extracted structured fields (name, last role, years of\n   experience) into our ATS, with no shortlisting? Cite the exact sub-point\n   you are relying on.\n\nPlease be concise \u2014 three short paragraphs, one per question.",
+    "scenario": "trace_rag_memory_sdk_librechat",
+    "text": "**1. High-risk classification.** TalentScout AI is a high-risk AI system. It\nfalls squarely within Annex III(4)(a), which lists AI systems intended for\nthe recruitment or selection of natural persons \u2014 in particular to \"analyse\nand filter job applications\" and to \"evaluate candidates\" \u2014 as high-risk\nunder Article 6(2). The vendor's reliance on the Article 6(3) derogation\nfails on the facts: scoring on a 0\u2013100 fit scale and ranking the top 20\ncandidates is not a \"narrow procedural task\" within the meaning of Article\n6(3)(a) and the AI Office FAQ. It materially influences which candidates a\nhuman recruiter ever sees, so it does not satisfy Recital 53's\nnon-material-influence test.\n\n**2. Two most relevant deployer obligations.** As a deployer of a high-risk\nAI system we must (i) assign human oversight to a competent and authorised\nnatural person and ensure relevant, sufficiently representative input data\nunder Article 26, and (ii) carry out a fundamental rights impact assessment\nbefore going live under Article 27 \u2014 provided we fall within Article 27's\nscope (a public body, provider of public services, or deployer of an Annex\nIII(5)(b)/(c) system). For a private HR pilot that is not in those\ncategories the second obligation in the strict sense of Article 27 does not\napply; in that case the second-most-relevant obligation is monitoring the\nsystem in operation and informing the provider of incidents under Article\n26's monitoring duty linked to Article 72.\n\n**3. If scoring and ranking were removed.** It would change the analysis but\n**not** automatically clear the system. Article 6(3)(a), read with Recital\n53 and the AI Office FAQ, allows extraction of structured fields without\nscoring, ranking or shortlisting to be treated as a narrow procedural task \u2014\n\"an AI system that transforms unstructured data into structured data\". The\nderogation only holds, however, if the system performs **no profiling of\nnatural persons**: under the final subparagraph of Article 6(3), profiling\nwithin the meaning of Article 4(4) GDPR always reverts the system back to\nhigh-risk. So the answer is \"yes, it would qualify for the derogation under\nArticle 6(3)(a) **only** if we can certify that the field-extraction does\nnot constitute profiling of natural persons\"."
+  },
+  "response": {
+    "compression": null,
+    "evidence": [],
+    "integration": "native",
+    "latency_ms": 260.56,
+    "memory": {
+      "actions": [
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_59ddde6ba8c0e519",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_68f41cce386a4af1",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_3e7a0891c92ccf2e",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_3d243b412391bc55",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_624b2ea3c34b8fcb",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_247e98cdf387c59b",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_47f8f060656aba43",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_76aff9dd2843d95a",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_fbfac457d83ab147",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_060894879366060f",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_b6f500b2bd678c66",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_62e2edef59959f6e",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_f003e08b32a0199f",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_834db1e5a61bf7f9",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_b1faa5eccb18dc92",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_a6ad35b64ea49878",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_893915b0c88ecbb3",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_45ed5e8e98cfbbd1",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_34b6aef61e861be6",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_63f62aefb526a906",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_b3d4f8af1b86b254",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_4397ba59e3191919",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_a3c91d39b47dbb98",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_22ce55548af007a7",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_13215887a6f1372f",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_118bc4b6dfc10256",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_0c00cd6e1ca6e16b",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_7cf9b481b208ee52",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_bce3295c60675b15",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_e2567eb8e25f34a0",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_ac7f418f90d5ae10",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_2c977042f8c54cf8",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_2d5cb4cda1aa603e",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_660c7a45ffa5b52b",
+          "to_layer": null
+        },
+        {
+          "action": "anchored",
+          "from_layer": null,
+          "reason": "chat_high_survival_anchor",
+          "span_id": "mem_f003e08b32a0199f",
+          "to_layer": null
+        },
+        {
+          "action": "anchored",
+          "from_layer": null,
+          "reason": "chat_high_survival_anchor",
+          "span_id": "mem_ac7f418f90d5ae10",
+          "to_layer": null
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_f003e08b32a0199f",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_ac7f418f90d5ae10",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_4397ba59e3191919",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_624b2ea3c34b8fcb",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_13215887a6f1372f",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_b6f500b2bd678c66",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_fbfac457d83ab147",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_b1faa5eccb18dc92",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_118bc4b6dfc10256",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_a6ad35b64ea49878",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_34b6aef61e861be6",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_060894879366060f",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_22ce55548af007a7",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_247e98cdf387c59b",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_660c7a45ffa5b52b",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_e2567eb8e25f34a0",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_59ddde6ba8c0e519",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_76aff9dd2843d95a",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_68f41cce386a4af1",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_2d5cb4cda1aa603e",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_45ed5e8e98cfbbd1",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_7cf9b481b208ee52",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_62e2edef59959f6e",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_b3d4f8af1b86b254",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_834db1e5a61bf7f9",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_a3c91d39b47dbb98",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_2c977042f8c54cf8",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_0c00cd6e1ca6e16b",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_893915b0c88ecbb3",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_47f8f060656aba43",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_63f62aefb526a906",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_3d243b412391bc55",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_bce3295c60675b15",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_3e7a0891c92ccf2e",
+          "to_layer": "hot"
+        }
+      ],
+      "hot_context": "AI system we must (i) assign human oversight to a competent and authorised\nwithin the meaning of Article 4(4) GDPR always reverts the system back to\n26's monitoring duty linked to Article 72.\nunder Article 6(2).\nArticle 6(3)(a), read with Recital\nhuman recruiter ever sees, so it does not satisfy Recital 53's\n6(3)(a) and the AI Office FAQ.\nunder Article 26, and (ii) carry out a fundamental rights impact assessment\n53 and the AI Office FAQ, allows extraction of structured fields without\nbefore going live under Article 27 \u2014 provided we fall within Article 27's\ncategories the second obligation in the strict sense of Article 27 does not\nIt materially influences which candidates a\n**not** automatically clear the system.\nThe vendor's reliance on the Article 6(3) derogation\nnot constitute profiling of natural persons\".\nnatural persons**: under the final subparagraph of Article 6(3), profiling\nHigh-risk classification.** TalentScout AI is a high-risk AI system.\ncandidates is not a \"narrow procedural task\" within the meaning of Article\nfalls squarely within Annex III(4)(a), which lists AI systems intended for\nArticle 6(3)(a) **only** if we can certify that the field-extraction does\nFor a private HR pilot that is not in those\n\"an AI system that transforms unstructured data into structured data\".\nTwo most relevant deployer obligations.** As a deployer of a high-risk\nsystem in operation and informing the provider of incidents under Article\nnatural person and ensure relevant, sufficiently representative input data\nIf scoring and ranking were removed.** It would change the analysis but\nSo the answer is \"yes, it would qualify for the derogation under\nscoring, ranking or shortlisting to be treated as a narrow procedural task \u2014\nscope (a public body, provider of public services, or deployer of an Annex\nfails on the facts: scoring on a 0\u2013100 fit scale and ranking the top 20\napply; in that case the second-most-relevant obligation is monitoring the\nand filter job applications\" and to \"evaluate candidates\" \u2014 as high-risk\nderogation only holds, however, if the system performs **no profiling of\nthe recruitment or selection of natural persons \u2014 in particular to \"analyse",
+      "next_memory_state": {
+        "cold_provenance": [],
+        "metadata": {},
+        "spans": [
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_f003e08b32a0199f",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.9500000000000001,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.85,
+              "staleness": 0,
+              "survival_horizon_turns": 15,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "00bf829d299dc892c8cff036b5d0f9eccf221295",
+              "numbers": [],
+              "rare_terms": [
+                "assign",
+                "authorised",
+                "competent",
+                "oversight",
+                "system"
+              ],
+              "symbols": [
+                "AI"
+              ],
+              "typed_key": "constraint|AI"
+            },
+            "source": "turn",
+            "span_type": "constraint",
+            "supersedes": [],
+            "text": "AI system we must (i) assign human oversight to a competent and authorised",
+            "token_count": 13
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_ac7f418f90d5ae10",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 1,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.85,
+              "staleness": 0,
+              "survival_horizon_turns": 15,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "83fe9ca93273e78cd3fea3ef1f85657225ab77e5",
+              "numbers": [
+                "4"
+              ],
+              "rare_terms": [
+                "always",
+                "article",
+                "meaning",
+                "reverts",
+                "system",
+                "within"
+              ],
+              "symbols": [
+                "Article",
+                "GDPR"
+              ],
+              "typed_key": "constraint|Article|GDPR|4"
+            },
+            "source": "turn",
+            "span_type": "constraint",
+            "supersedes": [],
+            "text": "within the meaning of Article 4(4) GDPR always reverts the system back to",
+            "token_count": 13
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_4397ba59e3191919",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.9099999999999999,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "7f6ae8898298898b95d6a4e15764acdec1f5cc11",
+              "numbers": [
+                "26",
+                "72"
+              ],
+              "rare_terms": [
+                "article",
+                "linked",
+                "monitoring"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "evidence|Article|26|72"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "26's monitoring duty linked to Article 72.",
+            "token_count": 7
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_624b2ea3c34b8fcb",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.6,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.25,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.366
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "0644d401982924b1a1745de98bd779f7c7a31c53",
+              "numbers": [
+                "2",
+                "6"
+              ],
+              "rare_terms": [
+                "article"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "filler|Article|2|6"
+            },
+            "source": "turn",
+            "span_type": "filler",
+            "supersedes": [],
+            "text": "under Article 6(2).",
+            "token_count": 3
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_13215887a6f1372f",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.6,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.456
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "e2b7fae21adf999a7ef851f2f8eafd0edd43c0c6",
+              "numbers": [
+                "3",
+                "6"
+              ],
+              "rare_terms": [
+                "article",
+                "recital"
+              ],
+              "symbols": [
+                "Article",
+                "Recital"
+              ],
+              "typed_key": "evidence|Article|Recital|3|6"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "Article 6(3)(a), read with Recital",
+            "token_count": 5
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_b6f500b2bd678c66",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.83,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "87948fcef867f0930b2656906350d291d4d4bce3",
+              "numbers": [
+                "53"
+              ],
+              "rare_terms": [
+                "recital",
+                "recruiter",
+                "satisfy"
+              ],
+              "symbols": [
+                "Recital"
+              ],
+              "typed_key": "evidence|Recital|53"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "human recruiter ever sees, so it does not satisfy Recital 53's",
+            "token_count": 11
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_fbfac457d83ab147",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.6,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.456
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "9b8e9b63c1d547b01d01c39a199a584b5def0396",
+              "numbers": [
+                "3",
+                "6"
+              ],
+              "rare_terms": [
+                "office"
+              ],
+              "symbols": [
+                "AI",
+                "FAQ",
+                "Office"
+              ],
+              "typed_key": "evidence|AI|FAQ|Office|3|6"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "6(3)(a) and the AI Office FAQ.",
+            "token_count": 6
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_b1faa5eccb18dc92",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.83,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "29d0a7c396a58d5efd5edecddc09a15a25b61d73",
+              "numbers": [
+                "26"
+              ],
+              "rare_terms": [
+                "article",
+                "assessment",
+                "fundamental",
+                "impact",
+                "rights"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "evidence|Article|26"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "under Article 26, and (ii) carry out a fundamental rights impact assessment",
+            "token_count": 12
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_118bc4b6dfc10256",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.83,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "811096632b6e83e21fbcf3e9749e90889d4f0014",
+              "numbers": [
+                "53"
+              ],
+              "rare_terms": [
+                "allows",
+                "extraction",
+                "fields",
+                "office",
+                "structured",
+                "without"
+              ],
+              "symbols": [
+                "AI",
+                "FAQ",
+                "Office"
+              ],
+              "typed_key": "evidence|AI|FAQ|Office|53"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "53 and the AI Office FAQ, allows extraction of structured fields without",
+            "token_count": 12
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_a6ad35b64ea49878",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.83,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "2c062ca61958a578b72b45278cceb28df89cece8",
+              "numbers": [
+                "27"
+              ],
+              "rare_terms": [
+                "article",
+                "before",
+                "provided",
+                "within"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "evidence|Article|27"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "before going live under Article 27 \u2014 provided we fall within Article 27's",
+            "token_count": 13
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_34b6aef61e861be6",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.83,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "273144796fafbc0637a0aa889f3c46cf0b2f3da3",
+              "numbers": [
+                "27"
+              ],
+              "rare_terms": [
+                "article",
+                "categories",
+                "obligation",
+                "second",
+                "strict"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "evidence|Article|27"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "categories the second obligation in the strict sense of Article 27 does not",
+            "token_count": 13
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_060894879366060f",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "4b18d360e3e0b2b95781a6f5861975548da0b58f",
+              "numbers": [],
+              "rare_terms": [
+                "candidates",
+                "influences",
+                "materially"
+              ],
+              "symbols": [
+                "It"
+              ],
+              "typed_key": "evidence|It"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "It materially influences which candidates a",
+            "token_count": 6
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_22ce55548af007a7",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.336
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "23bfdd515beed235453541d07b77a988e6286173",
+              "numbers": [],
+              "rare_terms": [
+                "automatically",
+                "system"
+              ],
+              "symbols": [],
+              "typed_key": "evidence"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "**not** automatically clear the system.",
+            "token_count": 5
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_247e98cdf387c59b",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.6,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.456
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "f3fac957c0ef7531365942f29c1b352ec3a283a7",
+              "numbers": [
+                "3",
+                "6"
+              ],
+              "rare_terms": [
+                "article",
+                "derogation",
+                "reliance",
+                "vendor"
+              ],
+              "symbols": [
+                "Article",
+                "The"
+              ],
+              "typed_key": "evidence|Article|The|3|6"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "The vendor's reliance on the Article 6(3) derogation",
+            "token_count": 8
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_660c7a45ffa5b52b",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.336
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "a4917f666175a489760437ecfc108581e518d70e",
+              "numbers": [],
+              "rare_terms": [
+                "constitute",
+                "natural",
+                "persons",
+                "profiling"
+              ],
+              "symbols": [],
+              "typed_key": "evidence"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "not constitute profiling of natural persons\".",
+            "token_count": 6
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_e2567eb8e25f34a0",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.6,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.456
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "98f5a2ad58c1622e3e1c19730e771170ffbf15e7",
+              "numbers": [
+                "3",
+                "6"
+              ],
+              "rare_terms": [
+                "article",
+                "natural",
+                "persons",
+                "profiling",
+                "subparagraph"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "evidence|Article|3|6"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "natural persons**: under the final subparagraph of Article 6(3), profiling",
+            "token_count": 10
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_59ddde6ba8c0e519",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "291589a8703bc8143bf1b66c002e50e14ff80050",
+              "numbers": [],
+              "rare_terms": [
+                "classification",
+                "high-risk",
+                "system",
+                "talentscout"
+              ],
+              "symbols": [
+                "AI",
+                "High",
+                "TalentScout"
+              ],
+              "typed_key": "evidence|AI|High|TalentScout"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "High-risk classification.** TalentScout AI is a high-risk AI system.",
+            "token_count": 9
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_76aff9dd2843d95a",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.85,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.496
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "966083c85d092b6f0837768639c90755d7565262",
+              "numbers": [],
+              "rare_terms": [
+                "article",
+                "candidates",
+                "meaning",
+                "narrow",
+                "procedural",
+                "within"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "goal|Article"
+            },
+            "source": "turn",
+            "span_type": "goal",
+            "supersedes": [],
+            "text": "candidates is not a \"narrow procedural task\" within the meaning of Article",
+            "token_count": 12
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_68f41cce386a4af1",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.6,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.456
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "8042f92e6659d3caac7fe9c57cd19904baeaf330",
+              "numbers": [
+                "4"
+              ],
+              "rare_terms": [
+                "intended",
+                "squarely",
+                "systems",
+                "within"
+              ],
+              "symbols": [
+                "AI",
+                "Annex",
+                "III"
+              ],
+              "typed_key": "evidence|AI|Annex|III|4"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "falls squarely within Annex III(4)(a), which lists AI systems intended for",
+            "token_count": 11
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_2d5cb4cda1aa603e",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.6,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.456
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "5bec1fe927fb3b3072404c536dda1ac56126f8b2",
+              "numbers": [
+                "3",
+                "6"
+              ],
+              "rare_terms": [
+                "article",
+                "certify",
+                "field-extraction"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "evidence|Article|3|6"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "Article 6(3)(a) **only** if we can certify that the field-extraction does",
+            "token_count": 11
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_45ed5e8e98cfbbd1",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "1723843c07c0164a05256a196dc87c94687d2963",
+              "numbers": [],
+              "rare_terms": [
+                "private"
+              ],
+              "symbols": [
+                "For",
+                "HR"
+              ],
+              "typed_key": "evidence|For|HR"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "For a private HR pilot that is not in those",
+            "token_count": 10
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_7cf9b481b208ee52",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "51ba2de2ffe46b344e7daf3ff83a8f129ed1e2ce",
+              "numbers": [],
+              "rare_terms": [
+                "structured",
+                "system",
+                "transforms",
+                "unstructured"
+              ],
+              "symbols": [
+                "AI"
+              ],
+              "typed_key": "evidence|AI"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "\"an AI system that transforms unstructured data into structured data\".",
+            "token_count": 10
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_62e2edef59959f6e",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "ff07a70db5b8d8cc88e32513d0734a7bb168f7ae",
+              "numbers": [],
+              "rare_terms": [
+                "deployer",
+                "high-risk",
+                "obligations",
+                "relevant"
+              ],
+              "symbols": [
+                "As",
+                "Two"
+              ],
+              "typed_key": "evidence|As|Two"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "Two most relevant deployer obligations.** As a deployer of a high-risk",
+            "token_count": 11
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_b3d4f8af1b86b254",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "94c0d9d81f6c633a1014250b9fa4bb6db36af313",
+              "numbers": [],
+              "rare_terms": [
+                "article",
+                "incidents",
+                "informing",
+                "operation",
+                "provider",
+                "system"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "evidence|Article"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "system in operation and informing the provider of incidents under Article",
+            "token_count": 11
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_834db1e5a61bf7f9",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.336
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "4a667870f2102c2b6c720dcee989444ef7304c88",
+              "numbers": [],
+              "rare_terms": [
+                "ensure",
+                "natural",
+                "person",
+                "relevant",
+                "representative",
+                "sufficiently"
+              ],
+              "symbols": [],
+              "typed_key": "evidence"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "natural person and ensure relevant, sufficiently representative input data",
+            "token_count": 9
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_a3c91d39b47dbb98",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "0a13b1b019a5ab955bd2d9938b262783fc9d8739",
+              "numbers": [],
+              "rare_terms": [
+                "analysis",
+                "change",
+                "ranking",
+                "removed",
+                "scoring"
+              ],
+              "symbols": [
+                "If",
+                "It"
+              ],
+              "typed_key": "evidence|If|It"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "If scoring and ranking were removed.** It would change the analysis but",
+            "token_count": 12
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_2c977042f8c54cf8",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "70c0796edef7c411b9c5cba9eeab0fcf66e49ae6",
+              "numbers": [],
+              "rare_terms": [
+                "answer",
+                "derogation",
+                "qualify"
+              ],
+              "symbols": [
+                "So"
+              ],
+              "typed_key": "evidence|So"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "So the answer is \"yes, it would qualify for the derogation under",
+            "token_count": 12
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_0c00cd6e1ca6e16b",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.85,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.426
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "0167a66cd8ce284fd5935baaab1587769ecf9f8f",
+              "numbers": [],
+              "rare_terms": [
+                "narrow",
+                "procedural",
+                "ranking",
+                "scoring",
+                "shortlisting",
+                "treated"
+              ],
+              "symbols": [],
+              "typed_key": "goal"
+            },
+            "source": "turn",
+            "span_type": "goal",
+            "supersedes": [],
+            "text": "scoring, ranking or shortlisting to be treated as a narrow procedural task \u2014",
+            "token_count": 13
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_893915b0c88ecbb3",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "56bacbbb2f435e742e496afd4ec5dec4ba85f498",
+              "numbers": [],
+              "rare_terms": [
+                "deployer",
+                "provider",
+                "public",
+                "services"
+              ],
+              "symbols": [
+                "Annex"
+              ],
+              "typed_key": "evidence|Annex"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "scope (a public body, provider of public services, or deployer of an Annex",
+            "token_count": 13
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_47f8f060656aba43",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.56,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.44800000000000006
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "043d092a323b5921ceadec6be4cc0bc5fc098902",
+              "numbers": [
+                "0",
+                "100",
+                "20"
+              ],
+              "rare_terms": [
+                "ranking",
+                "scoring"
+              ],
+              "symbols": [],
+              "typed_key": "evidence|0|100|20"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "fails on the facts: scoring on a 0\u2013100 fit scale and ranking the top 20",
+            "token_count": 15
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_63f62aefb526a906",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.336
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "20e7dcedd262b89148a2da46b80f2a42013601ca",
+              "numbers": [],
+              "rare_terms": [
+                "monitoring",
+                "obligation",
+                "second-most-relevant"
+              ],
+              "symbols": [],
+              "typed_key": "evidence"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "apply; in that case the second-most-relevant obligation is monitoring the",
+            "token_count": 10
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_3d243b412391bc55",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.336
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "c54123e0c463e743397c4d944fecf20d9fb6ef20",
+              "numbers": [],
+              "rare_terms": [
+                "applications",
+                "candidates",
+                "evaluate",
+                "filter",
+                "high-risk"
+              ],
+              "symbols": [],
+              "typed_key": "evidence"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "and filter job applications\" and to \"evaluate candidates\" \u2014 as high-risk",
+            "token_count": 11
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_bce3295c60675b15",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.336
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "6ab43f95c8a7139c3dfe6ac52e632a4a2b7602e7",
+              "numbers": [],
+              "rare_terms": [
+                "derogation",
+                "however",
+                "performs",
+                "profiling",
+                "system"
+              ],
+              "symbols": [],
+              "typed_key": "evidence"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "derogation only holds, however, if the system performs **no profiling of",
+            "token_count": 11
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_3e7a0891c92ccf2e",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.336
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "145bd663ebcef1c7f7ee9a3c90a7f4f227b8986c",
+              "numbers": [],
+              "rare_terms": [
+                "analyse",
+                "natural",
+                "particular",
+                "persons",
+                "recruitment",
+                "selection"
+              ],
+              "symbols": [],
+              "typed_key": "evidence"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "the recruitment or selection of natural persons \u2014 in particular to \"analyse",
+            "token_count": 12
+          }
+        ],
+        "turn_index": 1,
+        "version": "infinimem.v1"
+      }
+    },
+    "privacy": null,
+    "raw": {
+      "actions": [
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_59ddde6ba8c0e519",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_68f41cce386a4af1",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_3e7a0891c92ccf2e",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_3d243b412391bc55",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_624b2ea3c34b8fcb",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_247e98cdf387c59b",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_47f8f060656aba43",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_76aff9dd2843d95a",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_fbfac457d83ab147",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_060894879366060f",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_b6f500b2bd678c66",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_62e2edef59959f6e",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_f003e08b32a0199f",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_834db1e5a61bf7f9",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_b1faa5eccb18dc92",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_a6ad35b64ea49878",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_893915b0c88ecbb3",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_45ed5e8e98cfbbd1",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_34b6aef61e861be6",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_63f62aefb526a906",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_b3d4f8af1b86b254",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_4397ba59e3191919",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_a3c91d39b47dbb98",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_22ce55548af007a7",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_13215887a6f1372f",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_118bc4b6dfc10256",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_0c00cd6e1ca6e16b",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_7cf9b481b208ee52",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_bce3295c60675b15",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_e2567eb8e25f34a0",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_ac7f418f90d5ae10",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_2c977042f8c54cf8",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_2d5cb4cda1aa603e",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_660c7a45ffa5b52b",
+          "to_layer": null
+        },
+        {
+          "action": "anchored",
+          "from_layer": null,
+          "reason": "chat_high_survival_anchor",
+          "span_id": "mem_f003e08b32a0199f",
+          "to_layer": null
+        },
+        {
+          "action": "anchored",
+          "from_layer": null,
+          "reason": "chat_high_survival_anchor",
+          "span_id": "mem_ac7f418f90d5ae10",
+          "to_layer": null
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_f003e08b32a0199f",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_ac7f418f90d5ae10",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_4397ba59e3191919",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_624b2ea3c34b8fcb",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_13215887a6f1372f",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_b6f500b2bd678c66",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_fbfac457d83ab147",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_b1faa5eccb18dc92",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_118bc4b6dfc10256",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_a6ad35b64ea49878",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_34b6aef61e861be6",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_060894879366060f",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_22ce55548af007a7",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_247e98cdf387c59b",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_660c7a45ffa5b52b",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_e2567eb8e25f34a0",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_59ddde6ba8c0e519",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_76aff9dd2843d95a",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_68f41cce386a4af1",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_2d5cb4cda1aa603e",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_45ed5e8e98cfbbd1",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_7cf9b481b208ee52",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_62e2edef59959f6e",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_b3d4f8af1b86b254",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_834db1e5a61bf7f9",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_a3c91d39b47dbb98",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_2c977042f8c54cf8",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_0c00cd6e1ca6e16b",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_893915b0c88ecbb3",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_47f8f060656aba43",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_63f62aefb526a906",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_3d243b412391bc55",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_bce3295c60675b15",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_3e7a0891c92ccf2e",
+          "to_layer": "hot"
+        }
+      ],
+      "diagnostics": {
+        "actions": [
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_59ddde6ba8c0e519",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_68f41cce386a4af1",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_3e7a0891c92ccf2e",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_3d243b412391bc55",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_624b2ea3c34b8fcb",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_247e98cdf387c59b",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_47f8f060656aba43",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_76aff9dd2843d95a",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_fbfac457d83ab147",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_060894879366060f",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_b6f500b2bd678c66",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_62e2edef59959f6e",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_f003e08b32a0199f",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_834db1e5a61bf7f9",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_b1faa5eccb18dc92",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_a6ad35b64ea49878",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_893915b0c88ecbb3",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_45ed5e8e98cfbbd1",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_34b6aef61e861be6",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_63f62aefb526a906",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_b3d4f8af1b86b254",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_4397ba59e3191919",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_a3c91d39b47dbb98",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_22ce55548af007a7",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_13215887a6f1372f",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_118bc4b6dfc10256",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_0c00cd6e1ca6e16b",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_7cf9b481b208ee52",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_bce3295c60675b15",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_e2567eb8e25f34a0",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_ac7f418f90d5ae10",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_2c977042f8c54cf8",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_2d5cb4cda1aa603e",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_660c7a45ffa5b52b",
+            "to_layer": null
+          },
+          {
+            "action": "anchored",
+            "from_layer": null,
+            "reason": "chat_high_survival_anchor",
+            "span_id": "mem_f003e08b32a0199f",
+            "to_layer": null
+          },
+          {
+            "action": "anchored",
+            "from_layer": null,
+            "reason": "chat_high_survival_anchor",
+            "span_id": "mem_ac7f418f90d5ae10",
+            "to_layer": null
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_f003e08b32a0199f",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_ac7f418f90d5ae10",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_4397ba59e3191919",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_624b2ea3c34b8fcb",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_13215887a6f1372f",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_b6f500b2bd678c66",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_fbfac457d83ab147",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_b1faa5eccb18dc92",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_118bc4b6dfc10256",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_a6ad35b64ea49878",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_34b6aef61e861be6",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_060894879366060f",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_22ce55548af007a7",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_247e98cdf387c59b",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_660c7a45ffa5b52b",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_e2567eb8e25f34a0",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_59ddde6ba8c0e519",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_76aff9dd2843d95a",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_68f41cce386a4af1",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_2d5cb4cda1aa603e",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_45ed5e8e98cfbbd1",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_7cf9b481b208ee52",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_62e2edef59959f6e",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_b3d4f8af1b86b254",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_834db1e5a61bf7f9",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_a3c91d39b47dbb98",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_2c977042f8c54cf8",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_0c00cd6e1ca6e16b",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_893915b0c88ecbb3",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_47f8f060656aba43",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_63f62aefb526a906",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_3d243b412391bc55",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_bce3295c60675b15",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_3e7a0891c92ccf2e",
+            "to_layer": "hot"
+          }
+        ],
+        "actual_token_reduction": 0,
+        "budget_mode_used": "adaptive",
+        "cold_tokens": 0,
+        "effective_hot_token_budget": 800,
+        "effective_max_spans": 256,
+        "effective_warm_token_budget": 4000,
+        "estimated_exact_critical_recall": 1,
+        "exact_critical_spans": 8,
+        "genesis_anchor_recall": 1,
+        "genesis_anchor_spans": 2,
+        "hot_tokens": 346,
+        "memory_underbudgeted": false,
+        "recent_tail_required": false,
+        "recommended_hot_token_budget": 800,
+        "removed_tokens": 0,
+        "survival_mass_retained": 1,
+        "target_token_reduction": null,
+        "timings_ms": {
+          "dedup": 0.442,
+          "extract": 3.207,
+          "selection": 0.532,
+          "survival": 1.712,
+          "total": 5.908
+        },
+        "top_survival_causes": [
+          {
+            "domain_decay_pressure": 0,
+            "exact_critical": 0.95,
+            "layer": "hot",
+            "learned_survival": 0,
+            "reason": "exact_critical",
+            "span_id": "mem_f003e08b32a0199f",
+            "span_type": "constraint",
+            "survival_horizon_turns": 15,
+            "survival_value": 0.72
+          },
+          {
+            "domain_decay_pressure": 0,
+            "exact_critical": 1,
+            "layer": "hot",
+            "learned_survival": 0,
+            "reason": "exact_critical",
+            "span_id": "mem_ac7f418f90d5ae10",
+            "span_type": "constraint",
+            "survival_horizon_turns": 15,
+            "survival_value": 0.72
+          },
+          {
+            "domain_decay_pressure": 0,
+            "exact_critical": 0.91,
+            "layer": "hot",
+            "learned_survival": 0,
+            "reason": "exact_critical",
+            "span_id": "mem_4397ba59e3191919",
+            "span_type": "evidence",
+            "survival_horizon_turns": 10,
+            "survival_value": 0.72
+          },
+          {
+            "domain_decay_pressure": 0,
+            "exact_critical": 0.83,
+            "layer": "hot",
+            "learned_survival": 0,
+            "reason": "exact_critical",
+            "span_id": "mem_b6f500b2bd678c66",
+            "span_type": "evidence",
+            "survival_horizon_turns": 10,
+            "survival_value": 0.72
+          },
+          {
+            "domain_decay_pressure": 0,
+            "exact_critical": 0.83,
+            "layer": "hot",
+            "learned_survival": 0,
+            "reason": "exact_critical",
+            "span_id": "mem_b1faa5eccb18dc92",
+            "span_type": "evidence",
+            "survival_horizon_turns": 10,
+            "survival_value": 0.72
+          },
+          {
+            "domain_decay_pressure": 0,
+            "exact_critical": 0.83,
+            "layer": "hot",
+            "learned_survival": 0,
+            "reason": "exact_critical",
+            "span_id": "mem_118bc4b6dfc10256",
+            "span_type": "evidence",
+            "survival_horizon_turns": 10,
+            "survival_value": 0.72
+          },
+          {
+            "domain_decay_pressure": 0,
+            "exact_critical": 0.83,
+            "layer": "hot",
+            "learned_survival": 0,
+            "reason": "exact_critical",
+            "span_id": "mem_a6ad35b64ea49878",
+            "span_type": "evidence",
+            "survival_horizon_turns": 10,
+            "survival_value": 0.72
+          },
+          {
+            "domain_decay_pressure": 0,
+            "exact_critical": 0.83,
+            "layer": "hot",
+            "learned_survival": 0,
+            "reason": "exact_critical",
+            "span_id": "mem_34b6aef61e861be6",
+            "span_type": "evidence",
+            "survival_horizon_turns": 10,
+            "survival_value": 0.72
+          }
+        ],
+        "warm_tokens": 0
+      },
+      "hot_context": "AI system we must (i) assign human oversight to a competent and authorised\nwithin the meaning of Article 4(4) GDPR always reverts the system back to\n26's monitoring duty linked to Article 72.\nunder Article 6(2).\nArticle 6(3)(a), read with Recital\nhuman recruiter ever sees, so it does not satisfy Recital 53's\n6(3)(a) and the AI Office FAQ.\nunder Article 26, and (ii) carry out a fundamental rights impact assessment\n53 and the AI Office FAQ, allows extraction of structured fields without\nbefore going live under Article 27 \u2014 provided we fall within Article 27's\ncategories the second obligation in the strict sense of Article 27 does not\nIt materially influences which candidates a\n**not** automatically clear the system.\nThe vendor's reliance on the Article 6(3) derogation\nnot constitute profiling of natural persons\".\nnatural persons**: under the final subparagraph of Article 6(3), profiling\nHigh-risk classification.** TalentScout AI is a high-risk AI system.\ncandidates is not a \"narrow procedural task\" within the meaning of Article\nfalls squarely within Annex III(4)(a), which lists AI systems intended for\nArticle 6(3)(a) **only** if we can certify that the field-extraction does\nFor a private HR pilot that is not in those\n\"an AI system that transforms unstructured data into structured data\".\nTwo most relevant deployer obligations.** As a deployer of a high-risk\nsystem in operation and informing the provider of incidents under Article\nnatural person and ensure relevant, sufficiently representative input data\nIf scoring and ranking were removed.** It would change the analysis but\nSo the answer is \"yes, it would qualify for the derogation under\nscoring, ranking or shortlisting to be treated as a narrow procedural task \u2014\nscope (a public body, provider of public services, or deployer of an Annex\nfails on the facts: scoring on a 0\u2013100 fit scale and ranking the top 20\napply; in that case the second-most-relevant obligation is monitoring the\nand filter job applications\" and to \"evaluate candidates\" \u2014 as high-risk\nderogation only holds, however, if the system performs **no profiling of\nthe recruitment or selection of natural persons \u2014 in particular to \"analyse",
+      "next_memory_state": {
+        "cold_provenance": [],
+        "metadata": {},
+        "spans": [
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_f003e08b32a0199f",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.9500000000000001,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.85,
+              "staleness": 0,
+              "survival_horizon_turns": 15,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "00bf829d299dc892c8cff036b5d0f9eccf221295",
+              "numbers": [],
+              "rare_terms": [
+                "assign",
+                "authorised",
+                "competent",
+                "oversight",
+                "system"
+              ],
+              "symbols": [
+                "AI"
+              ],
+              "typed_key": "constraint|AI"
+            },
+            "source": "turn",
+            "span_type": "constraint",
+            "supersedes": [],
+            "text": "AI system we must (i) assign human oversight to a competent and authorised",
+            "token_count": 13
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_ac7f418f90d5ae10",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 1,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.85,
+              "staleness": 0,
+              "survival_horizon_turns": 15,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "83fe9ca93273e78cd3fea3ef1f85657225ab77e5",
+              "numbers": [
+                "4"
+              ],
+              "rare_terms": [
+                "always",
+                "article",
+                "meaning",
+                "reverts",
+                "system",
+                "within"
+              ],
+              "symbols": [
+                "Article",
+                "GDPR"
+              ],
+              "typed_key": "constraint|Article|GDPR|4"
+            },
+            "source": "turn",
+            "span_type": "constraint",
+            "supersedes": [],
+            "text": "within the meaning of Article 4(4) GDPR always reverts the system back to",
+            "token_count": 13
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_4397ba59e3191919",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.9099999999999999,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "7f6ae8898298898b95d6a4e15764acdec1f5cc11",
+              "numbers": [
+                "26",
+                "72"
+              ],
+              "rare_terms": [
+                "article",
+                "linked",
+                "monitoring"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "evidence|Article|26|72"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "26's monitoring duty linked to Article 72.",
+            "token_count": 7
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_624b2ea3c34b8fcb",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.6,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.25,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.366
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "0644d401982924b1a1745de98bd779f7c7a31c53",
+              "numbers": [
+                "2",
+                "6"
+              ],
+              "rare_terms": [
+                "article"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "filler|Article|2|6"
+            },
+            "source": "turn",
+            "span_type": "filler",
+            "supersedes": [],
+            "text": "under Article 6(2).",
+            "token_count": 3
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_13215887a6f1372f",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.6,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.456
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "e2b7fae21adf999a7ef851f2f8eafd0edd43c0c6",
+              "numbers": [
+                "3",
+                "6"
+              ],
+              "rare_terms": [
+                "article",
+                "recital"
+              ],
+              "symbols": [
+                "Article",
+                "Recital"
+              ],
+              "typed_key": "evidence|Article|Recital|3|6"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "Article 6(3)(a), read with Recital",
+            "token_count": 5
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_b6f500b2bd678c66",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.83,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "87948fcef867f0930b2656906350d291d4d4bce3",
+              "numbers": [
+                "53"
+              ],
+              "rare_terms": [
+                "recital",
+                "recruiter",
+                "satisfy"
+              ],
+              "symbols": [
+                "Recital"
+              ],
+              "typed_key": "evidence|Recital|53"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "human recruiter ever sees, so it does not satisfy Recital 53's",
+            "token_count": 11
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_fbfac457d83ab147",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.6,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.456
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "9b8e9b63c1d547b01d01c39a199a584b5def0396",
+              "numbers": [
+                "3",
+                "6"
+              ],
+              "rare_terms": [
+                "office"
+              ],
+              "symbols": [
+                "AI",
+                "FAQ",
+                "Office"
+              ],
+              "typed_key": "evidence|AI|FAQ|Office|3|6"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "6(3)(a) and the AI Office FAQ.",
+            "token_count": 6
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_b1faa5eccb18dc92",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.83,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "29d0a7c396a58d5efd5edecddc09a15a25b61d73",
+              "numbers": [
+                "26"
+              ],
+              "rare_terms": [
+                "article",
+                "assessment",
+                "fundamental",
+                "impact",
+                "rights"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "evidence|Article|26"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "under Article 26, and (ii) carry out a fundamental rights impact assessment",
+            "token_count": 12
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_118bc4b6dfc10256",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.83,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "811096632b6e83e21fbcf3e9749e90889d4f0014",
+              "numbers": [
+                "53"
+              ],
+              "rare_terms": [
+                "allows",
+                "extraction",
+                "fields",
+                "office",
+                "structured",
+                "without"
+              ],
+              "symbols": [
+                "AI",
+                "FAQ",
+                "Office"
+              ],
+              "typed_key": "evidence|AI|FAQ|Office|53"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "53 and the AI Office FAQ, allows extraction of structured fields without",
+            "token_count": 12
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_a6ad35b64ea49878",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.83,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "2c062ca61958a578b72b45278cceb28df89cece8",
+              "numbers": [
+                "27"
+              ],
+              "rare_terms": [
+                "article",
+                "before",
+                "provided",
+                "within"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "evidence|Article|27"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "before going live under Article 27 \u2014 provided we fall within Article 27's",
+            "token_count": 13
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_34b6aef61e861be6",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.83,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "273144796fafbc0637a0aa889f3c46cf0b2f3da3",
+              "numbers": [
+                "27"
+              ],
+              "rare_terms": [
+                "article",
+                "categories",
+                "obligation",
+                "second",
+                "strict"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "evidence|Article|27"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "categories the second obligation in the strict sense of Article 27 does not",
+            "token_count": 13
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_060894879366060f",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "4b18d360e3e0b2b95781a6f5861975548da0b58f",
+              "numbers": [],
+              "rare_terms": [
+                "candidates",
+                "influences",
+                "materially"
+              ],
+              "symbols": [
+                "It"
+              ],
+              "typed_key": "evidence|It"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "It materially influences which candidates a",
+            "token_count": 6
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_22ce55548af007a7",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.336
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "23bfdd515beed235453541d07b77a988e6286173",
+              "numbers": [],
+              "rare_terms": [
+                "automatically",
+                "system"
+              ],
+              "symbols": [],
+              "typed_key": "evidence"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "**not** automatically clear the system.",
+            "token_count": 5
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_247e98cdf387c59b",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.6,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.456
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "f3fac957c0ef7531365942f29c1b352ec3a283a7",
+              "numbers": [
+                "3",
+                "6"
+              ],
+              "rare_terms": [
+                "article",
+                "derogation",
+                "reliance",
+                "vendor"
+              ],
+              "symbols": [
+                "Article",
+                "The"
+              ],
+              "typed_key": "evidence|Article|The|3|6"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "The vendor's reliance on the Article 6(3) derogation",
+            "token_count": 8
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_660c7a45ffa5b52b",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.336
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "a4917f666175a489760437ecfc108581e518d70e",
+              "numbers": [],
+              "rare_terms": [
+                "constitute",
+                "natural",
+                "persons",
+                "profiling"
+              ],
+              "symbols": [],
+              "typed_key": "evidence"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "not constitute profiling of natural persons\".",
+            "token_count": 6
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_e2567eb8e25f34a0",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.6,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.456
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "98f5a2ad58c1622e3e1c19730e771170ffbf15e7",
+              "numbers": [
+                "3",
+                "6"
+              ],
+              "rare_terms": [
+                "article",
+                "natural",
+                "persons",
+                "profiling",
+                "subparagraph"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "evidence|Article|3|6"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "natural persons**: under the final subparagraph of Article 6(3), profiling",
+            "token_count": 10
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_59ddde6ba8c0e519",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "291589a8703bc8143bf1b66c002e50e14ff80050",
+              "numbers": [],
+              "rare_terms": [
+                "classification",
+                "high-risk",
+                "system",
+                "talentscout"
+              ],
+              "symbols": [
+                "AI",
+                "High",
+                "TalentScout"
+              ],
+              "typed_key": "evidence|AI|High|TalentScout"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "High-risk classification.** TalentScout AI is a high-risk AI system.",
+            "token_count": 9
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_76aff9dd2843d95a",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.85,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.496
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "966083c85d092b6f0837768639c90755d7565262",
+              "numbers": [],
+              "rare_terms": [
+                "article",
+                "candidates",
+                "meaning",
+                "narrow",
+                "procedural",
+                "within"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "goal|Article"
+            },
+            "source": "turn",
+            "span_type": "goal",
+            "supersedes": [],
+            "text": "candidates is not a \"narrow procedural task\" within the meaning of Article",
+            "token_count": 12
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_68f41cce386a4af1",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.6,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.456
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "8042f92e6659d3caac7fe9c57cd19904baeaf330",
+              "numbers": [
+                "4"
+              ],
+              "rare_terms": [
+                "intended",
+                "squarely",
+                "systems",
+                "within"
+              ],
+              "symbols": [
+                "AI",
+                "Annex",
+                "III"
+              ],
+              "typed_key": "evidence|AI|Annex|III|4"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "falls squarely within Annex III(4)(a), which lists AI systems intended for",
+            "token_count": 11
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_2d5cb4cda1aa603e",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.6,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.456
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "5bec1fe927fb3b3072404c536dda1ac56126f8b2",
+              "numbers": [
+                "3",
+                "6"
+              ],
+              "rare_terms": [
+                "article",
+                "certify",
+                "field-extraction"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "evidence|Article|3|6"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "Article 6(3)(a) **only** if we can certify that the field-extraction does",
+            "token_count": 11
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_45ed5e8e98cfbbd1",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "1723843c07c0164a05256a196dc87c94687d2963",
+              "numbers": [],
+              "rare_terms": [
+                "private"
+              ],
+              "symbols": [
+                "For",
+                "HR"
+              ],
+              "typed_key": "evidence|For|HR"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "For a private HR pilot that is not in those",
+            "token_count": 10
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_7cf9b481b208ee52",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "51ba2de2ffe46b344e7daf3ff83a8f129ed1e2ce",
+              "numbers": [],
+              "rare_terms": [
+                "structured",
+                "system",
+                "transforms",
+                "unstructured"
+              ],
+              "symbols": [
+                "AI"
+              ],
+              "typed_key": "evidence|AI"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "\"an AI system that transforms unstructured data into structured data\".",
+            "token_count": 10
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_62e2edef59959f6e",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "ff07a70db5b8d8cc88e32513d0734a7bb168f7ae",
+              "numbers": [],
+              "rare_terms": [
+                "deployer",
+                "high-risk",
+                "obligations",
+                "relevant"
+              ],
+              "symbols": [
+                "As",
+                "Two"
+              ],
+              "typed_key": "evidence|As|Two"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "Two most relevant deployer obligations.** As a deployer of a high-risk",
+            "token_count": 11
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_b3d4f8af1b86b254",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "94c0d9d81f6c633a1014250b9fa4bb6db36af313",
+              "numbers": [],
+              "rare_terms": [
+                "article",
+                "incidents",
+                "informing",
+                "operation",
+                "provider",
+                "system"
+              ],
+              "symbols": [
+                "Article"
+              ],
+              "typed_key": "evidence|Article"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "system in operation and informing the provider of incidents under Article",
+            "token_count": 11
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_834db1e5a61bf7f9",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.336
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "4a667870f2102c2b6c720dcee989444ef7304c88",
+              "numbers": [],
+              "rare_terms": [
+                "ensure",
+                "natural",
+                "person",
+                "relevant",
+                "representative",
+                "sufficiently"
+              ],
+              "symbols": [],
+              "typed_key": "evidence"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "natural person and ensure relevant, sufficiently representative input data",
+            "token_count": 9
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_a3c91d39b47dbb98",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "0a13b1b019a5ab955bd2d9938b262783fc9d8739",
+              "numbers": [],
+              "rare_terms": [
+                "analysis",
+                "change",
+                "ranking",
+                "removed",
+                "scoring"
+              ],
+              "symbols": [
+                "If",
+                "It"
+              ],
+              "typed_key": "evidence|If|It"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "If scoring and ranking were removed.** It would change the analysis but",
+            "token_count": 12
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_2c977042f8c54cf8",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "70c0796edef7c411b9c5cba9eeab0fcf66e49ae6",
+              "numbers": [],
+              "rare_terms": [
+                "answer",
+                "derogation",
+                "qualify"
+              ],
+              "symbols": [
+                "So"
+              ],
+              "typed_key": "evidence|So"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "So the answer is \"yes, it would qualify for the derogation under",
+            "token_count": 12
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_0c00cd6e1ca6e16b",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.85,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.426
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "0167a66cd8ce284fd5935baaab1587769ecf9f8f",
+              "numbers": [],
+              "rare_terms": [
+                "narrow",
+                "procedural",
+                "ranking",
+                "scoring",
+                "shortlisting",
+                "treated"
+              ],
+              "symbols": [],
+              "typed_key": "goal"
+            },
+            "source": "turn",
+            "span_type": "goal",
+            "supersedes": [],
+            "text": "scoring, ranking or shortlisting to be treated as a narrow procedural task \u2014",
+            "token_count": 13
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_893915b0c88ecbb3",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "56bacbbb2f435e742e496afd4ec5dec4ba85f498",
+              "numbers": [],
+              "rare_terms": [
+                "deployer",
+                "provider",
+                "public",
+                "services"
+              ],
+              "symbols": [
+                "Annex"
+              ],
+              "typed_key": "evidence|Annex"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "scope (a public body, provider of public services, or deployer of an Annex",
+            "token_count": 13
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_47f8f060656aba43",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.56,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.44800000000000006
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "043d092a323b5921ceadec6be4cc0bc5fc098902",
+              "numbers": [
+                "0",
+                "100",
+                "20"
+              ],
+              "rare_terms": [
+                "ranking",
+                "scoring"
+              ],
+              "symbols": [],
+              "typed_key": "evidence|0|100|20"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "fails on the facts: scoring on a 0\u2013100 fit scale and ranking the top 20",
+            "token_count": 15
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_63f62aefb526a906",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.336
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "20e7dcedd262b89148a2da46b80f2a42013601ca",
+              "numbers": [],
+              "rare_terms": [
+                "monitoring",
+                "obligation",
+                "second-most-relevant"
+              ],
+              "symbols": [],
+              "typed_key": "evidence"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "apply; in that case the second-most-relevant obligation is monitoring the",
+            "token_count": 10
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_3d243b412391bc55",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.336
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "c54123e0c463e743397c4d944fecf20d9fb6ef20",
+              "numbers": [],
+              "rare_terms": [
+                "applications",
+                "candidates",
+                "evaluate",
+                "filter",
+                "high-risk"
+              ],
+              "symbols": [],
+              "typed_key": "evidence"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "and filter job applications\" and to \"evaluate candidates\" \u2014 as high-risk",
+            "token_count": 11
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_bce3295c60675b15",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.336
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "6ab43f95c8a7139c3dfe6ac52e632a4a2b7602e7",
+              "numbers": [],
+              "rare_terms": [
+                "derogation",
+                "however",
+                "performs",
+                "profiling",
+                "system"
+              ],
+              "symbols": [],
+              "typed_key": "evidence"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "derogation only holds, however, if the system performs **no profiling of",
+            "token_count": 11
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_3e7a0891c92ccf2e",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.336
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "145bd663ebcef1c7f7ee9a3c90a7f4f227b8986c",
+              "numbers": [],
+              "rare_terms": [
+                "analyse",
+                "natural",
+                "particular",
+                "persons",
+                "recruitment",
+                "selection"
+              ],
+              "symbols": [],
+              "typed_key": "evidence"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "the recruitment or selection of natural persons \u2014 in particular to \"analyse",
+            "token_count": 12
+          }
+        ],
+        "turn_index": 1,
+        "version": "infinimem.v1"
+      }
+    },
+    "request_id": "sync-af2d22a5-9cff-408c-817f-c97194744e2c-u2",
+    "risk_band": "green",
+    "runtime_decision": null,
+    "scenario": "trace_rag_memory_sdk_librechat",
+    "trace_score": null
+  },
+  "status": "ok"
+}

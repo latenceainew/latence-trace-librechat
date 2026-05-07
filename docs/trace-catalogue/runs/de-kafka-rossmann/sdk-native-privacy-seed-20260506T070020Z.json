@@ -1,0 +1,80 @@
+{
+  "elapsed_ms": 275.15,
+  "error": null,
+  "feature": "privacy",
+  "kind": "privacy",
+  "request": {
+    "integration": "native",
+    "kind": "privacy",
+    "metadata": {
+      "feature": "privacy",
+      "integration": "sdk-librechat",
+      "scenario_id": "de-kafka-rossmann",
+      "source": "tools.run_scenario",
+      "trace_extra": {
+        "include_triangular_diagnostics": false,
+        "profile": "quality"
+      },
+      "use_case": "rag"
+    },
+    "scenario": "trace_rag_privacy_sdk_librechat",
+    "text": "Wer war Ro\u00dfmann?\n\nKarl Ro\u00dfmann ist der Held des Romanfragments Der Verschollene von Franz Kafka, das von Brod unter dem Titel Amerika ver\u00f6ffentlicht wurde. In dem Roman tritt Ro\u00dfmann unter anderem auf einem Schiff, in einem Hotel und in der Wohnung seines Onkels auf. Am Ende bleibt die vage Hoffnung, dass Ro\u00dfmann im paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann."
+  },
+  "response": {
+    "compression": null,
+    "evidence": [],
+    "integration": "native",
+    "latency_ms": 273.31,
+    "memory": null,
+    "privacy": {
+      "entity_count": 0,
+      "redacted_text": "Wer war Ro\u00dfmann?\n\nKarl Ro\u00dfmann ist der Held des Romanfragments Der Verschollene von Franz Kafka, das von Brod unter dem Titel Amerika ver\u00f6ffentlicht wurde. In dem Roman tritt Ro\u00dfmann unter anderem auf einem Schiff, in einem Hotel und in der Wohnung seines Onkels auf. Am Ende bleibt die vage Hoffnung, dass Ro\u00dfmann im paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann.",
+      "unique_labels": []
+    },
+    "raw": {
+      "chunks_processed": 1,
+      "entities": [],
+      "entity_count": 0,
+      "label_mode": "open",
+      "labels_used": [
+        "email",
+        "person",
+        "account_number"
+      ],
+      "original_text": null,
+      "processing_time_ms": 71.3,
+      "redacted_text": "Wer war Ro\u00dfmann?\n\nKarl Ro\u00dfmann ist der Held des Romanfragments Der Verschollene von Franz Kafka, das von Brod unter dem Titel Amerika ver\u00f6ffentlicht wurde. In dem Roman tritt Ro\u00dfmann unter anderem auf einem Schiff, in einem Hotel und in der Wohnung seines Onkels auf. Am Ende bleibt die vage Hoffnung, dass Ro\u00dfmann im paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann.",
+      "selected_categories": [],
+      "success": true,
+      "timings_ms": {
+        "chunking_ms": 1.07,
+        "custom_regex_ms": 0.02,
+        "dedupe_ms": 0.03,
+        "label_resolution_ms": 0.16,
+        "max_chunk_vllm_ms": 69.07,
+        "redaction_ms": 0.01,
+        "sanity_checks_ms": 0,
+        "total_ms": 71.3,
+        "vllm_request_ms": 69.97,
+        "vllm_retry_splits": 0
+      },
+      "unique_labels": [],
+      "usage": {
+        "categories": [],
+        "chunks_processed": 1,
+        "entity_count": 0,
+        "labels_used": 3,
+        "mode": "open",
+        "redacted": true,
+        "redaction_mode": "mask",
+        "unique_labels": []
+      }
+    },
+    "request_id": "sync-d835c989-2271-4f49-aa27-9295ae8f67bd-u1",
+    "risk_band": "green",
+    "runtime_decision": null,
+    "scenario": "trace_rag_privacy_sdk_librechat",
+    "trace_score": 0.0
+  },
+  "status": "ok"
+}

@@ -1,0 +1,1008 @@
+{
+  "elapsed_ms": 195.93,
+  "error": null,
+  "feature": "memory",
+  "kind": "memory",
+  "request": {
+    "context": [
+      "## Section 1 \u2014 Refund window\n\nOpened devices may be returned within 30 days only if defective. Customers\nmust include the original packaging, accessories, and a description of the\ndefect. The 30-day window starts on the delivery date confirmed by the\ncourier.",
+      "## Section 2 \u2014 Manager approval\n\nRefunds requested after the 30-day window require explicit approval from a\nsupport manager. Approval is not guaranteed even when the device is defective;\nthe manager weighs purchase history, prior returns, and the description of the\nissue.",
+      "## Section 3 \u2014 Shipping and tracking\n\nAccessories ship separately from the main device. Tracking numbers can lag by\nup to one business day, especially for international shipments. Lost packages\nare investigated by the carrier, not by the support team."
+    ],
+    "integration": "native",
+    "kind": "memory",
+    "metadata": {
+      "feature": "memory",
+      "integration": "sdk-librechat",
+      "scenario_id": "en-placeholder-scaffolding",
+      "source": "tools.run_scenario",
+      "use_case": "rag"
+    },
+    "question": "A customer received a defective phone 45 days ago. They want to know whether\nthey can still return it for a full refund without contacting support, and how\nlong the refund will take. What should we tell them, and what conditions\napply?",
+    "scenario": "trace_rag_memory_sdk_librechat",
+    "text": "A full self-service refund is no longer possible after 45 days; the documented\n30-day window only covers defective devices returned within that period.\nAfter 30 days a support manager must explicitly approve the refund, and the\npolicy makes clear that approval is not guaranteed even for a defective unit.\nThe refund timing itself is not stated in the policy excerpts above, so we\ncannot promise 48-hour processing \u2014 that detail is unsupported by the source\ntext."
+  },
+  "response": {
+    "compression": null,
+    "evidence": [],
+    "integration": "native",
+    "latency_ms": 192.5,
+    "memory": {
+      "actions": [
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_801254a6f4c43a86",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_3045c93185435f30",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_b1e7d3ab80c05ebe",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_9c46fa5e6a948006",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_3b3e8fad338e5414",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_c7da58369a21ed6c",
+          "to_layer": null
+        },
+        {
+          "action": "anchored",
+          "from_layer": null,
+          "reason": "chat_high_survival_anchor",
+          "span_id": "mem_b1e7d3ab80c05ebe",
+          "to_layer": null
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_b1e7d3ab80c05ebe",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_801254a6f4c43a86",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_3045c93185435f30",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_c7da58369a21ed6c",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_3b3e8fad338e5414",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_9c46fa5e6a948006",
+          "to_layer": "hot"
+        }
+      ],
+      "hot_context": "After 30 days a support manager must explicitly approve the refund, and the\nA full self-service refund is no longer possible after 45 days; the documented\n30-day window only covers defective devices returned within that period.\ncannot promise 48-hour processing \u2014 that detail is unsupported by the source\nThe refund timing itself is not stated in the policy excerpts above, so we\npolicy makes clear that approval is not guaranteed even for a defective unit.",
+      "next_memory_state": {
+        "cold_provenance": [],
+        "metadata": {},
+        "spans": [
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_b1e7d3ab80c05ebe",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 1,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.85,
+              "staleness": 0,
+              "survival_horizon_turns": 15,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "3a354ce3dd2a3ef68893aa81092f8e7ffc8ae7d4",
+              "numbers": [
+                "30 days"
+              ],
+              "rare_terms": [
+                "approve",
+                "explicitly",
+                "manager",
+                "refund",
+                "support"
+              ],
+              "symbols": [
+                "After"
+              ],
+              "typed_key": "constraint|After|30 days"
+            },
+            "source": "turn",
+            "span_type": "constraint",
+            "supersedes": [],
+            "text": "After 30 days a support manager must explicitly approve the refund, and the",
+            "token_count": 13
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_801254a6f4c43a86",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.83,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "b4df7e075fc1fce2692ddbe8d92219da5dc20625",
+              "numbers": [
+                "45 days"
+              ],
+              "rare_terms": [
+                "documented",
+                "longer",
+                "possible",
+                "refund",
+                "self-service"
+              ],
+              "symbols": [
+                "A"
+              ],
+              "typed_key": "evidence|A|45 days"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "A full self-service refund is no longer possible after 45 days; the documented",
+            "token_count": 13
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_3045c93185435f30",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.48,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.43200000000000005
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "f8a5ac5c067221e2062abcc90a12ca2ea4f8172a",
+              "numbers": [
+                "30"
+              ],
+              "rare_terms": [
+                "covers",
+                "defective",
+                "devices",
+                "period",
+                "returned",
+                "window",
+                "within"
+              ],
+              "symbols": [],
+              "typed_key": "evidence|30"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "30-day window only covers defective devices returned within that period.",
+            "token_count": 10
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_c7da58369a21ed6c",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.48,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.43200000000000005
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "46e0facf9ff382befaf630f7329632d798e5e481",
+              "numbers": [
+                "48"
+              ],
+              "rare_terms": [
+                "cannot",
+                "detail",
+                "processing",
+                "promise",
+                "source",
+                "unsupported"
+              ],
+              "symbols": [],
+              "typed_key": "retrieval_chunk|48"
+            },
+            "source": "turn",
+            "span_type": "retrieval_chunk",
+            "supersedes": [],
+            "text": "cannot promise 48-hour processing \u2014 that detail is unsupported by the source",
+            "token_count": 12
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_3b3e8fad338e5414",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "5c36d7f97ebb55fc9424590c809bf6e54e11f868",
+              "numbers": [],
+              "rare_terms": [
+                "excerpts",
+                "itself",
+                "policy",
+                "refund",
+                "stated",
+                "timing"
+              ],
+              "symbols": [
+                "The"
+              ],
+              "typed_key": "evidence|The"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "The refund timing itself is not stated in the policy excerpts above, so we",
+            "token_count": 14
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_9c46fa5e6a948006",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.336
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "76006b2aecce500ac43300a19bc7539905eacd59",
+              "numbers": [],
+              "rare_terms": [
+                "approval",
+                "defective",
+                "guaranteed",
+                "policy"
+              ],
+              "symbols": [],
+              "typed_key": "evidence"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "policy makes clear that approval is not guaranteed even for a defective unit.",
+            "token_count": 13
+          }
+        ],
+        "turn_index": 1,
+        "version": "infinimem.v1"
+      }
+    },
+    "privacy": null,
+    "raw": {
+      "actions": [
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_801254a6f4c43a86",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_3045c93185435f30",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_b1e7d3ab80c05ebe",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_9c46fa5e6a948006",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_3b3e8fad338e5414",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_c7da58369a21ed6c",
+          "to_layer": null
+        },
+        {
+          "action": "anchored",
+          "from_layer": null,
+          "reason": "chat_high_survival_anchor",
+          "span_id": "mem_b1e7d3ab80c05ebe",
+          "to_layer": null
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_b1e7d3ab80c05ebe",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_801254a6f4c43a86",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_3045c93185435f30",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_c7da58369a21ed6c",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_3b3e8fad338e5414",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_9c46fa5e6a948006",
+          "to_layer": "hot"
+        }
+      ],
+      "diagnostics": {
+        "actions": [
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_801254a6f4c43a86",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_3045c93185435f30",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_b1e7d3ab80c05ebe",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_9c46fa5e6a948006",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_3b3e8fad338e5414",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_c7da58369a21ed6c",
+            "to_layer": null
+          },
+          {
+            "action": "anchored",
+            "from_layer": null,
+            "reason": "chat_high_survival_anchor",
+            "span_id": "mem_b1e7d3ab80c05ebe",
+            "to_layer": null
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_b1e7d3ab80c05ebe",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_801254a6f4c43a86",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_3045c93185435f30",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_c7da58369a21ed6c",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_3b3e8fad338e5414",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_9c46fa5e6a948006",
+            "to_layer": "hot"
+          }
+        ],
+        "actual_token_reduction": 0,
+        "budget_mode_used": "adaptive",
+        "cold_tokens": 0,
+        "effective_hot_token_budget": 800,
+        "effective_max_spans": 256,
+        "effective_warm_token_budget": 4000,
+        "estimated_exact_critical_recall": 1,
+        "exact_critical_spans": 2,
+        "genesis_anchor_recall": 1,
+        "genesis_anchor_spans": 1,
+        "hot_tokens": 75,
+        "memory_underbudgeted": false,
+        "recent_tail_required": false,
+        "recommended_hot_token_budget": 800,
+        "removed_tokens": 0,
+        "survival_mass_retained": 1,
+        "target_token_reduction": null,
+        "timings_ms": {
+          "dedup": 0.093,
+          "extract": 0.895,
+          "selection": 0.337,
+          "survival": 0.466,
+          "total": 1.822
+        },
+        "top_survival_causes": [
+          {
+            "domain_decay_pressure": 0,
+            "exact_critical": 1,
+            "layer": "hot",
+            "learned_survival": 0,
+            "reason": "exact_critical",
+            "span_id": "mem_b1e7d3ab80c05ebe",
+            "span_type": "constraint",
+            "survival_horizon_turns": 15,
+            "survival_value": 0.72
+          },
+          {
+            "domain_decay_pressure": 0,
+            "exact_critical": 0.83,
+            "layer": "hot",
+            "learned_survival": 0,
+            "reason": "exact_critical",
+            "span_id": "mem_801254a6f4c43a86",
+            "span_type": "evidence",
+            "survival_horizon_turns": 10,
+            "survival_value": 0.72
+          },
+          {
+            "domain_decay_pressure": 0,
+            "exact_critical": 0.48,
+            "layer": "hot",
+            "learned_survival": 0,
+            "reason": "salience",
+            "span_id": "mem_3045c93185435f30",
+            "span_type": "evidence",
+            "survival_horizon_turns": 10,
+            "survival_value": 0.432
+          },
+          {
+            "domain_decay_pressure": 0,
+            "exact_critical": 0.48,
+            "layer": "hot",
+            "learned_survival": 0,
+            "reason": "salience",
+            "span_id": "mem_c7da58369a21ed6c",
+            "span_type": "retrieval_chunk",
+            "survival_horizon_turns": 10,
+            "survival_value": 0.432
+          },
+          {
+            "domain_decay_pressure": 0,
+            "exact_critical": 0.35,
+            "layer": "hot",
+            "learned_survival": 0,
+            "reason": "salience",
+            "span_id": "mem_3b3e8fad338e5414",
+            "span_type": "evidence",
+            "survival_horizon_turns": 10,
+            "survival_value": 0.406
+          },
+          {
+            "domain_decay_pressure": 0,
+            "exact_critical": 0,
+            "layer": "hot",
+            "learned_survival": 0,
+            "reason": "salience",
+            "span_id": "mem_9c46fa5e6a948006",
+            "span_type": "evidence",
+            "survival_horizon_turns": 10,
+            "survival_value": 0.336
+          }
+        ],
+        "warm_tokens": 0
+      },
+      "hot_context": "After 30 days a support manager must explicitly approve the refund, and the\nA full self-service refund is no longer possible after 45 days; the documented\n30-day window only covers defective devices returned within that period.\ncannot promise 48-hour processing \u2014 that detail is unsupported by the source\nThe refund timing itself is not stated in the policy excerpts above, so we\npolicy makes clear that approval is not guaranteed even for a defective unit.",
+      "next_memory_state": {
+        "cold_provenance": [],
+        "metadata": {},
+        "spans": [
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_b1e7d3ab80c05ebe",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 1,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.85,
+              "staleness": 0,
+              "survival_horizon_turns": 15,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "3a354ce3dd2a3ef68893aa81092f8e7ffc8ae7d4",
+              "numbers": [
+                "30 days"
+              ],
+              "rare_terms": [
+                "approve",
+                "explicitly",
+                "manager",
+                "refund",
+                "support"
+              ],
+              "symbols": [
+                "After"
+              ],
+              "typed_key": "constraint|After|30 days"
+            },
+            "source": "turn",
+            "span_type": "constraint",
+            "supersedes": [],
+            "text": "After 30 days a support manager must explicitly approve the refund, and the",
+            "token_count": 13
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_801254a6f4c43a86",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.83,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.72
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "b4df7e075fc1fce2692ddbe8d92219da5dc20625",
+              "numbers": [
+                "45 days"
+              ],
+              "rare_terms": [
+                "documented",
+                "longer",
+                "possible",
+                "refund",
+                "self-service"
+              ],
+              "symbols": [
+                "A"
+              ],
+              "typed_key": "evidence|A|45 days"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "A full self-service refund is no longer possible after 45 days; the documented",
+            "token_count": 13
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_3045c93185435f30",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.48,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.43200000000000005
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "f8a5ac5c067221e2062abcc90a12ca2ea4f8172a",
+              "numbers": [
+                "30"
+              ],
+              "rare_terms": [
+                "covers",
+                "defective",
+                "devices",
+                "period",
+                "returned",
+                "window",
+                "within"
+              ],
+              "symbols": [],
+              "typed_key": "evidence|30"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "30-day window only covers defective devices returned within that period.",
+            "token_count": 10
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_c7da58369a21ed6c",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.48,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.43200000000000005
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "46e0facf9ff382befaf630f7329632d798e5e481",
+              "numbers": [
+                "48"
+              ],
+              "rare_terms": [
+                "cannot",
+                "detail",
+                "processing",
+                "promise",
+                "source",
+                "unsupported"
+              ],
+              "symbols": [],
+              "typed_key": "retrieval_chunk|48"
+            },
+            "source": "turn",
+            "span_type": "retrieval_chunk",
+            "supersedes": [],
+            "text": "cannot promise 48-hour processing \u2014 that detail is unsupported by the source",
+            "token_count": 12
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_3b3e8fad338e5414",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "5c36d7f97ebb55fc9424590c809bf6e54e11f868",
+              "numbers": [],
+              "rare_terms": [
+                "excerpts",
+                "itself",
+                "policy",
+                "refund",
+                "stated",
+                "timing"
+              ],
+              "symbols": [
+                "The"
+              ],
+              "typed_key": "evidence|The"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "The refund timing itself is not stated in the policy excerpts above, so we",
+            "token_count": 14
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_9c46fa5e6a948006",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.336
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "76006b2aecce500ac43300a19bc7539905eacd59",
+              "numbers": [],
+              "rare_terms": [
+                "approval",
+                "defective",
+                "guaranteed",
+                "policy"
+              ],
+              "symbols": [],
+              "typed_key": "evidence"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "policy makes clear that approval is not guaranteed even for a defective unit.",
+            "token_count": 13
+          }
+        ],
+        "turn_index": 1,
+        "version": "infinimem.v1"
+      }
+    },
+    "request_id": "sync-7b7dab0c-6d2c-4f55-8fd8-2ac6047f7012-u2",
+    "risk_band": "green",
+    "runtime_decision": null,
+    "scenario": "trace_rag_memory_sdk_librechat",
+    "trace_score": null
+  },
+  "status": "ok"
+}

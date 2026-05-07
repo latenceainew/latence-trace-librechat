@@ -1,0 +1,76 @@
+{
+  "elapsed_ms": 5707.08,
+  "error": null,
+  "feature": "privacy",
+  "kind": "privacy",
+  "request": {
+    "integration": "native",
+    "kind": "privacy",
+    "metadata": {
+      "feature": "privacy",
+      "integration": "sdk-librechat",
+      "scenario_id": "en-eu-ai-act-procurement",
+      "source": "tools.run_scenario",
+      "use_case": "rag"
+    },
+    "scenario": "trace_rag_privacy_sdk_librechat",
+    "text": "We are evaluating a vendor pilot called **TalentScout AI** for our European\nHR team. The system ingests CVs in PDF format, scores each candidate against\nthe job description on a 0\u2013100 fit scale, ranks the top 20, and forwards\nthat shortlist to the recruiter. The recruiter still does every interview.\nThe vendor argues that under Article 6(3) of the EU AI Act the system is\n**not** high-risk because it merely \"performs a narrow procedural task\" of\nturning unstructured CVs into a structured ranking and the human recruiter\nmakes the final call.\n\nThree concrete decisions we need from you, grounded strictly in the cited\nArticles and Annex III:\n\n1. Is TalentScout AI a high-risk AI system within the meaning of the AI Act?\n2. If yes, what are the **two** most relevant deployer-side obligations we\n   take on the moment we go live (with article numbers)?\n3. Would your answer to (1) change if the vendor disabled scoring and\n   ranking and only extracted structured fields (name, last role, years of\n   experience) into our ATS, with no shortlisting? Cite the exact sub-point\n   you are relying on.\n\nPlease be concise \u2014 three short paragraphs, one per question.\n\n**1. High-risk classification.** TalentScout AI is a high-risk AI system. It\nfalls squarely within Annex III(4)(a), which lists AI systems intended for\nthe recruitment or selection of natural persons \u2014 in particular to \"analyse\nand filter job applications\" and to \"evaluate candidates\" \u2014 as high-risk\nunder Article 6(2). The vendor's reliance on the Article 6(3) derogation\nfails on the facts: scoring on a 0\u2013100 fit scale and ranking the top 20\ncandidates is not a \"narrow procedural task\" within the meaning of Article\n6(3)(a) and the AI Office FAQ. It materially influences which candidates a\nhuman recruiter ever sees, so it does not satisfy Recital 53's\nnon-material-influence test.\n\n**2. Two most relevant deployer obligations.** As a deployer of a high-risk\nAI system we must (i) assign human oversight to a competent and authorised\nnatural person and ensure relevant, sufficiently representative input data\nunder Article 26, and (ii) carry out a fundamental rights impact assessment\nbefore going live under Article 27 \u2014 provided we fall within Article 27's\nscope (a public body, provider of public services, or deployer of an Annex\nIII(5)(b)/(c) system). For a private HR pilot that is not in those\ncategories the second obligation in the strict sense of Article 27 does not\napply; in that case the second-most-relevant obligation is monitoring the\nsystem in operation and informing the provider of incidents under Article\n26's monitoring duty linked to Article 72.\n\n**3. If scoring and ranking were removed.** It would change the analysis but\n**not** automatically clear the system. Article 6(3)(a), read with Recital\n53 and the AI Office FAQ, allows extraction of structured fields without\nscoring, ranking or shortlisting to be treated as a narrow procedural task \u2014\n\"an AI system that transforms unstructured data into structured data\". The\nderogation only holds, however, if the system performs **no profiling of\nnatural persons**: under the final subparagraph of Article 6(3), profiling\nwithin the meaning of Article 4(4) GDPR always reverts the system back to\nhigh-risk. So the answer is \"yes, it would qualify for the derogation under\nArticle 6(3)(a) **only** if we can certify that the field-extraction does\nnot constitute profiling of natural persons\"."
+  },
+  "response": {
+    "compression": null,
+    "evidence": [],
+    "integration": "native",
+    "latency_ms": 5705.08,
+    "memory": null,
+    "privacy": {
+      "entity_count": 0,
+      "redacted_text": "We are evaluating a vendor pilot called **TalentScout AI** for our European\nHR team. The system ingests CVs in PDF format, scores each candidate against\nthe job description on a 0\u2013100 fit scale, ranks the top 20, and forwards\nthat shortlist to the recruiter. The recruiter still does every interview.\nThe vendor argues that under Article 6(3) of the EU AI Act the system is\n**not** high-risk because it merely \"performs a narrow procedural task\" of\nturning unstructured CVs into a structured ranking and the human recruiter\nmakes the final call.\n\nThree concrete decisions we need from you, grounded strictly in the cited\nArticles and Annex III:\n\n1. Is TalentScout AI a high-risk AI system within the meaning of the AI Act?\n2. If yes, what are the **two** most relevant deployer-side obligations we\n   take on the moment we go live (with article numbers)?\n3. Would your answer to (1) change if the vendor disabled scoring and\n   ranking and only extracted structured fields (name, last role, years of\n   experience) into our ATS, with no shortlisting? Cite the exact sub-point\n   you are relying on.\n\nPlease be concise \u2014 three short paragraphs, one per question.\n\n**1. High-risk classification.** TalentScout AI is a high-risk AI system. It\nfalls squarely within Annex III(4)(a), which lists AI systems intended for\nthe recruitment or selection of natural persons \u2014 in particular to \"analyse\nand filter job applications\" and to \"evaluate candidates\" \u2014 as high-risk\nunder Article 6(2). The vendor's reliance on the Article 6(3) derogation\nfails on the facts: scoring on a 0\u2013100 fit scale and ranking the top 20\ncandidates is not a \"narrow procedural task\" within the meaning of Article\n6(3)(a) and the AI Office FAQ. It materially influences which candidates a\nhuman recruiter ever sees, so it does not satisfy Recital 53's\nnon-material-influence test.\n\n**2. Two most relevant deployer obligations.** As a deployer of a high-risk\nAI system we must (i) assign human oversight to a competent and authorised\nnatural person and ensure relevant, sufficiently representative input data\nunder Article 26, and (ii) carry out a fundamental rights impact assessment\nbefore going live under Article 27 \u2014 provided we fall within Article 27's\nscope (a public body, provider of public services, or deployer of an Annex\nIII(5)(b)/(c) system). For a private HR pilot that is not in those\ncategories the second obligation in the strict sense of Article 27 does not\napply; in that case the second-most-relevant obligation is monitoring the\nsystem in operation and informing the provider of incidents under Article\n26's monitoring duty linked to Article 72.\n\n**3. If scoring and ranking were removed.** It would change the analysis but\n**not** automatically clear the system. Article 6(3)(a), read with Recital\n53 and the AI Office FAQ, allows extraction of structured fields without\nscoring, ranking or shortlisting to be treated as a narrow procedural task \u2014\n\"an AI system that transforms unstructured data into structured data\". The\nderogation only holds, however, if the system performs **no profiling of\nnatural persons**: under the final subparagraph of Article 6(3), profiling\nwithin the meaning of Article 4(4) GDPR always reverts the system back to\nhigh-risk. So the answer is \"yes, it would qualify for the derogation under\nArticle 6(3)(a) **only** if we can certify that the field-extraction does\nnot constitute profiling of natural persons\".",
+      "unique_labels": []
+    },
+    "raw": {
+      "chunks_processed": 2,
+      "entities": [],
+      "entity_count": 0,
+      "label_mode": "open",
+      "labels_used": [
+        "email",
+        "person",
+        "account_number"
+      ],
+      "original_text": null,
+      "processing_time_ms": 594.56,
+      "redacted_text": "We are evaluating a vendor pilot called **TalentScout AI** for our European\nHR team. The system ingests CVs in PDF format, scores each candidate against\nthe job description on a 0\u2013100 fit scale, ranks the top 20, and forwards\nthat shortlist to the recruiter. The recruiter still does every interview.\nThe vendor argues that under Article 6(3) of the EU AI Act the system is\n**not** high-risk because it merely \"performs a narrow procedural task\" of\nturning unstructured CVs into a structured ranking and the human recruiter\nmakes the final call.\n\nThree concrete decisions we need from you, grounded strictly in the cited\nArticles and Annex III:\n\n1. Is TalentScout AI a high-risk AI system within the meaning of the AI Act?\n2. If yes, what are the **two** most relevant deployer-side obligations we\n   take on the moment we go live (with article numbers)?\n3. Would your answer to (1) change if the vendor disabled scoring and\n   ranking and only extracted structured fields (name, last role, years of\n   experience) into our ATS, with no shortlisting? Cite the exact sub-point\n   you are relying on.\n\nPlease be concise \u2014 three short paragraphs, one per question.\n\n**1. High-risk classification.** TalentScout AI is a high-risk AI system. It\nfalls squarely within Annex III(4)(a), which lists AI systems intended for\nthe recruitment or selection of natural persons \u2014 in particular to \"analyse\nand filter job applications\" and to \"evaluate candidates\" \u2014 as high-risk\nunder Article 6(2). The vendor's reliance on the Article 6(3) derogation\nfails on the facts: scoring on a 0\u2013100 fit scale and ranking the top 20\ncandidates is not a \"narrow procedural task\" within the meaning of Article\n6(3)(a) and the AI Office FAQ. It materially influences which candidates a\nhuman recruiter ever sees, so it does not satisfy Recital 53's\nnon-material-influence test.\n\n**2. Two most relevant deployer obligations.** As a deployer of a high-risk\nAI system we must (i) assign human oversight to a competent and authorised\nnatural person and ensure relevant, sufficiently representative input data\nunder Article 26, and (ii) carry out a fundamental rights impact assessment\nbefore going live under Article 27 \u2014 provided we fall within Article 27's\nscope (a public body, provider of public services, or deployer of an Annex\nIII(5)(b)/(c) system). For a private HR pilot that is not in those\ncategories the second obligation in the strict sense of Article 27 does not\napply; in that case the second-most-relevant obligation is monitoring the\nsystem in operation and informing the provider of incidents under Article\n26's monitoring duty linked to Article 72.\n\n**3. If scoring and ranking were removed.** It would change the analysis but\n**not** automatically clear the system. Article 6(3)(a), read with Recital\n53 and the AI Office FAQ, allows extraction of structured fields without\nscoring, ranking or shortlisting to be treated as a narrow procedural task \u2014\n\"an AI system that transforms unstructured data into structured data\". The\nderogation only holds, however, if the system performs **no profiling of\nnatural persons**: under the final subparagraph of Article 6(3), profiling\nwithin the meaning of Article 4(4) GDPR always reverts the system back to\nhigh-risk. So the answer is \"yes, it would qualify for the derogation under\nArticle 6(3)(a) **only** if we can certify that the field-extraction does\nnot constitute profiling of natural persons\".",
+      "selected_categories": [],
+      "success": true,
+      "timings_ms": {
+        "chunking_ms": 6.47,
+        "custom_regex_ms": 0.04,
+        "dedupe_ms": 0.04,
+        "label_resolution_ms": 0.13,
+        "max_chunk_vllm_ms": 587.05,
+        "redaction_ms": 0.03,
+        "sanity_checks_ms": 0,
+        "total_ms": 594.56,
+        "vllm_request_ms": 587.82,
+        "vllm_retry_splits": 0
+      },
+      "unique_labels": [],
+      "usage": {
+        "categories": [],
+        "chunks_processed": 2,
+        "entity_count": 0,
+        "labels_used": 3,
+        "mode": "open",
+        "redacted": true,
+        "redaction_mode": "mask",
+        "unique_labels": []
+      }
+    },
+    "request_id": "sync-8aea0db9-a56f-45d3-8c1a-45abe45f9766-u2",
+    "risk_band": "green",
+    "runtime_decision": null,
+    "scenario": "trace_rag_privacy_sdk_librechat",
+    "trace_score": 0.0
+  },
+  "status": "ok"
+}

@@ -1,0 +1,54 @@
+{
+  "bridge_url": "http://127.0.0.1:8788",
+  "features": [
+    "groundedness",
+    "context-util",
+    "drift",
+    "memory",
+    "privacy",
+    "compression"
+  ],
+  "integration": "native",
+  "integration_label": "sdk-librechat",
+  "iso": "20260505T204403Z",
+  "results": {
+    "compression": {
+      "elapsed_ms": 529.8,
+      "error": null,
+      "risk_band": "green",
+      "status": "ok"
+    },
+    "context-util": {
+      "elapsed_ms": 1925.39,
+      "error": null,
+      "risk_band": "amber",
+      "status": "ok"
+    },
+    "drift": {
+      "elapsed_ms": 204.32,
+      "error": null,
+      "risk_band": "unknown",
+      "status": "ok"
+    },
+    "groundedness": {
+      "elapsed_ms": 4018.13,
+      "error": null,
+      "risk_band": "green",
+      "status": "ok"
+    },
+    "memory": {
+      "elapsed_ms": 264.53,
+      "error": null,
+      "risk_band": "green",
+      "status": "ok"
+    },
+    "privacy": {
+      "elapsed_ms": 5707.08,
+      "error": null,
+      "risk_band": "green",
+      "status": "ok"
+    }
+  },
+  "scenario_id": "en-eu-ai-act-procurement",
+  "use_case": "rag"
+}

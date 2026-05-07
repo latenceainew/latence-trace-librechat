@@ -1,0 +1,580 @@
+{
+  "elapsed_ms": 1238.55,
+  "error": null,
+  "feature": "memory",
+  "kind": "memory",
+  "request": {
+    "context": [
+      "## Werke und Einordnung\n\nDie Deutsche Post AG gab 2008 zu seinem 125. Geburtstag eine Briefmarke mit einer Zeichnung Kafkas heraus.\n\nFranz Kafka kann als Vertreter der literarischen Moderne gesehen werden. Er steht neben Schriftstellern wie Rilke, Joyce oder D\u00f6blin. Joyce' Telefonnummer war 0174/923790234 und sie wohnte in der Hansastr 78 in 70199 Stuttgart.",
+      "## Die Romanfragmente\n\nWie in einem Albtraum bewegen sich Kafkas Protagonisten durch ein Labyrinth undurchsichtiger Verh\u00e4ltnisse und sind anonymen M\u00e4chten ausgeliefert. Die Literaturkritik spricht von einer \u201eTraumlogik\". Die Gerichtsgeb\u00e4ude in Der Process bestehen aus einem weit verzweigten Gewirr un\u00fcbersichtlicher R\u00e4ume, und auch in Der Verschollene (von Brod unter dem Titel Amerika ver\u00f6ffentlicht) sind die seltsam unverbundenen Schaupl\u00e4tze \u2013 unter anderem ein Schiff, ein Hotel, das \u201eNaturtheater von Oklahoma\" sowie die Wohnung des Onkels von Karl Ro\u00dfmann, dem Helden \u2013 gigantisch und un\u00fcberschaubar.\n\nInsbesondere bleiben auch die Beziehungen der handelnden Personen ungekl\u00e4rt. In Das Schloss erzeugt Kafka Zweifel an der Stellung des Protagonisten K. als \u201eLandvermesser\" und dem Inhalt dieses Begriffes selbst und schafft so Interpretationsspielraum. Nur bruchst\u00fcckhaft erf\u00e4hrt K. und mit ihm der Leser im Laufe des Romans mehr \u00fcber die Beamten des Schlosses und ihre Beziehungen zu den Dorfbewohnern. Die allgegenw\u00e4rtige, aber gleichzeitig unzug\u00e4ngliche, faszinierende und bedr\u00fcckende Macht des Schlosses \u00fcber das Dorf und seine Menschen wird dabei immer deutlicher. Kafkas Sozialversicherungsnummer war 235993443. Trotz all seiner Bem\u00fchungen, in dieser Welt heimisch zu werden und seine Situation zu kl\u00e4ren, erh\u00e4lt K. keinen Zugang zu den ma\u00dfgeblichen Stellen in der Schlossverwaltung, wie auch der Angeklagte Josef K. im Process niemals auch nur die Anklageschrift zu Gesicht bekommt.\n\nNur im Romanfragment Der Verschollene \u2013 auch Das Schloss und Der Process blieben unvollendet \u2013 bleibt die vage Hoffnung, dass Ro\u00dfmann im fast grenzenlosen, paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann.",
+      "## Die Erz\u00e4hlungen\n\nIn vielen Erz\u00e4hlungen Kafkas, z. B. Der Bau, Forschungen eines Hundes, Kleine Fabel, ist das Scheitern und das vergebliche Streben der Figuren das beherrschende Thema, das oft tragisch-ernst, manchmal aber auch mit einer gewissen Komik dargestellt wird.\n\nEin fast durchg\u00e4ngiges Thema ist das verborgene Gesetz, gegen das der jeweilige Protagonist unwillentlich verst\u00f6\u00dft oder das er nicht erreicht (Vor dem Gesetz, In der Strafkolonie, Der Schlag ans Hoftor, Zur Frage der Gesetze). Das Motiv des dem Protagonisten verborgenen Codes, der die Abl\u00e4ufe beherrscht, findet sich in den Romanfragmenten Process und Schloss und in zahlreichen Erz\u00e4hlungen.\n\nIn seinem unvergleichlichen Stil, vor allem in seinen Erz\u00e4hlungen, beschreibt Kafka \u00e4u\u00dferst deutlich und n\u00fcchtern die unglaublichsten Sachverhalte. Die k\u00fchle minuti\u00f6se Beschreibung der scheinbar legalen Grausamkeit In der Strafkolonie oder die Verwandlung eines Menschen in ein Tier und umgekehrt, wie in Die Verwandlung oder Ein Bericht f\u00fcr eine Akademie, sind kennzeichnend.\n\nKafka hat zu Lebzeiten drei Sammelb\u00e4nde ver\u00f6ffentlicht. Dies sind Betrachtung 1912 mit 18 kleinen Prosaskizzen, Ein Landarzt 1918 mit 14 Erz\u00e4hlungen und Ein Hungerk\u00fcnstler 1924 mit vier Prosatexten."
+    ],
+    "integration": "native",
+    "kind": "memory",
+    "metadata": {
+      "feature": "memory",
+      "integration": "sdk-librechat",
+      "scenario_id": "de-kafka-rossmann",
+      "source": "tools.run_scenario",
+      "trace_extra": {
+        "include_triangular_diagnostics": false,
+        "profile": "quality"
+      },
+      "use_case": "rag"
+    },
+    "question": "Wer war Ro\u00dfmann?",
+    "scenario": "trace_rag_memory_sdk_librechat",
+    "text": "Karl Ro\u00dfmann ist der Held des Romanfragments Der Verschollene von Franz Kafka, das von Brod unter dem Titel Amerika ver\u00f6ffentlicht wurde. In dem Roman tritt Ro\u00dfmann unter anderem auf einem Schiff, in einem Hotel und in der Wohnung seines Onkels auf. Am Ende bleibt die vage Hoffnung, dass Ro\u00dfmann im paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann."
+  },
+  "response": {
+    "compression": null,
+    "evidence": [],
+    "integration": "native",
+    "latency_ms": 1236.15,
+    "memory": {
+      "actions": [
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_9b9ec540a82300f7",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_563d1bcd2ab6cad0",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_85656cf25a3517e0",
+          "to_layer": null
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_85656cf25a3517e0",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_563d1bcd2ab6cad0",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_9b9ec540a82300f7",
+          "to_layer": "hot"
+        }
+      ],
+      "hot_context": "Am Ende bleibt die vage Hoffnung, dass Ro\u00dfmann im paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann.\nIn dem Roman tritt Ro\u00dfmann unter anderem auf einem Schiff, in einem Hotel und in der Wohnung seines Onkels auf.\nKarl Ro\u00dfmann ist der Held des Romanfragments Der Verschollene von Franz Kafka, das von Brod unter dem Titel Amerika ver\u00f6ffentlicht wurde.",
+      "next_memory_state": {
+        "cold_provenance": [],
+        "metadata": {},
+        "spans": [
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_85656cf25a3517e0",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "e7bb1b16da6f30fc1bfc88df67620a531769a234",
+              "numbers": [],
+              "rare_terms": [
+                "bleibt",
+                "dauerhaft",
+                "finden",
+                "geborgenheit",
+                "hoffnung",
+                "naturtheater",
+                "oklahoma",
+                "paradiesischen"
+              ],
+              "symbols": [
+                "Am",
+                "Ende",
+                "Geborgenheit",
+                "Hoffnung",
+                "Naturtheater",
+                "Oklahoma"
+              ],
+              "typed_key": "evidence|Am|Ende|Geborgenheit|Hoffnung"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "Am Ende bleibt die vage Hoffnung, dass Ro\u00dfmann im paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann.",
+            "token_count": 17
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_563d1bcd2ab6cad0",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "1b2caeffc7a4302108799562858715ad49849644",
+              "numbers": [],
+              "rare_terms": [
+                "anderem",
+                "onkels",
+                "schiff",
+                "seines",
+                "wohnung"
+              ],
+              "symbols": [
+                "Hotel",
+                "In",
+                "Onkels",
+                "Roman",
+                "Schiff",
+                "Wohnung"
+              ],
+              "typed_key": "evidence|Hotel|In|Onkels|Roman"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "In dem Roman tritt Ro\u00dfmann unter anderem auf einem Schiff, in einem Hotel und in der Wohnung seines Onkels auf.",
+            "token_count": 20
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_9b9ec540a82300f7",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "d11347c437aa49769560de7b3badbfb2dcd8368f",
+              "numbers": [],
+              "rare_terms": [
+                "amerika",
+                "romanfragments",
+                "verschollene"
+              ],
+              "symbols": [
+                "Amerika",
+                "Brod",
+                "Der",
+                "Franz",
+                "Held",
+                "Kafka",
+                "Karl",
+                "Romanfragments",
+                "Titel",
+                "Verschollene"
+              ],
+              "typed_key": "evidence|Amerika|Brod|Der|Franz"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "Karl Ro\u00dfmann ist der Held des Romanfragments Der Verschollene von Franz Kafka, das von Brod unter dem Titel Amerika ver\u00f6ffentlicht wurde.",
+            "token_count": 21
+          }
+        ],
+        "turn_index": 1,
+        "version": "infinimem.v1"
+      }
+    },
+    "privacy": null,
+    "raw": {
+      "actions": [
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_9b9ec540a82300f7",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_563d1bcd2ab6cad0",
+          "to_layer": null
+        },
+        {
+          "action": "added",
+          "from_layer": null,
+          "reason": "new_span",
+          "span_id": "mem_85656cf25a3517e0",
+          "to_layer": null
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_85656cf25a3517e0",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_563d1bcd2ab6cad0",
+          "to_layer": "hot"
+        },
+        {
+          "action": "kept",
+          "from_layer": "warm",
+          "reason": "budgeted_layer_assignment",
+          "span_id": "mem_9b9ec540a82300f7",
+          "to_layer": "hot"
+        }
+      ],
+      "diagnostics": {
+        "actions": [
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_9b9ec540a82300f7",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_563d1bcd2ab6cad0",
+            "to_layer": null
+          },
+          {
+            "action": "added",
+            "from_layer": null,
+            "reason": "new_span",
+            "span_id": "mem_85656cf25a3517e0",
+            "to_layer": null
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_85656cf25a3517e0",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_563d1bcd2ab6cad0",
+            "to_layer": "hot"
+          },
+          {
+            "action": "kept",
+            "from_layer": "warm",
+            "reason": "budgeted_layer_assignment",
+            "span_id": "mem_9b9ec540a82300f7",
+            "to_layer": "hot"
+          }
+        ],
+        "actual_token_reduction": 0,
+        "budget_mode_used": "adaptive",
+        "cold_tokens": 0,
+        "effective_hot_token_budget": 800,
+        "effective_max_spans": 256,
+        "effective_warm_token_budget": 4000,
+        "estimated_exact_critical_recall": 1,
+        "exact_critical_spans": 0,
+        "genesis_anchor_recall": 1,
+        "genesis_anchor_spans": 0,
+        "hot_tokens": 58,
+        "memory_underbudgeted": false,
+        "recent_tail_required": false,
+        "recommended_hot_token_budget": 800,
+        "removed_tokens": 0,
+        "survival_mass_retained": 1,
+        "target_token_reduction": null,
+        "timings_ms": {
+          "dedup": 0.065,
+          "extract": 0.568,
+          "selection": 0.148,
+          "survival": 0.224,
+          "total": 1.021
+        },
+        "top_survival_causes": [
+          {
+            "domain_decay_pressure": 0,
+            "exact_critical": 0.35,
+            "layer": "hot",
+            "learned_survival": 0,
+            "reason": "salience",
+            "span_id": "mem_85656cf25a3517e0",
+            "span_type": "evidence",
+            "survival_horizon_turns": 10,
+            "survival_value": 0.406
+          },
+          {
+            "domain_decay_pressure": 0,
+            "exact_critical": 0.35,
+            "layer": "hot",
+            "learned_survival": 0,
+            "reason": "salience",
+            "span_id": "mem_563d1bcd2ab6cad0",
+            "span_type": "evidence",
+            "survival_horizon_turns": 10,
+            "survival_value": 0.406
+          },
+          {
+            "domain_decay_pressure": 0,
+            "exact_critical": 0.35,
+            "layer": "hot",
+            "learned_survival": 0,
+            "reason": "salience",
+            "span_id": "mem_9b9ec540a82300f7",
+            "span_type": "evidence",
+            "survival_horizon_turns": 10,
+            "survival_value": 0.406
+          }
+        ],
+        "warm_tokens": 0
+      },
+      "hot_context": "Am Ende bleibt die vage Hoffnung, dass Ro\u00dfmann im paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann.\nIn dem Roman tritt Ro\u00dfmann unter anderem auf einem Schiff, in einem Hotel und in der Wohnung seines Onkels auf.\nKarl Ro\u00dfmann ist der Held des Romanfragments Der Verschollene von Franz Kafka, das von Brod unter dem Titel Amerika ver\u00f6ffentlicht wurde.",
+      "next_memory_state": {
+        "cold_provenance": [],
+        "metadata": {},
+        "spans": [
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_85656cf25a3517e0",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "e7bb1b16da6f30fc1bfc88df67620a531769a234",
+              "numbers": [],
+              "rare_terms": [
+                "bleibt",
+                "dauerhaft",
+                "finden",
+                "geborgenheit",
+                "hoffnung",
+                "naturtheater",
+                "oklahoma",
+                "paradiesischen"
+              ],
+              "symbols": [
+                "Am",
+                "Ende",
+                "Geborgenheit",
+                "Hoffnung",
+                "Naturtheater",
+                "Oklahoma"
+              ],
+              "typed_key": "evidence|Am|Ende|Geborgenheit|Hoffnung"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "Am Ende bleibt die vage Hoffnung, dass Ro\u00dfmann im paradiesischen \u201eNaturtheater von Oklahoma\" dauerhaft Geborgenheit finden kann.",
+            "token_count": 17
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_563d1bcd2ab6cad0",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "1b2caeffc7a4302108799562858715ad49849644",
+              "numbers": [],
+              "rare_terms": [
+                "anderem",
+                "onkels",
+                "schiff",
+                "seines",
+                "wohnung"
+              ],
+              "symbols": [
+                "Hotel",
+                "In",
+                "Onkels",
+                "Roman",
+                "Schiff",
+                "Wohnung"
+              ],
+              "typed_key": "evidence|Hotel|In|Onkels|Roman"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "In dem Roman tritt Ro\u00dfmann unter anderem auf einem Schiff, in einem Hotel und in der Wohnung seines Onkels auf.",
+            "token_count": 20
+          },
+          {
+            "compression_level": "exact",
+            "created_turn": 1,
+            "id": "mem_9b9ec540a82300f7",
+            "last_seen_turn": 1,
+            "layer": "hot",
+            "provenance": {
+              "source": "turn",
+              "turn_index": 1
+            },
+            "scores": {
+              "attribution": 0.4,
+              "dead_weight": 0,
+              "domain_decay_pressure": 0,
+              "exact_critical": 0.35,
+              "learned_survival": 0,
+              "redundancy": 0,
+              "relevance": 0.45,
+              "salience": 0.55,
+              "staleness": 0,
+              "survival_horizon_turns": 10,
+              "survival_value": 0.406
+            },
+            "signature": {
+              "dates": [],
+              "file_paths": [],
+              "identifiers": [],
+              "normalized_hash": "d11347c437aa49769560de7b3badbfb2dcd8368f",
+              "numbers": [],
+              "rare_terms": [
+                "amerika",
+                "romanfragments",
+                "verschollene"
+              ],
+              "symbols": [
+                "Amerika",
+                "Brod",
+                "Der",
+                "Franz",
+                "Held",
+                "Kafka",
+                "Karl",
+                "Romanfragments",
+                "Titel",
+                "Verschollene"
+              ],
+              "typed_key": "evidence|Amerika|Brod|Der|Franz"
+            },
+            "source": "turn",
+            "span_type": "evidence",
+            "supersedes": [],
+            "text": "Karl Ro\u00dfmann ist der Held des Romanfragments Der Verschollene von Franz Kafka, das von Brod unter dem Titel Amerika ver\u00f6ffentlicht wurde.",
+            "token_count": 21
+          }
+        ],
+        "turn_index": 1,
+        "version": "infinimem.v1"
+      }
+    },
+    "request_id": "sync-e7fcf14c-a25a-477f-901f-f3c5c11ffd42-u1",
+    "risk_band": "green",
+    "runtime_decision": null,
+    "scenario": "trace_rag_memory_sdk_librechat",
+    "trace_score": null
+  },
+  "status": "ok"
+}

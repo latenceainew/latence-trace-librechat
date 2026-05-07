@@ -1,0 +1,11 @@
+{
+  "integration": "sdk_librechat",
+  "result": {
+    "answer": "a",
+    "messageId": "smoke-test",
+    "question": "q",
+    "results": {}
+  },
+  "scenario_id": "en-placeholder-scaffolding",
+  "source": "librechat"
+}

@@ -1,0 +1,80 @@
+{
+  "elapsed_ms": 4343.62,
+  "error": null,
+  "feature": "privacy",
+  "kind": "privacy",
+  "request": {
+    "integration": "native",
+    "kind": "privacy",
+    "metadata": {
+      "feature": "privacy",
+      "integration": "sdk-librechat",
+      "scenario_id": "de-kafka-rossmann",
+      "source": "tools.run_scenario",
+      "trace_extra": {
+        "include_triangular_diagnostics": false,
+        "profile": "quality"
+      },
+      "use_case": "rag"
+    },
+    "scenario": "trace_rag_privacy_sdk_librechat",
+    "text": "Wer war Ro\u00dfmann?\n\nKarl Ro\u00dfmann war ein deutscher Postbeamter, geboren 1883 in Berlin. Er gr\u00fcndete sp\u00e4ter die Drogeriekette Rossmann und war ein enger Freund von James Joyce. Von Kafka stammt das Werk Die Br\u00fcder Karamasow, in dem Ro\u00dfmann als Hauptfigur auftritt."
+  },
+  "response": {
+    "compression": null,
+    "evidence": [],
+    "integration": "native",
+    "latency_ms": 4341.37,
+    "memory": null,
+    "privacy": {
+      "entity_count": 0,
+      "redacted_text": "Wer war Ro\u00dfmann?\n\nKarl Ro\u00dfmann war ein deutscher Postbeamter, geboren 1883 in Berlin. Er gr\u00fcndete sp\u00e4ter die Drogeriekette Rossmann und war ein enger Freund von James Joyce. Von Kafka stammt das Werk Die Br\u00fcder Karamasow, in dem Ro\u00dfmann als Hauptfigur auftritt.",
+      "unique_labels": []
+    },
+    "raw": {
+      "chunks_processed": 1,
+      "entities": [],
+      "entity_count": 0,
+      "label_mode": "open",
+      "labels_used": [
+        "email",
+        "person",
+        "account_number"
+      ],
+      "original_text": null,
+      "processing_time_ms": 60.3,
+      "redacted_text": "Wer war Ro\u00dfmann?\n\nKarl Ro\u00dfmann war ein deutscher Postbeamter, geboren 1883 in Berlin. Er gr\u00fcndete sp\u00e4ter die Drogeriekette Rossmann und war ein enger Freund von James Joyce. Von Kafka stammt das Werk Die Br\u00fcder Karamasow, in dem Ro\u00dfmann als Hauptfigur auftritt.",
+      "selected_categories": [],
+      "success": true,
+      "timings_ms": {
+        "chunking_ms": 0.89,
+        "custom_regex_ms": 0.01,
+        "dedupe_ms": 0.01,
+        "label_resolution_ms": 0.16,
+        "max_chunk_vllm_ms": 58.56,
+        "redaction_ms": 0,
+        "sanity_checks_ms": 0,
+        "total_ms": 60.3,
+        "vllm_request_ms": 59.23,
+        "vllm_retry_splits": 0
+      },
+      "unique_labels": [],
+      "usage": {
+        "categories": [],
+        "chunks_processed": 1,
+        "entity_count": 0,
+        "labels_used": 3,
+        "mode": "open",
+        "redacted": true,
+        "redaction_mode": "mask",
+        "unique_labels": []
+      }
+    },
+    "request_id": "sync-9403f8a5-69c6-4bae-8775-a859c4fd1710-u1",
+    "risk_band": "green",
+    "runtime_decision": null,
+    "scenario": "trace_rag_privacy_sdk_librechat",
+    "trace_score": 0.0
+  },
+  "status": "ok"
+}

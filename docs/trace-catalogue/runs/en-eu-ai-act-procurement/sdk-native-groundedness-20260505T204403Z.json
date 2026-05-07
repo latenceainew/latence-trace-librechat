@@ -1,0 +1,2091 @@
+{
+  "elapsed_ms": 4018.13,
+  "error": null,
+  "feature": "groundedness",
+  "kind": "rag",
+  "request": {
+    "answer": "**1. High-risk classification.** TalentScout AI is a high-risk AI system. It\nfalls squarely within Annex III(4)(a), which lists AI systems intended for\nthe recruitment or selection of natural persons \u2014 in particular to \"analyse\nand filter job applications\" and to \"evaluate candidates\" \u2014 as high-risk\nunder Article 6(2). The vendor's reliance on the Article 6(3) derogation\nfails on the facts: scoring on a 0\u2013100 fit scale and ranking the top 20\ncandidates is not a \"narrow procedural task\" within the meaning of Article\n6(3)(a) and the AI Office FAQ. It materially influences which candidates a\nhuman recruiter ever sees, so it does not satisfy Recital 53's\nnon-material-influence test.\n\n**2. Two most relevant deployer obligations.** As a deployer of a high-risk\nAI system we must (i) assign human oversight to a competent and authorised\nnatural person and ensure relevant, sufficiently representative input data\nunder Article 26, and (ii) carry out a fundamental rights impact assessment\nbefore going live under Article 27 \u2014 provided we fall within Article 27's\nscope (a public body, provider of public services, or deployer of an Annex\nIII(5)(b)/(c) system). For a private HR pilot that is not in those\ncategories the second obligation in the strict sense of Article 27 does not\napply; in that case the second-most-relevant obligation is monitoring the\nsystem in operation and informing the provider of incidents under Article\n26's monitoring duty linked to Article 72.\n\n**3. If scoring and ranking were removed.** It would change the analysis but\n**not** automatically clear the system. Article 6(3)(a), read with Recital\n53 and the AI Office FAQ, allows extraction of structured fields without\nscoring, ranking or shortlisting to be treated as a narrow procedural task \u2014\n\"an AI system that transforms unstructured data into structured data\". The\nderogation only holds, however, if the system performs **no profiling of\nnatural persons**: under the final subparagraph of Article 6(3), profiling\nwithin the meaning of Article 4(4) GDPR always reverts the system back to\nhigh-risk. So the answer is \"yes, it would qualify for the derogation under\nArticle 6(3)(a) **only** if we can certify that the field-extraction does\nnot constitute profiling of natural persons\".",
+    "context": [
+      "## Source 1 \u2014 Regulation (EU) 2024/1689, Article 6 \"Classification rules for high-risk AI systems\"\n\nArticle 6(1). Irrespective of whether an AI system is placed on the market or\nput into service independently of the products referred to in points (a) and\n(b), that AI system shall be considered to be high-risk where both of the\nfollowing conditions are fulfilled: (a) the AI system is intended to be used\nas a safety component of a product, or the AI system is itself a product,\ncovered by the Union harmonisation legislation listed in Annex I; (b) the\nproduct whose safety component pursuant to point (a) is the AI system, or the\nAI system itself as a product, is required to undergo a third-party\nconformity assessment, with a view to the placing on the market or the\nputting into service of that product pursuant to the Union harmonisation\nlegislation listed in Annex I.\n\nArticle 6(2). In addition to the high-risk AI systems referred to in\nparagraph 1, AI systems referred to in Annex III shall be considered to be\nhigh-risk.\n\nArticle 6(3). By derogation from paragraph 2, an AI system referred to in\nAnnex III shall not be considered to be high-risk where it does not pose a\nsignificant risk of harm to the health, safety or fundamental rights of\nnatural persons, including by not materially influencing the outcome of\ndecision making. The first subparagraph shall apply where any of the\nfollowing conditions is fulfilled: (a) the AI system is intended to perform\na narrow procedural task; (b) the AI system is intended to improve the\nresult of a previously completed human activity; (c) the AI system is\nintended to detect decision-making patterns or deviations from prior\ndecision-making patterns and is not meant to replace or influence the\npreviously completed human assessment, without proper human review; or\n(d) the AI system is intended to perform a preparatory task to an assessment\nrelevant for the purposes of the use cases listed in Annex III.\n\nNotwithstanding the first subparagraph, an AI system referred to in Annex III\nshall always be considered to be high-risk where the AI system performs\nprofiling of natural persons.",
+      "## Source 2 \u2014 Annex III, point 4(a) \"Employment, workers' management and access to self-employment\"\n\nHigh-risk AI systems pursuant to Article 6(2) are the AI systems listed in any\nof the following areas: ... 4. Employment, workers' management and access to\nself-employment: (a) AI systems intended to be used for the recruitment or\nselection of natural persons, in particular to place targeted job\nadvertisements, to analyse and filter job applications, and to evaluate\ncandidates;",
+      "## Source 3 \u2014 Article 9 \"Risk management system\" (excerpt)\n\nA risk management system shall be established, implemented, documented and\nmaintained in relation to high-risk AI systems. The risk management system\nshall be understood as a continuous iterative process planned and run\nthroughout the entire lifecycle of a high-risk AI system, requiring regular\nsystematic review and updating. The risk management system shall comprise\nthe following steps: (a) the identification and analysis of the known and\nthe reasonably foreseeable risks that the high-risk AI system can pose to\nhealth, safety or fundamental rights when the high-risk AI system is used in\naccordance with its intended purpose; (b) the estimation and evaluation of\nthe risks that may emerge when the high-risk AI system is used in accordance\nwith its intended purpose, and under conditions of reasonably foreseeable\nmisuse; (c) the evaluation of other risks possibly arising, based on the\nanalysis of data gathered from the post-market monitoring system referred to\nin Article 72; (d) the adoption of appropriate and targeted risk management\nmeasures designed to address the risks identified pursuant to point (a).",
+      "## Source 4 \u2014 Article 26 \"Obligations of deployers of high-risk AI systems\" (excerpt)\n\nDeployers of high-risk AI systems shall take appropriate technical and\norganisational measures to ensure they use such systems in accordance with\nthe instructions for use accompanying the systems, pursuant to paragraphs 3\nand 6. Deployers shall assign human oversight to natural persons who have\nthe necessary competence, training and authority, as well as the necessary\nsupport. Deployers shall ensure that input data is relevant and sufficiently\nrepresentative in view of the intended purpose of the high-risk AI system.\nDeployers shall monitor the operation of the high-risk AI system on the\nbasis of the instructions for use and, where relevant, inform providers in\naccordance with Article 72.",
+      "## Source 5 \u2014 Article 27 \"Fundamental rights impact assessment for high-risk AI systems\" (excerpt)\n\nPrior to deploying a high-risk AI system referred to in Article 6(2), with\nthe exception of high-risk AI systems intended to be used in the area\nlisted in point 2 of Annex III, deployers that are bodies governed by public\nlaw, or are private entities providing public services, and deployers of\nhigh-risk AI systems referred to in point 5(b) and (c) of Annex III, shall\nperform an assessment of the impact on fundamental rights that the use of\nsuch system may produce. For that purpose, deployers shall carry out an\nassessment consisting of: (a) a description of the deployer's processes in\nwhich the high-risk AI system will be used in line with its intended purpose;\n(b) a description of the period of time within which, and the frequency with\nwhich, each high-risk AI system is intended to be used; (c) the categories\nof natural persons and groups likely to be affected by its use in the\nspecific context.",
+      "## Source 6 \u2014 Article 50 \"Transparency obligations for providers and deployers of certain AI systems\" (excerpt)\n\nDeployers of an emotion recognition system or a biometric categorisation\nsystem shall inform the natural persons exposed thereto of the operation of\nthe system, and shall process the personal data in accordance with\nRegulations (EU) 2016/679 and (EU) 2018/1725 and Directive (EU) 2016/680, as\napplicable. This obligation shall not apply to AI systems used for biometric\ncategorisation and emotion recognition, which are permitted by law to detect,\nprevent or investigate criminal offences, subject to appropriate safeguards\nfor the rights and freedoms of third parties, and in accordance with Union\nlaw.",
+      "## Source 7 \u2014 Recital 53 (interpretive guidance, non-binding)\n\nIt is also important to clarify that there may be specific cases in which AI\nsystems referred to in pre-defined areas specified in this Regulation do not\nlead to a significant risk of harm to the legal interests protected under\nthose areas because they do not materially influence the decision-making or\ndo not harm those interests substantially. For the purposes of this\nRegulation, an AI system that does not materially influence the outcome of\ndecision-making should be understood to be an AI system that does not have\nan impact on the substance, and thereby the outcome, of decision-making,\nwhether human or automated. An AI system that does not materially influence\nthe outcome of decision-making could include situations in which one or more\nof the following conditions are fulfilled. The first such condition should\nbe that the AI system is intended to perform a narrow procedural task, such\nas an AI system that transforms unstructured data into structured data, an\nAI system that classifies incoming documents into categories or an AI system\nthat is used to detect duplicates among a large number of applications. Those\ntasks are of such narrow and limited nature that they pose only limited risks.",
+      "## Source 8 \u2014 EU Commission AI Office FAQ, \"Recruitment and HR AI systems\" (May 2025, summary)\n\nRecruitment and HR systems that score, rank, or shortlist candidates fall\nwithin Annex III(4)(a) and are presumed to be high-risk under Article 6(2).\nThe derogation in Article 6(3) is narrowly framed and is not intended to\napply to systems that materially influence which candidates progress to a\nhuman interview. A system whose only function is to extract structured fields\nfrom a CV and store them \u2014 without any scoring, ranking, comparison, or\nshortlisting \u2014 may qualify for the derogation under Article 6(3)(a) (narrow\nprocedural task) provided that the recruiter still performs the substantive\nevaluation. Profiling of natural persons (within the meaning of Article 4(4)\nof Regulation (EU) 2016/679) by an HR AI system always reverts the system to\nhigh-risk under the last subparagraph of Article 6(3)."
+    ],
+    "integration": "native",
+    "kind": "rag",
+    "metadata": {
+      "feature": "groundedness",
+      "integration": "sdk-librechat",
+      "scenario_id": "en-eu-ai-act-procurement",
+      "source": "tools.run_scenario",
+      "use_case": "rag"
+    },
+    "question": "We are evaluating a vendor pilot called **TalentScout AI** for our European\nHR team. The system ingests CVs in PDF format, scores each candidate against\nthe job description on a 0\u2013100 fit scale, ranks the top 20, and forwards\nthat shortlist to the recruiter. The recruiter still does every interview.\nThe vendor argues that under Article 6(3) of the EU AI Act the system is\n**not** high-risk because it merely \"performs a narrow procedural task\" of\nturning unstructured CVs into a structured ranking and the human recruiter\nmakes the final call.\n\nThree concrete decisions we need from you, grounded strictly in the cited\nArticles and Annex III:\n\n1. Is TalentScout AI a high-risk AI system within the meaning of the AI Act?\n2. If yes, what are the **two** most relevant deployer-side obligations we\n   take on the moment we go live (with article numbers)?\n3. Would your answer to (1) change if the vendor disabled scoring and\n   ranking and only extracted structured fields (name, last role, years of\n   experience) into our ATS, with no shortlisting? Cite the exact sub-point\n   you are relying on.\n\nPlease be concise \u2014 three short paragraphs, one per question.",
+    "scenario": "trace_rag_groundedness_sdk_librechat"
+  },
+  "response": {
+    "compression": null,
+    "evidence": [
+      {
+        "context_trust_labels": [],
+        "context_trust_score": 0,
+        "context_trust_spans": [],
+        "context_trust_state": "trusted",
+        "coverage_score": 0.9957948923110962,
+        "support_id": "raw-0",
+        "unused_confidence": 0.5,
+        "usage_confidence": 0.49446696356723185,
+        "usage_state": "uncertain",
+        "used": true
+      },
+      {
+        "context_trust_labels": [],
+        "context_trust_score": 0,
+        "context_trust_spans": [],
+        "context_trust_state": "trusted",
+        "coverage_score": 0.996289074420929,
+        "support_id": "raw-1",
+        "unused_confidence": 0.5,
+        "usage_confidence": 0.49511720318543284,
+        "usage_state": "uncertain",
+        "used": true
+      }
+    ],
+    "integration": "native",
+    "latency_ms": 4013.25,
+    "memory": null,
+    "privacy": null,
+    "raw": {
+      "band": "amber",
+      "context_coverage_ratio": 1,
+      "context_coverage_threshold": 0.5,
+      "context_trust_blocked_count": 0,
+      "context_trust_diagnostics": {
+        "blocked_count": 0,
+        "blocked_support_ids": [],
+        "blocked_threshold": 0.6,
+        "enabled": true,
+        "labels": [],
+        "max_risk": 0,
+        "provider": "heuristic",
+        "score": 0,
+        "skipped_reason": null,
+        "support_unit_count": 2,
+        "suspicious_count": 0,
+        "suspicious_support_ids": [],
+        "suspicious_threshold": 0.2,
+        "trusted_count": 2
+      },
+      "context_trust_max_risk": 0,
+      "context_trust_score": 0,
+      "context_trust_suspicious_count": 0,
+      "context_uncertain_ratio": 1,
+      "context_unused_ratio": 0,
+      "context_usage_ratio": 0,
+      "corpus_route": {
+        "artefact_sha256": null,
+        "bundle_metric": "f1_at_best_threshold",
+        "bundle_metric_value": 0.691358024691358,
+        "classifier_latency_ms": 18.822,
+        "classifier_probabilities": {},
+        "classifier_top_classes": [],
+        "confidence": 0.91,
+        "corpus_type": "rag.code_in_context",
+        "fusion_weights_applied": {
+          "calibrated": 0,
+          "literal": 0.28571428571428575,
+          "nli": 0.7142857142857143,
+          "semantic_entropy": 0,
+          "structured": 0
+        },
+        "rule_reason": "rule:code_symbol_context(code_cues=8)",
+        "scoring_mode_applied": "rag",
+        "source": "rule",
+        "thresholds_applied": {
+          "amber": 0.4993098504069085,
+          "green": 0.5493098504069085
+        }
+      },
+      "effective_profile": "standard",
+      "file_attribution": {
+        "coverage_threshold": 0.5,
+        "dead_weight_files": [],
+        "dead_weight_ratio": 0,
+        "low_cosine_threshold": 0.4,
+        "min_owner_share": 0.01,
+        "n_files": 2,
+        "n_query_tokens": 32,
+        "n_response_tokens": 270,
+        "per_file": [
+          {
+            "coverage": 0,
+            "dead_weight": false,
+            "dominating_peer": null,
+            "max_evidence": 0.9957948923110962,
+            "mean_score": 0.9957948923110962,
+            "n_units": 1,
+            "owner_share": 0.43333333333333335,
+            "owner_tokens": 117,
+            "path": "raw-0",
+            "query_owner_share": 0,
+            "query_owner_tokens": 0,
+            "reason_codes": [],
+            "uncertain": 1,
+            "unused": 0,
+            "used": 0
+          },
+          {
+            "coverage": 0,
+            "dead_weight": false,
+            "dominating_peer": null,
+            "max_evidence": 0.996289074420929,
+            "mean_score": 0.996289074420929,
+            "n_units": 1,
+            "owner_share": 0.5666666666666667,
+            "owner_tokens": 153,
+            "path": "raw-1",
+            "query_owner_share": 0,
+            "query_owner_tokens": 0,
+            "reason_codes": [],
+            "uncertain": 1,
+            "unused": 0,
+            "used": 0
+          }
+        ],
+        "per_unit": [],
+        "reason_code_histogram": {}
+      },
+      "groundedness_v2": 0.5324880439123516,
+      "heatmap": {
+        "files": [
+          {
+            "band": "green",
+            "dead_weight": false,
+            "owner_share": 0.43333333333333335,
+            "path": "raw-0",
+            "reason_codes": []
+          },
+          {
+            "band": "green",
+            "dead_weight": false,
+            "owner_share": 0.5666666666666667,
+            "path": "raw-1",
+            "reason_codes": []
+          }
+        ],
+        "summary": {
+          "dead_weight_pct": 0,
+          "groundedness_pct": 0.5324880439123516,
+          "headline_score": 0.5324880439123516,
+          "reason_code_histogram": {},
+          "recommendation": null,
+          "risk_band": "amber"
+        },
+        "thresholds": {
+          "file_amber_min": 0.05,
+          "file_green_min": 0.2,
+          "token_amber_min": 0.35,
+          "token_green_min": 0.6
+        },
+        "tokens": [
+          {
+            "band": "green",
+            "index": 0,
+            "score": 0.9740025401115417,
+            "token": "[CLS]"
+          },
+          {
+            "band": "green",
+            "index": 1,
+            "score": 0.9905464053153992,
+            "token": "**"
+          },
+          {
+            "band": "green",
+            "index": 2,
+            "score": 0.9795644283294678,
+            "token": "1"
+          },
+          {
+            "band": "green",
+            "index": 3,
+            "score": 0.9835312962532043,
+            "token": "."
+          },
+          {
+            "band": "green",
+            "index": 4,
+            "score": 0.9940809011459351,
+            "token": "\u0120High"
+          },
+          {
+            "band": "green",
+            "index": 5,
+            "score": 0.9954500198364258,
+            "token": "-"
+          },
+          {
+            "band": "green",
+            "index": 6,
+            "score": 0.9731462001800537,
+            "token": "risk"
+          },
+          {
+            "band": "green",
+            "index": 7,
+            "score": 0.9829168915748596,
+            "token": "\u0120classification"
+          },
+          {
+            "band": "green",
+            "index": 8,
+            "score": 0.953772783279419,
+            "token": ".**"
+          },
+          {
+            "band": "green",
+            "index": 9,
+            "score": 0.9510189294815063,
+            "token": "\u0120Tal"
+          },
+          {
+            "band": "green",
+            "index": 10,
+            "score": 0.9485608339309692,
+            "token": "ent"
+          },
+          {
+            "band": "green",
+            "index": 11,
+            "score": 0.9279893040657043,
+            "token": "Sc"
+          },
+          {
+            "band": "green",
+            "index": 12,
+            "score": 0.9925562143325806,
+            "token": "out"
+          },
+          {
+            "band": "green",
+            "index": 13,
+            "score": 0.9854387044906616,
+            "token": "\u0120AI"
+          },
+          {
+            "band": "green",
+            "index": 14,
+            "score": 0.9853236675262451,
+            "token": "\u0120is"
+          },
+          {
+            "band": "green",
+            "index": 15,
+            "score": 0.9938842058181763,
+            "token": "\u0120a"
+          },
+          {
+            "band": "green",
+            "index": 16,
+            "score": 0.9939589500427246,
+            "token": "\u0120high"
+          },
+          {
+            "band": "green",
+            "index": 17,
+            "score": 0.9933261871337891,
+            "token": "-"
+          },
+          {
+            "band": "green",
+            "index": 18,
+            "score": 0.9911661744117737,
+            "token": "risk"
+          },
+          {
+            "band": "green",
+            "index": 19,
+            "score": 0.9731059074401855,
+            "token": "\u0120AI"
+          },
+          {
+            "band": "green",
+            "index": 20,
+            "score": 0.9905460476875305,
+            "token": "\u0120system"
+          },
+          {
+            "band": "green",
+            "index": 21,
+            "score": 0.9770181179046631,
+            "token": "."
+          },
+          {
+            "band": "green",
+            "index": 22,
+            "score": 0.968650758266449,
+            "token": "\u0120It"
+          },
+          {
+            "band": "green",
+            "index": 23,
+            "score": 0.9862895011901855,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 24,
+            "score": 0.9945744872093201,
+            "token": "falls"
+          },
+          {
+            "band": "green",
+            "index": 25,
+            "score": 0.9949242472648621,
+            "token": "\u0120squarely"
+          },
+          {
+            "band": "green",
+            "index": 26,
+            "score": 0.9913057088851929,
+            "token": "\u0120within"
+          },
+          {
+            "band": "green",
+            "index": 27,
+            "score": 0.9808062314987183,
+            "token": "\u0120Annex"
+          },
+          {
+            "band": "green",
+            "index": 28,
+            "score": 0.9663951396942139,
+            "token": "\u0120III"
+          },
+          {
+            "band": "green",
+            "index": 29,
+            "score": 0.9863221645355225,
+            "token": "("
+          },
+          {
+            "band": "green",
+            "index": 30,
+            "score": 0.9858822226524353,
+            "token": "4"
+          },
+          {
+            "band": "green",
+            "index": 31,
+            "score": 0.9802332520484924,
+            "token": ")("
+          },
+          {
+            "band": "green",
+            "index": 32,
+            "score": 0.9935601949691772,
+            "token": "a"
+          },
+          {
+            "band": "green",
+            "index": 33,
+            "score": 0.9908174872398376,
+            "token": "),"
+          },
+          {
+            "band": "green",
+            "index": 34,
+            "score": 0.9918330907821655,
+            "token": "\u0120which"
+          },
+          {
+            "band": "green",
+            "index": 35,
+            "score": 0.9831987023353577,
+            "token": "\u0120lists"
+          },
+          {
+            "band": "green",
+            "index": 36,
+            "score": 0.9923238754272461,
+            "token": "\u0120AI"
+          },
+          {
+            "band": "green",
+            "index": 37,
+            "score": 0.9777193665504456,
+            "token": "\u0120systems"
+          },
+          {
+            "band": "green",
+            "index": 38,
+            "score": 0.9913074970245361,
+            "token": "\u0120intended"
+          },
+          {
+            "band": "green",
+            "index": 39,
+            "score": 0.9841019511222839,
+            "token": "\u0120for"
+          },
+          {
+            "band": "green",
+            "index": 40,
+            "score": 0.985159695148468,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 41,
+            "score": 0.986979603767395,
+            "token": "the"
+          },
+          {
+            "band": "green",
+            "index": 42,
+            "score": 0.9946443438529968,
+            "token": "\u0120recruitment"
+          },
+          {
+            "band": "green",
+            "index": 43,
+            "score": 0.9933728575706482,
+            "token": "\u0120or"
+          },
+          {
+            "band": "green",
+            "index": 44,
+            "score": 0.9927224516868591,
+            "token": "\u0120selection"
+          },
+          {
+            "band": "green",
+            "index": 45,
+            "score": 0.9766153693199158,
+            "token": "\u0120of"
+          },
+          {
+            "band": "green",
+            "index": 46,
+            "score": 0.9858867526054382,
+            "token": "\u0120natural"
+          },
+          {
+            "band": "green",
+            "index": 47,
+            "score": 0.9868745803833008,
+            "token": "\u0120persons"
+          },
+          {
+            "band": "green",
+            "index": 48,
+            "score": 0.986109733581543,
+            "token": "\u0120\u00e2\u0122\u0136"
+          },
+          {
+            "band": "green",
+            "index": 49,
+            "score": 0.9800475239753723,
+            "token": "\u0120in"
+          },
+          {
+            "band": "green",
+            "index": 50,
+            "score": 0.9811300039291382,
+            "token": "\u0120particular"
+          },
+          {
+            "band": "green",
+            "index": 51,
+            "score": 0.9908543825149536,
+            "token": "\u0120to"
+          },
+          {
+            "band": "green",
+            "index": 52,
+            "score": 0.9864362478256226,
+            "token": "\u0120\""
+          },
+          {
+            "band": "green",
+            "index": 53,
+            "score": 0.9785361886024475,
+            "token": "analy"
+          },
+          {
+            "band": "green",
+            "index": 54,
+            "score": 0.9899342060089111,
+            "token": "se"
+          },
+          {
+            "band": "green",
+            "index": 55,
+            "score": 0.9895064830780029,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 56,
+            "score": 0.9889900088310242,
+            "token": "and"
+          },
+          {
+            "band": "green",
+            "index": 57,
+            "score": 0.9921213984489441,
+            "token": "\u0120filter"
+          },
+          {
+            "band": "green",
+            "index": 58,
+            "score": 0.9896447658538818,
+            "token": "\u0120job"
+          },
+          {
+            "band": "green",
+            "index": 59,
+            "score": 0.9869231581687927,
+            "token": "\u0120applications"
+          },
+          {
+            "band": "green",
+            "index": 60,
+            "score": 0.9948767423629761,
+            "token": "\""
+          },
+          {
+            "band": "green",
+            "index": 61,
+            "score": 0.9879105091094971,
+            "token": "\u0120and"
+          },
+          {
+            "band": "green",
+            "index": 62,
+            "score": 0.9874143004417419,
+            "token": "\u0120to"
+          },
+          {
+            "band": "green",
+            "index": 63,
+            "score": 0.9952980279922485,
+            "token": "\u0120\""
+          },
+          {
+            "band": "green",
+            "index": 64,
+            "score": 0.995773434638977,
+            "token": "evaluate"
+          },
+          {
+            "band": "green",
+            "index": 65,
+            "score": 0.9922809600830078,
+            "token": "\u0120candidates"
+          },
+          {
+            "band": "green",
+            "index": 66,
+            "score": 0.9944319725036621,
+            "token": "\""
+          },
+          {
+            "band": "green",
+            "index": 67,
+            "score": 0.9940820336341858,
+            "token": "\u0120\u00e2\u0122\u0136"
+          },
+          {
+            "band": "green",
+            "index": 68,
+            "score": 0.984696090221405,
+            "token": "\u0120as"
+          },
+          {
+            "band": "green",
+            "index": 69,
+            "score": 0.9855141043663025,
+            "token": "\u0120high"
+          },
+          {
+            "band": "green",
+            "index": 70,
+            "score": 0.9840438365936279,
+            "token": "-"
+          },
+          {
+            "band": "green",
+            "index": 71,
+            "score": 0.9767313599586487,
+            "token": "risk"
+          },
+          {
+            "band": "green",
+            "index": 72,
+            "score": 0.9671773910522461,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 73,
+            "score": 0.9805314540863037,
+            "token": "under"
+          },
+          {
+            "band": "green",
+            "index": 74,
+            "score": 0.9814017415046692,
+            "token": "\u0120Article"
+          },
+          {
+            "band": "green",
+            "index": 75,
+            "score": 0.9877609014511108,
+            "token": "\u01206"
+          },
+          {
+            "band": "green",
+            "index": 76,
+            "score": 0.9889477491378784,
+            "token": "("
+          },
+          {
+            "band": "green",
+            "index": 77,
+            "score": 0.9944738149642944,
+            "token": "2"
+          },
+          {
+            "band": "green",
+            "index": 78,
+            "score": 0.9885186553001404,
+            "token": ")."
+          },
+          {
+            "band": "green",
+            "index": 79,
+            "score": 0.9844640493392944,
+            "token": "\u0120The"
+          },
+          {
+            "band": "green",
+            "index": 80,
+            "score": 0.9884830117225647,
+            "token": "\u0120vendor"
+          },
+          {
+            "band": "green",
+            "index": 81,
+            "score": 0.9957623481750488,
+            "token": "'s"
+          },
+          {
+            "band": "green",
+            "index": 82,
+            "score": 0.9910140633583069,
+            "token": "\u0120reliance"
+          },
+          {
+            "band": "green",
+            "index": 83,
+            "score": 0.9914599061012268,
+            "token": "\u0120on"
+          },
+          {
+            "band": "green",
+            "index": 84,
+            "score": 0.9877212047576904,
+            "token": "\u0120the"
+          },
+          {
+            "band": "green",
+            "index": 85,
+            "score": 0.9764441251754761,
+            "token": "\u0120Article"
+          },
+          {
+            "band": "green",
+            "index": 86,
+            "score": 0.9843820929527283,
+            "token": "\u01206"
+          },
+          {
+            "band": "green",
+            "index": 87,
+            "score": 0.9817332625389099,
+            "token": "("
+          },
+          {
+            "band": "green",
+            "index": 88,
+            "score": 0.9757699966430664,
+            "token": "3"
+          },
+          {
+            "band": "green",
+            "index": 89,
+            "score": 0.9897100329399109,
+            "token": ")"
+          },
+          {
+            "band": "green",
+            "index": 90,
+            "score": 0.9830809831619263,
+            "token": "\u0120der"
+          },
+          {
+            "band": "green",
+            "index": 91,
+            "score": 0.9803773760795593,
+            "token": "og"
+          },
+          {
+            "band": "green",
+            "index": 92,
+            "score": 0.9757763147354126,
+            "token": "ation"
+          },
+          {
+            "band": "green",
+            "index": 93,
+            "score": 0.9713374376296997,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 94,
+            "score": 0.9711933135986328,
+            "token": "f"
+          },
+          {
+            "band": "green",
+            "index": 95,
+            "score": 0.9767336845397949,
+            "token": "ails"
+          },
+          {
+            "band": "green",
+            "index": 96,
+            "score": 0.9784287810325623,
+            "token": "\u0120on"
+          },
+          {
+            "band": "green",
+            "index": 97,
+            "score": 0.9861900210380554,
+            "token": "\u0120the"
+          },
+          {
+            "band": "green",
+            "index": 98,
+            "score": 0.9879306554794312,
+            "token": "\u0120facts"
+          },
+          {
+            "band": "green",
+            "index": 99,
+            "score": 0.9820535778999329,
+            "token": ":"
+          },
+          {
+            "band": "green",
+            "index": 100,
+            "score": 0.9773723483085632,
+            "token": "\u0120scoring"
+          },
+          {
+            "band": "green",
+            "index": 101,
+            "score": 0.9661439657211304,
+            "token": "\u0120on"
+          },
+          {
+            "band": "green",
+            "index": 102,
+            "score": 0.9906469583511353,
+            "token": "\u0120a"
+          },
+          {
+            "band": "green",
+            "index": 103,
+            "score": 0.9910445213317871,
+            "token": "\u01200"
+          },
+          {
+            "band": "green",
+            "index": 104,
+            "score": 0.9904044270515442,
+            "token": "\u00e2\u0122\u0135"
+          },
+          {
+            "band": "green",
+            "index": 105,
+            "score": 0.9884402751922607,
+            "token": "100"
+          },
+          {
+            "band": "green",
+            "index": 106,
+            "score": 0.9929801821708679,
+            "token": "\u0120fit"
+          },
+          {
+            "band": "green",
+            "index": 107,
+            "score": 0.9841349720954895,
+            "token": "\u0120scale"
+          },
+          {
+            "band": "green",
+            "index": 108,
+            "score": 0.9872416257858276,
+            "token": "\u0120and"
+          },
+          {
+            "band": "green",
+            "index": 109,
+            "score": 0.993401825428009,
+            "token": "\u0120ranking"
+          },
+          {
+            "band": "green",
+            "index": 110,
+            "score": 0.9932147860527039,
+            "token": "\u0120the"
+          },
+          {
+            "band": "green",
+            "index": 111,
+            "score": 0.9848713874816895,
+            "token": "\u0120top"
+          },
+          {
+            "band": "green",
+            "index": 112,
+            "score": 0.9940717220306396,
+            "token": "\u012020"
+          },
+          {
+            "band": "green",
+            "index": 113,
+            "score": 0.9926527738571167,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 114,
+            "score": 0.9808699488639832,
+            "token": "c"
+          },
+          {
+            "band": "green",
+            "index": 115,
+            "score": 0.9950790405273438,
+            "token": "andidates"
+          },
+          {
+            "band": "green",
+            "index": 116,
+            "score": 0.9875485897064209,
+            "token": "\u0120is"
+          },
+          {
+            "band": "green",
+            "index": 117,
+            "score": 0.9941877126693726,
+            "token": "\u0120not"
+          },
+          {
+            "band": "green",
+            "index": 118,
+            "score": 0.9919953942298889,
+            "token": "\u0120a"
+          },
+          {
+            "band": "green",
+            "index": 119,
+            "score": 0.9878383874893188,
+            "token": "\u0120\""
+          },
+          {
+            "band": "green",
+            "index": 120,
+            "score": 0.9824001789093018,
+            "token": "n"
+          },
+          {
+            "band": "green",
+            "index": 121,
+            "score": 0.9744111895561218,
+            "token": "arrow"
+          },
+          {
+            "band": "green",
+            "index": 122,
+            "score": 0.9606643319129944,
+            "token": "\u0120procedural"
+          },
+          {
+            "band": "green",
+            "index": 123,
+            "score": 0.9883164763450623,
+            "token": "\u0120task"
+          },
+          {
+            "band": "green",
+            "index": 124,
+            "score": 0.9801817536354065,
+            "token": "\""
+          },
+          {
+            "band": "green",
+            "index": 125,
+            "score": 0.989521324634552,
+            "token": "\u0120within"
+          },
+          {
+            "band": "green",
+            "index": 126,
+            "score": 0.9635827541351318,
+            "token": "\u0120the"
+          },
+          {
+            "band": "green",
+            "index": 127,
+            "score": 0.9766187071800232,
+            "token": "\u0120meaning"
+          },
+          {
+            "band": "green",
+            "index": 128,
+            "score": 0.9800401329994202,
+            "token": "\u0120of"
+          },
+          {
+            "band": "green",
+            "index": 129,
+            "score": 0.9961718320846558,
+            "token": "\u0120Article"
+          },
+          {
+            "band": "green",
+            "index": 130,
+            "score": 0.9925752282142639,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 131,
+            "score": 0.9923294186592102,
+            "token": "6"
+          },
+          {
+            "band": "green",
+            "index": 132,
+            "score": 0.9957444667816162,
+            "token": "("
+          },
+          {
+            "band": "green",
+            "index": 133,
+            "score": 0.9811050891876221,
+            "token": "3"
+          },
+          {
+            "band": "green",
+            "index": 134,
+            "score": 0.9898599982261658,
+            "token": ")("
+          },
+          {
+            "band": "green",
+            "index": 135,
+            "score": 0.9893937110900879,
+            "token": "a"
+          },
+          {
+            "band": "green",
+            "index": 136,
+            "score": 0.996289074420929,
+            "token": ")"
+          },
+          {
+            "band": "green",
+            "index": 137,
+            "score": 0.9898533821105957,
+            "token": "\u0120and"
+          },
+          {
+            "band": "green",
+            "index": 138,
+            "score": 0.9793844223022461,
+            "token": "\u0120the"
+          },
+          {
+            "band": "green",
+            "index": 139,
+            "score": 0.9839397072792053,
+            "token": "\u0120AI"
+          },
+          {
+            "band": "green",
+            "index": 140,
+            "score": 0.9851152300834656,
+            "token": "\u0120Office"
+          },
+          {
+            "band": "green",
+            "index": 141,
+            "score": 0.9745657444000244,
+            "token": "\u0120FAQ"
+          },
+          {
+            "band": "green",
+            "index": 142,
+            "score": 0.9856427311897278,
+            "token": "."
+          },
+          {
+            "band": "green",
+            "index": 143,
+            "score": 0.9920250177383423,
+            "token": "\u0120It"
+          },
+          {
+            "band": "green",
+            "index": 144,
+            "score": 0.9858179688453674,
+            "token": "\u0120materially"
+          },
+          {
+            "band": "green",
+            "index": 145,
+            "score": 0.9762318134307861,
+            "token": "\u0120influences"
+          },
+          {
+            "band": "green",
+            "index": 146,
+            "score": 0.9730604290962219,
+            "token": "\u0120which"
+          },
+          {
+            "band": "green",
+            "index": 147,
+            "score": 0.9571748971939087,
+            "token": "\u0120candidates"
+          },
+          {
+            "band": "green",
+            "index": 148,
+            "score": 0.9872201681137085,
+            "token": "\u0120a"
+          },
+          {
+            "band": "green",
+            "index": 149,
+            "score": 0.9899355173110962,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 150,
+            "score": 0.9794697761535645,
+            "token": "human"
+          },
+          {
+            "band": "green",
+            "index": 151,
+            "score": 0.9819613099098206,
+            "token": "\u0120recru"
+          },
+          {
+            "band": "green",
+            "index": 152,
+            "score": 0.9864524602890015,
+            "token": "iter"
+          },
+          {
+            "band": "green",
+            "index": 153,
+            "score": 0.983951985836029,
+            "token": "\u0120ever"
+          },
+          {
+            "band": "green",
+            "index": 154,
+            "score": 0.9809311032295227,
+            "token": "\u0120sees"
+          },
+          {
+            "band": "green",
+            "index": 155,
+            "score": 0.9861713647842407,
+            "token": ","
+          },
+          {
+            "band": "green",
+            "index": 156,
+            "score": 0.9839901328086853,
+            "token": "\u0120so"
+          },
+          {
+            "band": "green",
+            "index": 157,
+            "score": 0.9805272221565247,
+            "token": "\u0120it"
+          },
+          {
+            "band": "green",
+            "index": 158,
+            "score": 0.9820294380187988,
+            "token": "\u0120does"
+          },
+          {
+            "band": "green",
+            "index": 159,
+            "score": 0.9847303032875061,
+            "token": "\u0120not"
+          },
+          {
+            "band": "green",
+            "index": 160,
+            "score": 0.9817992448806763,
+            "token": "\u0120satisfy"
+          },
+          {
+            "band": "green",
+            "index": 161,
+            "score": 0.9722849130630493,
+            "token": "\u0120Rec"
+          },
+          {
+            "band": "green",
+            "index": 162,
+            "score": 0.9603955149650574,
+            "token": "ital"
+          },
+          {
+            "band": "green",
+            "index": 163,
+            "score": 0.9647401571273804,
+            "token": "\u012053"
+          },
+          {
+            "band": "green",
+            "index": 164,
+            "score": 0.9741733074188232,
+            "token": "'s"
+          },
+          {
+            "band": "green",
+            "index": 165,
+            "score": 0.9793429374694824,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 166,
+            "score": 0.9883002638816833,
+            "token": "non"
+          },
+          {
+            "band": "green",
+            "index": 167,
+            "score": 0.9785905480384827,
+            "token": "-"
+          },
+          {
+            "band": "green",
+            "index": 168,
+            "score": 0.9551187753677368,
+            "token": "material"
+          },
+          {
+            "band": "green",
+            "index": 169,
+            "score": 0.9588912129402161,
+            "token": "-"
+          },
+          {
+            "band": "green",
+            "index": 170,
+            "score": 0.9780266284942627,
+            "token": "in"
+          },
+          {
+            "band": "green",
+            "index": 171,
+            "score": 0.9770801067352295,
+            "token": "fluence"
+          },
+          {
+            "band": "green",
+            "index": 172,
+            "score": 0.9936296939849854,
+            "token": "\u0120test"
+          },
+          {
+            "band": "green",
+            "index": 173,
+            "score": 0.9933416247367859,
+            "token": "."
+          },
+          {
+            "band": "green",
+            "index": 174,
+            "score": 0.9905006885528564,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 175,
+            "score": 0.9925011992454529,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 176,
+            "score": 0.9911704659461975,
+            "token": "**"
+          },
+          {
+            "band": "green",
+            "index": 177,
+            "score": 0.982483446598053,
+            "token": "2"
+          },
+          {
+            "band": "green",
+            "index": 178,
+            "score": 0.9860864281654358,
+            "token": "."
+          },
+          {
+            "band": "green",
+            "index": 179,
+            "score": 0.9871068000793457,
+            "token": "\u0120Two"
+          },
+          {
+            "band": "green",
+            "index": 180,
+            "score": 0.9856312870979309,
+            "token": "\u0120most"
+          },
+          {
+            "band": "green",
+            "index": 181,
+            "score": 0.9649866819381714,
+            "token": "\u0120relevant"
+          },
+          {
+            "band": "green",
+            "index": 182,
+            "score": 0.9866763353347778,
+            "token": "\u0120deploy"
+          },
+          {
+            "band": "green",
+            "index": 183,
+            "score": 0.9739181995391846,
+            "token": "er"
+          },
+          {
+            "band": "green",
+            "index": 184,
+            "score": 0.9801389575004578,
+            "token": "\u0120obligations"
+          },
+          {
+            "band": "green",
+            "index": 185,
+            "score": 0.987440824508667,
+            "token": ".**"
+          },
+          {
+            "band": "green",
+            "index": 186,
+            "score": 0.9757592082023621,
+            "token": "\u0120As"
+          },
+          {
+            "band": "green",
+            "index": 187,
+            "score": 0.9870709776878357,
+            "token": "\u0120a"
+          },
+          {
+            "band": "green",
+            "index": 188,
+            "score": 0.9787918925285339,
+            "token": "\u0120deploy"
+          },
+          {
+            "band": "green",
+            "index": 189,
+            "score": 0.9792472124099731,
+            "token": "er"
+          },
+          {
+            "band": "green",
+            "index": 190,
+            "score": 0.993057906627655,
+            "token": "\u0120of"
+          },
+          {
+            "band": "green",
+            "index": 191,
+            "score": 0.9920002818107605,
+            "token": "\u0120a"
+          },
+          {
+            "band": "green",
+            "index": 192,
+            "score": 0.9884316325187683,
+            "token": "\u0120high"
+          },
+          {
+            "band": "green",
+            "index": 193,
+            "score": 0.985855758190155,
+            "token": "-"
+          },
+          {
+            "band": "green",
+            "index": 194,
+            "score": 0.9839333891868591,
+            "token": "risk"
+          },
+          {
+            "band": "green",
+            "index": 195,
+            "score": 0.973950207233429,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 196,
+            "score": 0.981502115726471,
+            "token": "AI"
+          },
+          {
+            "band": "green",
+            "index": 197,
+            "score": 0.9773104190826416,
+            "token": "\u0120system"
+          },
+          {
+            "band": "green",
+            "index": 198,
+            "score": 0.9750416278839111,
+            "token": "\u0120we"
+          },
+          {
+            "band": "green",
+            "index": 199,
+            "score": 0.9791305661201477,
+            "token": "\u0120must"
+          },
+          {
+            "band": "green",
+            "index": 200,
+            "score": 0.9914446473121643,
+            "token": "\u0120("
+          },
+          {
+            "band": "green",
+            "index": 201,
+            "score": 0.9934554696083069,
+            "token": "i"
+          },
+          {
+            "band": "green",
+            "index": 202,
+            "score": 0.9940894842147827,
+            "token": ")"
+          },
+          {
+            "band": "green",
+            "index": 203,
+            "score": 0.9547715187072754,
+            "token": "\u0120assign"
+          },
+          {
+            "band": "green",
+            "index": 204,
+            "score": 0.9864434599876404,
+            "token": "\u0120human"
+          },
+          {
+            "band": "green",
+            "index": 205,
+            "score": 0.9901157021522522,
+            "token": "\u0120oversight"
+          },
+          {
+            "band": "green",
+            "index": 206,
+            "score": 0.9722743630409241,
+            "token": "\u0120to"
+          },
+          {
+            "band": "green",
+            "index": 207,
+            "score": 0.9814072847366333,
+            "token": "\u0120a"
+          },
+          {
+            "band": "green",
+            "index": 208,
+            "score": 0.9808551073074341,
+            "token": "\u0120competent"
+          },
+          {
+            "band": "green",
+            "index": 209,
+            "score": 0.987906813621521,
+            "token": "\u0120and"
+          },
+          {
+            "band": "green",
+            "index": 210,
+            "score": 0.9957948923110962,
+            "token": "\u0120author"
+          },
+          {
+            "band": "green",
+            "index": 211,
+            "score": 0.9925863146781921,
+            "token": "ised"
+          },
+          {
+            "band": "green",
+            "index": 212,
+            "score": 0.9821187853813171,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 213,
+            "score": 0.9898031949996948,
+            "token": "natural"
+          },
+          {
+            "band": "green",
+            "index": 214,
+            "score": 0.9921072721481323,
+            "token": "\u0120person"
+          },
+          {
+            "band": "green",
+            "index": 215,
+            "score": 0.9842416644096375,
+            "token": "\u0120and"
+          },
+          {
+            "band": "green",
+            "index": 216,
+            "score": 0.9787663817405701,
+            "token": "\u0120ensure"
+          },
+          {
+            "band": "green",
+            "index": 217,
+            "score": 0.9753360748291016,
+            "token": "\u0120relevant"
+          },
+          {
+            "band": "green",
+            "index": 218,
+            "score": 0.9935289621353149,
+            "token": ","
+          },
+          {
+            "band": "green",
+            "index": 219,
+            "score": 0.9931267499923706,
+            "token": "\u0120sufficiently"
+          },
+          {
+            "band": "green",
+            "index": 220,
+            "score": 0.9540383219718933,
+            "token": "\u0120representative"
+          },
+          {
+            "band": "green",
+            "index": 221,
+            "score": 0.9930332899093628,
+            "token": "\u0120input"
+          },
+          {
+            "band": "green",
+            "index": 222,
+            "score": 0.9887875318527222,
+            "token": "\u0120data"
+          },
+          {
+            "band": "green",
+            "index": 223,
+            "score": 0.9789564609527588,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 224,
+            "score": 0.9770805239677429,
+            "token": "under"
+          },
+          {
+            "band": "green",
+            "index": 225,
+            "score": 0.9871343970298767,
+            "token": "\u0120Article"
+          },
+          {
+            "band": "green",
+            "index": 226,
+            "score": 0.9922611117362976,
+            "token": "\u012026"
+          },
+          {
+            "band": "green",
+            "index": 227,
+            "score": 0.9543978571891785,
+            "token": ","
+          },
+          {
+            "band": "green",
+            "index": 228,
+            "score": 0.9841190576553345,
+            "token": "\u0120and"
+          },
+          {
+            "band": "green",
+            "index": 229,
+            "score": 0.9931226968765259,
+            "token": "\u0120("
+          },
+          {
+            "band": "green",
+            "index": 230,
+            "score": 0.9721695184707642,
+            "token": "ii"
+          },
+          {
+            "band": "green",
+            "index": 231,
+            "score": 0.9890811443328857,
+            "token": ")"
+          },
+          {
+            "band": "green",
+            "index": 232,
+            "score": 0.9839592576026917,
+            "token": "\u0120carry"
+          },
+          {
+            "band": "green",
+            "index": 233,
+            "score": 0.9785887002944946,
+            "token": "\u0120out"
+          },
+          {
+            "band": "green",
+            "index": 234,
+            "score": 0.9802036881446838,
+            "token": "\u0120a"
+          },
+          {
+            "band": "green",
+            "index": 235,
+            "score": 0.9782203435897827,
+            "token": "\u0120fundamental"
+          },
+          {
+            "band": "green",
+            "index": 236,
+            "score": 0.9825774431228638,
+            "token": "\u0120rights"
+          },
+          {
+            "band": "green",
+            "index": 237,
+            "score": 0.9804653525352478,
+            "token": "\u0120impact"
+          },
+          {
+            "band": "green",
+            "index": 238,
+            "score": 0.9798506498336792,
+            "token": "\u0120assessment"
+          },
+          {
+            "band": "green",
+            "index": 239,
+            "score": 0.9863065481185913,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 240,
+            "score": 0.9634905457496643,
+            "token": "before"
+          },
+          {
+            "band": "green",
+            "index": 241,
+            "score": 0.9666288495063782,
+            "token": "\u0120going"
+          },
+          {
+            "band": "green",
+            "index": 242,
+            "score": 0.9866194128990173,
+            "token": "\u0120live"
+          },
+          {
+            "band": "green",
+            "index": 243,
+            "score": 0.9878360629081726,
+            "token": "\u0120under"
+          },
+          {
+            "band": "green",
+            "index": 244,
+            "score": 0.9960559010505676,
+            "token": "\u0120Article"
+          },
+          {
+            "band": "green",
+            "index": 245,
+            "score": 0.9931365847587585,
+            "token": "\u012027"
+          },
+          {
+            "band": "green",
+            "index": 246,
+            "score": 0.9883620738983154,
+            "token": "\u0120\u00e2\u0122\u0136"
+          },
+          {
+            "band": "green",
+            "index": 247,
+            "score": 0.9698327779769897,
+            "token": "\u0120provided"
+          },
+          {
+            "band": "green",
+            "index": 248,
+            "score": 0.987118661403656,
+            "token": "\u0120we"
+          },
+          {
+            "band": "green",
+            "index": 249,
+            "score": 0.9834161996841431,
+            "token": "\u0120fall"
+          },
+          {
+            "band": "green",
+            "index": 250,
+            "score": 0.987678050994873,
+            "token": "\u0120within"
+          },
+          {
+            "band": "green",
+            "index": 251,
+            "score": 0.97700035572052,
+            "token": "\u0120Article"
+          },
+          {
+            "band": "green",
+            "index": 252,
+            "score": 0.987828254699707,
+            "token": "\u012027"
+          },
+          {
+            "band": "green",
+            "index": 253,
+            "score": 0.9849392175674438,
+            "token": "'s"
+          },
+          {
+            "band": "green",
+            "index": 254,
+            "score": 0.9888876676559448,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 255,
+            "score": 0.9773321151733398,
+            "token": "scope"
+          },
+          {
+            "band": "green",
+            "index": 256,
+            "score": 0.9673634767532349,
+            "token": "\u0120("
+          },
+          {
+            "band": "green",
+            "index": 257,
+            "score": 0.9957045912742615,
+            "token": "a"
+          },
+          {
+            "band": "green",
+            "index": 258,
+            "score": 0.9574773907661438,
+            "token": "\u0120public"
+          },
+          {
+            "band": "green",
+            "index": 259,
+            "score": 0.9821732044219971,
+            "token": "\u0120body"
+          },
+          {
+            "band": "green",
+            "index": 260,
+            "score": 0.9870868921279907,
+            "token": ","
+          },
+          {
+            "band": "green",
+            "index": 261,
+            "score": 0.9853024482727051,
+            "token": "\u0120provider"
+          },
+          {
+            "band": "green",
+            "index": 262,
+            "score": 0.9861283302307129,
+            "token": "\u0120of"
+          },
+          {
+            "band": "green",
+            "index": 263,
+            "score": 0.9855659008026123,
+            "token": "\u0120public"
+          },
+          {
+            "band": "green",
+            "index": 264,
+            "score": 0.9895800948143005,
+            "token": "\u0120services"
+          },
+          {
+            "band": "green",
+            "index": 265,
+            "score": 0.9744759202003479,
+            "token": ","
+          },
+          {
+            "band": "green",
+            "index": 266,
+            "score": 0.9849356412887573,
+            "token": "\u0120or"
+          },
+          {
+            "band": "green",
+            "index": 267,
+            "score": 0.9793415665626526,
+            "token": "\u0120deploy"
+          },
+          {
+            "band": "green",
+            "index": 268,
+            "score": 0.9719781279563904,
+            "token": "er"
+          },
+          {
+            "band": "green",
+            "index": 269,
+            "score": 0.9834911823272705,
+            "token": "\u0120of"
+          }
+        ]
+      },
+      "latency_ms": 3553.4001532942057,
+      "literal_guarded": 0.6137081536932305,
+      "nli_aggregate": null,
+      "primary_metric": "groundedness_v2",
+      "profile": null,
+      "profile_diagnostics": {
+        "effective_profile": "standard",
+        "fusion_weights": {
+          "calibrated": 0,
+          "literal": 0.28571428571428575,
+          "nli": 0.7142857142857143,
+          "semantic_entropy": 0,
+          "structured": 0
+        },
+        "nli_atomic_claims": false,
+        "nli_premise_concat": false,
+        "nli_provider_available": true,
+        "nli_requested": true,
+        "nli_reranker_available": true,
+        "nli_reranker_model": null,
+        "preset": "balanced",
+        "requested_profile": null,
+        "semantic_entropy_skipped_reason": null,
+        "thresholds_path": "calibration_bundle:rag.code_in_context",
+        "thresholds_source": "calibration_bundle:rag.code_in_context",
+        "verification_sample_count": 0
+      },
+      "reverse_context_calibrated": 0.9993212354052198,
+      "runtime_decision": {
+        "action": "allow",
+        "allow_disabled": false,
+        "allow_threshold": 0.9978215215188425,
+        "band": "green",
+        "block_disabled": false,
+        "block_threshold": 0.0021784784811576144,
+        "class_key": "rag.code_in_context",
+        "evidence": [
+          {
+            "context_trust_labels": [],
+            "context_trust_score": 0,
+            "context_trust_state": "trusted",
+            "coverage_score": 0.996289074420929,
+            "index": 1,
+            "support_id": "raw-1",
+            "text": "within Annex III(4)(a) and are presumed to be high-risk under Article 6(2).\nThe derogation in Article 6(3) is narrowly framed and is not intended to\napply to systems that materially influence which candidates progress to a\nhuman interview. A system whose only function is to extract structured fields\nfrom a CV and store them \u2014 without any scoring, ranking, comparison, or\nshortlisting \u2014 may qualify for the derogation under Article 6(3)(a) (narrow\nprocedural task) provided that the recruiter still performs the substantive\nevaluation. Profiling of natural persons (within the meaning of Article 4(4)\nof Regulation (EU) 2016/679) by an HR AI system always reverts the system to\nhigh-risk under the last subparagraph of Article 6(3).",
+            "usage_state": "uncertain"
+          },
+          {
+            "context_trust_labels": [],
+            "context_trust_score": 0,
+            "context_trust_state": "trusted",
+            "coverage_score": 0.9957948923110962,
+            "index": 0,
+            "support_id": "raw-0",
+            "text": "Article 6(1). Irrespective of whether an AI system is placed on the market or\nput into service independently of the products referred to in points (a) and\n(b), that AI system shall be considered to be high-risk where both of the\nfollowing conditions are fulfilled: (a) the AI system is intended to be used\nas a safety component of a product, or the AI system is itself a product,\ncovered by the Union harmonisation legislation listed in Annex I; (b) the\nproduct whose safety component pursuant to point (a) is the AI system, or the\nAI system itself as a product, is required to undergo a third-party\nconformity assessment, with a view to the placing on the market or the\nputting into service of that product pursuant to the Union harmonisation\nlegislation listed in Annex I.\n\nArticle 6(2). In additio",
+            "usage_state": "uncertain"
+          }
+        ],
+        "head_enabled": true,
+        "head_features_used": [
+          "v1_score",
+          "v1_nli_aggregate",
+          "reverse_context",
+          "groundedness_v2",
+          "literal_guarded",
+          "literal_mismatch_count",
+          "context_coverage_ratio",
+          "context_unused_ratio",
+          "dead_weight_ratio",
+          "token_mean",
+          "token_bottom10",
+          "token_saturation_rate",
+          "calibrated_mean",
+          "nli_token_mean",
+          "literal_coverage",
+          "atom_match",
+          "claim_count",
+          "unsupported_claim_fraction",
+          "schema_match",
+          "api_symbol_match",
+          "trajectory_order_match",
+          "test_outcome_match",
+          "identifier_coverage",
+          "identifier_count",
+          "literal_coverage"
+        ],
+        "head_id": "identifier_ranker",
+        "head_reason_codes": [
+          "rag.code_in_context_trace_feature_head_active",
+          "head_score_channel:linear_feature_model"
+        ],
+        "head_registry_sha256": "4f22076c039f851822d705e3adfc45b09db130b814bba84e387f48cecc7868f7",
+        "head_score": 0.9986484013230366,
+        "head_version": "root_cause_solution_v1",
+        "policy_sha256": "e4c84b8eb1dcd9261b360aa4922c400c8e8d8fc9beeca7fa57d9723e15eef2cf",
+        "policy_version": "optimized_v1_plus_calibrator",
+        "reason_codes": [],
+        "rollback_safe": true,
+        "score": 0.9986484013230366,
+        "score_channel": "head:identifier_ranker",
+        "unsupported_spans": []
+      },
+      "runtime_feature_source": "synthesized",
+      "runtime_head_features": {
+        "api_symbol_match": 0.6,
+        "atom_match": 0.7153987325351941,
+        "calibrated_mean": 0.5324880439123516,
+        "claim_count": 13,
+        "context_coverage_ratio": 1,
+        "context_unused_ratio": 0,
+        "coverage_label_mean": 1,
+        "dead_weight_ratio": 0,
+        "groundedness_v2": 0.5324880439123516,
+        "identifier_count": 352,
+        "identifier_coverage": 0.6,
+        "literal_coverage": 0.6137081536932305,
+        "literal_guarded": 0.6137081536932305,
+        "literal_mismatch_count": 4,
+        "min_claim_coverage": 1,
+        "nli_token_mean": 0.5324880439123516,
+        "numeric_coverage": 0.9666666666666667,
+        "reverse_context": 0.9827288952502575,
+        "schema_match": 0,
+        "support_unit_label_mean": 1,
+        "test_outcome_match": 0,
+        "token_bottom10": 0.6137081536932305,
+        "token_mean": 0.9827288952502575,
+        "token_saturation_rate": 0,
+        "trajectory_order_match": 1,
+        "unsupported_claim_fraction": 0,
+        "v1_nli_aggregate": 0.5324880439123516,
+        "v1_score": 0.5324880439123516
+      },
+      "score": 0.5324880439123516,
+      "score_channels": {
+        "consensus_hardened": 0.9597551115266569,
+        "context_trust": 0,
+        "context_trust_max_risk": 0,
+        "groundedness_v2": 0.5324880439123516,
+        "literal_guarded": 0.6137081536932305,
+        "nli_aggregate": null,
+        "primary": 0.9827288952502575,
+        "reverse_context": 0.9827288952502575,
+        "reverse_context_calibrated": 0.9993212354052198,
+        "semantic_entropy_aggregate": null,
+        "structured_source": null,
+        "structured_source_guarded": null
+      },
+      "scoring_mode": "rag",
+      "semantic_entropy_aggregate": null,
+      "semantic_entropy_raw": null,
+      "semantic_entropy_sample_count": 0,
+      "session_id": null,
+      "structured_score": null,
+      "structured_source_detected": false,
+      "structured_source_guarded": null,
+      "success": true,
+      "support_units": [
+        {
+          "context_trust_labels": [],
+          "context_trust_score": 0,
+          "context_trust_spans": [],
+          "context_trust_state": "trusted",
+          "coverage_score": 0.9957948923110962,
+          "support_id": "raw-0",
+          "unused_confidence": 0.5,
+          "usage_confidence": 0.49446696356723185,
+          "usage_state": "uncertain",
+          "used": true
+        },
+        {
+          "context_trust_labels": [],
+          "context_trust_score": 0,
+          "context_trust_spans": [],
+          "context_trust_state": "trusted",
+          "coverage_score": 0.996289074420929,
+          "support_id": "raw-1",
+          "unused_confidence": 0.5,
+          "usage_confidence": 0.49511720318543284,
+          "usage_state": "uncertain",
+          "used": true
+        }
+      ],
+      "support_units_usage": {
+        "uncertain": 2,
+        "unused": 0,
+        "used": 0
+      },
+      "version": "0.1.0",
+      "warnings": [
+        "literal_mismatch: 3 response literal(s) not present in support: number=0, number=100, number=20",
+        "nli_unavailable: claim-level verification failed and was skipped"
+      ]
+    },
+    "request_id": "sync-7b8c7a76-08fd-480f-97cb-677d68de83a1-u2",
+    "risk_band": "green",
+    "runtime_decision": {
+      "action": "allow",
+      "allow_disabled": false,
+      "allow_threshold": 0.9978215215188425,
+      "band": "green",
+      "block_disabled": false,
+      "block_threshold": 0.0021784784811576144,
+      "class_key": "rag.code_in_context",
+      "evidence": [
+        {
+          "context_trust_labels": [],
+          "context_trust_score": 0,
+          "context_trust_state": "trusted",
+          "coverage_score": 0.996289074420929,
+          "index": 1,
+          "support_id": "raw-1",
+          "text": "within Annex III(4)(a) and are presumed to be high-risk under Article 6(2).\nThe derogation in Article 6(3) is narrowly framed and is not intended to\napply to systems that materially influence which candidates progress to a\nhuman interview. A system whose only function is to extract structured fields\nfrom a CV and store them \u2014 without any scoring, ranking, comparison, or\nshortlisting \u2014 may qualify for the derogation under Article 6(3)(a) (narrow\nprocedural task) provided that the recruiter still performs the substantive\nevaluation. Profiling of natural persons (within the meaning of Article 4(4)\nof Regulation (EU) 2016/679) by an HR AI system always reverts the system to\nhigh-risk under the last subparagraph of Article 6(3).",
+          "usage_state": "uncertain"
+        },
+        {
+          "context_trust_labels": [],
+          "context_trust_score": 0,
+          "context_trust_state": "trusted",
+          "coverage_score": 0.9957948923110962,
+          "index": 0,
+          "support_id": "raw-0",
+          "text": "Article 6(1). Irrespective of whether an AI system is placed on the market or\nput into service independently of the products referred to in points (a) and\n(b), that AI system shall be considered to be high-risk where both of the\nfollowing conditions are fulfilled: (a) the AI system is intended to be used\nas a safety component of a product, or the AI system is itself a product,\ncovered by the Union harmonisation legislation listed in Annex I; (b) the\nproduct whose safety component pursuant to point (a) is the AI system, or the\nAI system itself as a product, is required to undergo a third-party\nconformity assessment, with a view to the placing on the market or the\nputting into service of that product pursuant to the Union harmonisation\nlegislation listed in Annex I.\n\nArticle 6(2). In additio",
+          "usage_state": "uncertain"
+        }
+      ],
+      "head_enabled": true,
+      "head_features_used": [
+        "v1_score",
+        "v1_nli_aggregate",
+        "reverse_context",
+        "groundedness_v2",
+        "literal_guarded",
+        "literal_mismatch_count",
+        "context_coverage_ratio",
+        "context_unused_ratio",
+        "dead_weight_ratio",
+        "token_mean",
+        "token_bottom10",
+        "token_saturation_rate",
+        "calibrated_mean",
+        "nli_token_mean",
+        "literal_coverage",
+        "atom_match",
+        "claim_count",
+        "unsupported_claim_fraction",
+        "schema_match",
+        "api_symbol_match",
+        "trajectory_order_match",
+        "test_outcome_match",
+        "identifier_coverage",
+        "identifier_count",
+        "literal_coverage"
+      ],
+      "head_id": "identifier_ranker",
+      "head_reason_codes": [
+        "rag.code_in_context_trace_feature_head_active",
+        "head_score_channel:linear_feature_model"
+      ],
+      "head_registry_sha256": "4f22076c039f851822d705e3adfc45b09db130b814bba84e387f48cecc7868f7",
+      "head_score": 0.9986484013230366,
+      "head_version": "root_cause_solution_v1",
+      "policy_sha256": "e4c84b8eb1dcd9261b360aa4922c400c8e8d8fc9beeca7fa57d9723e15eef2cf",
+      "policy_version": "optimized_v1_plus_calibrator",
+      "reason_codes": [],
+      "rollback_safe": true,
+      "score": 0.9986484013230366,
+      "score_channel": "head:identifier_ranker",
+      "unsupported_spans": []
+    },
+    "scenario": "trace_rag_groundedness_sdk_librechat",
+    "trace_score": 0.9986484013230366
+  },
+  "status": "ok"
+}

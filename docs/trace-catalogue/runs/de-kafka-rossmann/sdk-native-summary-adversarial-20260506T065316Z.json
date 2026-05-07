@@ -1,0 +1,51 @@
+{
+  "bridge_url": "http://127.0.0.1:8788",
+  "features": [
+    "groundedness",
+    "context-util",
+    "memory",
+    "privacy",
+    "compression"
+  ],
+  "integration": "native",
+  "integration_label": "sdk-librechat",
+  "iso": "20260506T065316Z",
+  "results": {
+    "compression": {
+      "elapsed_ms": 5192.22,
+      "error": null,
+      "risk_band": "green",
+      "status": "ok"
+    },
+    "context-util": {
+      "elapsed_ms": 942.74,
+      "error": null,
+      "risk_band": "amber",
+      "status": "ok"
+    },
+    "groundedness": {
+      "elapsed_ms": 4878.22,
+      "error": null,
+      "risk_band": "amber",
+      "status": "ok"
+    },
+    "memory": {
+      "elapsed_ms": 187.53,
+      "error": null,
+      "risk_band": "green",
+      "status": "ok"
+    },
+    "privacy": {
+      "elapsed_ms": 238.97,
+      "error": null,
+      "risk_band": "green",
+      "status": "ok"
+    }
+  },
+  "scenario_id": "de-kafka-rossmann",
+  "trace_extra": {
+    "include_triangular_diagnostics": false,
+    "profile": "quality"
+  },
+  "use_case": "rag"
+}

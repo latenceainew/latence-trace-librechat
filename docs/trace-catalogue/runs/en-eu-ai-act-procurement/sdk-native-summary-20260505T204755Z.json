@@ -1,0 +1,19 @@
+{
+  "bridge_url": "http://127.0.0.1:8788",
+  "features": [
+    "drift"
+  ],
+  "integration": "native",
+  "integration_label": "sdk-librechat",
+  "iso": "20260505T204755Z",
+  "results": {
+    "drift": {
+      "elapsed_ms": 4356.81,
+      "error": null,
+      "risk_band": "green",
+      "status": "ok"
+    }
+  },
+  "scenario_id": "en-eu-ai-act-procurement",
+  "use_case": "rag"
+}

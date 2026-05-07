@@ -1,0 +1,835 @@
+{
+  "elapsed_ms": 4887.23,
+  "error": null,
+  "feature": "groundedness",
+  "kind": "rag",
+  "request": {
+    "answer": "A full self-service refund is no longer possible after 45 days; the documented\n30-day window only covers defective devices returned within that period.\nAfter 30 days a support manager must explicitly approve the refund, and the\npolicy makes clear that approval is not guaranteed even for a defective unit.\nThe refund timing itself is not stated in the policy excerpts above, so we\ncannot promise 48-hour processing \u2014 that detail is unsupported by the source\ntext.",
+    "context": [
+      "## Section 1 \u2014 Refund window\n\nOpened devices may be returned within 30 days only if defective. Customers\nmust include the original packaging, accessories, and a description of the\ndefect. The 30-day window starts on the delivery date confirmed by the\ncourier.",
+      "## Section 2 \u2014 Manager approval\n\nRefunds requested after the 30-day window require explicit approval from a\nsupport manager. Approval is not guaranteed even when the device is defective;\nthe manager weighs purchase history, prior returns, and the description of the\nissue.",
+      "## Section 3 \u2014 Shipping and tracking\n\nAccessories ship separately from the main device. Tracking numbers can lag by\nup to one business day, especially for international shipments. Lost packages\nare investigated by the carrier, not by the support team."
+    ],
+    "integration": "native",
+    "kind": "rag",
+    "metadata": {
+      "feature": "groundedness",
+      "integration": "sdk-librechat",
+      "scenario_id": "en-placeholder-scaffolding",
+      "source": "tools.run_scenario",
+      "use_case": "rag"
+    },
+    "question": "A customer received a defective phone 45 days ago. They want to know whether\nthey can still return it for a full refund without contacting support, and how\nlong the refund will take. What should we tell them, and what conditions\napply?",
+    "scenario": "trace_rag_groundedness_sdk_librechat"
+  },
+  "response": {
+    "compression": null,
+    "evidence": [
+      {
+        "context_trust_labels": [],
+        "context_trust_score": 0,
+        "context_trust_spans": [],
+        "context_trust_state": "trusted",
+        "coverage_score": 0.9970372319221497,
+        "support_id": "raw-0",
+        "unused_confidence": 0.25,
+        "usage_confidence": 0.49948541597404983,
+        "usage_state": "uncertain",
+        "used": true
+      }
+    ],
+    "integration": "native",
+    "latency_ms": 4881.17,
+    "memory": null,
+    "privacy": null,
+    "raw": {
+      "band": "red",
+      "context_coverage_ratio": 1,
+      "context_coverage_threshold": 0.5,
+      "context_trust_blocked_count": 0,
+      "context_trust_diagnostics": {
+        "blocked_count": 0,
+        "blocked_support_ids": [],
+        "blocked_threshold": 0.6,
+        "enabled": true,
+        "labels": [],
+        "max_risk": 0,
+        "provider": "heuristic",
+        "score": 0,
+        "skipped_reason": null,
+        "support_unit_count": 1,
+        "suspicious_count": 0,
+        "suspicious_support_ids": [],
+        "suspicious_threshold": 0.2,
+        "trusted_count": 1
+      },
+      "context_trust_max_risk": 0,
+      "context_trust_score": 0,
+      "context_trust_suspicious_count": 0,
+      "context_uncertain_ratio": 1,
+      "context_unused_ratio": 0,
+      "context_usage_ratio": 0,
+      "corpus_route": {
+        "artefact_sha256": null,
+        "bundle_metric": "f1_at_best_threshold",
+        "bundle_metric_value": 0.5019607843137255,
+        "classifier_latency_ms": 2.246,
+        "classifier_probabilities": {},
+        "classifier_top_classes": [],
+        "confidence": 0.9,
+        "corpus_type": "rag.prose.multi_claim",
+        "fusion_weights_applied": {
+          "calibrated": 0.4444444444444445,
+          "literal": 0.4444444444444445,
+          "nli": 0.11111111111111112,
+          "semantic_entropy": 0,
+          "structured": 0
+        },
+        "rule_reason": "rule:multi_claim(sentences=3,tokens=76)",
+        "scoring_mode_applied": "rag",
+        "source": "rule",
+        "thresholds_applied": {
+          "amber": 0.9110870550000484,
+          "green": 0.9610870550000484
+        }
+      },
+      "effective_profile": "standard",
+      "file_attribution": {
+        "coverage_threshold": 0.5,
+        "dead_weight_files": [],
+        "dead_weight_ratio": 0,
+        "low_cosine_threshold": 0.4,
+        "min_owner_share": 0.01,
+        "n_files": 1,
+        "n_query_tokens": 32,
+        "n_response_tokens": 74,
+        "per_file": [
+          {
+            "coverage": 0,
+            "dead_weight": false,
+            "dominating_peer": null,
+            "max_evidence": 0.9970372319221497,
+            "mean_score": 0.9970372319221497,
+            "n_units": 1,
+            "owner_share": 1,
+            "owner_tokens": 74,
+            "path": "raw-0",
+            "query_owner_share": 0,
+            "query_owner_tokens": 0,
+            "reason_codes": [],
+            "uncertain": 1,
+            "unused": 0,
+            "used": 0
+          }
+        ],
+        "per_unit": [],
+        "reason_code_histogram": {}
+      },
+      "groundedness_v2": 0.853490187248193,
+      "heatmap": {
+        "files": [
+          {
+            "band": "green",
+            "dead_weight": false,
+            "owner_share": 1,
+            "path": "raw-0",
+            "reason_codes": []
+          }
+        ],
+        "summary": {
+          "dead_weight_pct": 0,
+          "groundedness_pct": 0.853490187248193,
+          "headline_score": 0.853490187248193,
+          "reason_code_histogram": {},
+          "recommendation": null,
+          "risk_band": "red"
+        },
+        "thresholds": {
+          "file_amber_min": 0.05,
+          "file_green_min": 0.2,
+          "token_amber_min": 0.35,
+          "token_green_min": 0.6
+        },
+        "tokens": [
+          {
+            "band": "green",
+            "index": 0,
+            "score": 0.9685909152030945,
+            "token": "[CLS]"
+          },
+          {
+            "band": "green",
+            "index": 1,
+            "score": 0.9932810068130493,
+            "token": "30"
+          },
+          {
+            "band": "green",
+            "index": 2,
+            "score": 0.9922506809234619,
+            "token": "-"
+          },
+          {
+            "band": "green",
+            "index": 3,
+            "score": 0.9958159327507019,
+            "token": "day"
+          },
+          {
+            "band": "green",
+            "index": 4,
+            "score": 0.9905441999435425,
+            "token": "\u0120window"
+          },
+          {
+            "band": "green",
+            "index": 5,
+            "score": 0.9901543855667114,
+            "token": "\u0120only"
+          },
+          {
+            "band": "green",
+            "index": 6,
+            "score": 0.9761213660240173,
+            "token": "\u0120covers"
+          },
+          {
+            "band": "green",
+            "index": 7,
+            "score": 0.9965143203735352,
+            "token": "\u0120defective"
+          },
+          {
+            "band": "green",
+            "index": 8,
+            "score": 0.992922306060791,
+            "token": "\u0120devices"
+          },
+          {
+            "band": "green",
+            "index": 9,
+            "score": 0.9919105172157288,
+            "token": "\u0120returned"
+          },
+          {
+            "band": "green",
+            "index": 10,
+            "score": 0.9941426515579224,
+            "token": "\u0120within"
+          },
+          {
+            "band": "green",
+            "index": 11,
+            "score": 0.9913343191146851,
+            "token": "\u0120that"
+          },
+          {
+            "band": "green",
+            "index": 12,
+            "score": 0.9906401038169861,
+            "token": "\u0120period"
+          },
+          {
+            "band": "green",
+            "index": 13,
+            "score": 0.988986074924469,
+            "token": "."
+          },
+          {
+            "band": "green",
+            "index": 14,
+            "score": 0.9942405819892883,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 15,
+            "score": 0.9948301315307617,
+            "token": "After"
+          },
+          {
+            "band": "green",
+            "index": 16,
+            "score": 0.9952646493911743,
+            "token": "\u012030"
+          },
+          {
+            "band": "green",
+            "index": 17,
+            "score": 0.9915626049041748,
+            "token": "\u0120days"
+          },
+          {
+            "band": "green",
+            "index": 18,
+            "score": 0.9950488805770874,
+            "token": "\u0120a"
+          },
+          {
+            "band": "green",
+            "index": 19,
+            "score": 0.9948598742485046,
+            "token": "\u0120support"
+          },
+          {
+            "band": "green",
+            "index": 20,
+            "score": 0.9936088919639587,
+            "token": "\u0120manager"
+          },
+          {
+            "band": "green",
+            "index": 21,
+            "score": 0.9922419190406799,
+            "token": "\u0120must"
+          },
+          {
+            "band": "green",
+            "index": 22,
+            "score": 0.9913678765296936,
+            "token": "\u0120explicitly"
+          },
+          {
+            "band": "green",
+            "index": 23,
+            "score": 0.9809979796409607,
+            "token": "\u0120approve"
+          },
+          {
+            "band": "green",
+            "index": 24,
+            "score": 0.9900823831558228,
+            "token": "\u0120the"
+          },
+          {
+            "band": "green",
+            "index": 25,
+            "score": 0.9902839064598083,
+            "token": "\u0120refund"
+          },
+          {
+            "band": "green",
+            "index": 26,
+            "score": 0.9871120452880859,
+            "token": ","
+          },
+          {
+            "band": "green",
+            "index": 27,
+            "score": 0.9919012188911438,
+            "token": "\u0120and"
+          },
+          {
+            "band": "green",
+            "index": 28,
+            "score": 0.9668532013893127,
+            "token": "\u0120the"
+          },
+          {
+            "band": "green",
+            "index": 29,
+            "score": 0.98917156457901,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 30,
+            "score": 0.9838628768920898,
+            "token": "policy"
+          },
+          {
+            "band": "green",
+            "index": 31,
+            "score": 0.9897267818450928,
+            "token": "\u0120makes"
+          },
+          {
+            "band": "green",
+            "index": 32,
+            "score": 0.9936896562576294,
+            "token": "\u0120clear"
+          },
+          {
+            "band": "green",
+            "index": 33,
+            "score": 0.986419677734375,
+            "token": "\u0120that"
+          },
+          {
+            "band": "green",
+            "index": 34,
+            "score": 0.9937993884086609,
+            "token": "\u0120approval"
+          },
+          {
+            "band": "green",
+            "index": 35,
+            "score": 0.9970094561576843,
+            "token": "\u0120is"
+          },
+          {
+            "band": "green",
+            "index": 36,
+            "score": 0.9939017295837402,
+            "token": "\u0120not"
+          },
+          {
+            "band": "green",
+            "index": 37,
+            "score": 0.9875063896179199,
+            "token": "\u0120guaranteed"
+          },
+          {
+            "band": "green",
+            "index": 38,
+            "score": 0.9847052693367004,
+            "token": "\u0120even"
+          },
+          {
+            "band": "green",
+            "index": 39,
+            "score": 0.9970372319221497,
+            "token": "\u0120for"
+          },
+          {
+            "band": "green",
+            "index": 40,
+            "score": 0.979407787322998,
+            "token": "\u0120a"
+          },
+          {
+            "band": "green",
+            "index": 41,
+            "score": 0.989832878112793,
+            "token": "\u0120defective"
+          },
+          {
+            "band": "green",
+            "index": 42,
+            "score": 0.9829577207565308,
+            "token": "\u0120unit"
+          },
+          {
+            "band": "green",
+            "index": 43,
+            "score": 0.9885372519493103,
+            "token": "."
+          },
+          {
+            "band": "green",
+            "index": 44,
+            "score": 0.978693962097168,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 45,
+            "score": 0.9827789664268494,
+            "token": "The"
+          },
+          {
+            "band": "green",
+            "index": 46,
+            "score": 0.9887847900390625,
+            "token": "\u0120refund"
+          },
+          {
+            "band": "green",
+            "index": 47,
+            "score": 0.9852914810180664,
+            "token": "\u0120timing"
+          },
+          {
+            "band": "green",
+            "index": 48,
+            "score": 0.9791253209114075,
+            "token": "\u0120itself"
+          },
+          {
+            "band": "green",
+            "index": 49,
+            "score": 0.9885202050209045,
+            "token": "\u0120is"
+          },
+          {
+            "band": "green",
+            "index": 50,
+            "score": 0.9880689978599548,
+            "token": "\u0120not"
+          },
+          {
+            "band": "green",
+            "index": 51,
+            "score": 0.9721222519874573,
+            "token": "\u0120stated"
+          },
+          {
+            "band": "green",
+            "index": 52,
+            "score": 0.9740918874740601,
+            "token": "\u0120in"
+          },
+          {
+            "band": "green",
+            "index": 53,
+            "score": 0.9896613359451294,
+            "token": "\u0120the"
+          },
+          {
+            "band": "green",
+            "index": 54,
+            "score": 0.9870529770851135,
+            "token": "\u0120policy"
+          },
+          {
+            "band": "green",
+            "index": 55,
+            "score": 0.990084171295166,
+            "token": "\u0120excerpt"
+          },
+          {
+            "band": "green",
+            "index": 56,
+            "score": 0.9851100444793701,
+            "token": "s"
+          },
+          {
+            "band": "green",
+            "index": 57,
+            "score": 0.9903832077980042,
+            "token": "\u0120above"
+          },
+          {
+            "band": "green",
+            "index": 58,
+            "score": 0.9864010810852051,
+            "token": ","
+          },
+          {
+            "band": "green",
+            "index": 59,
+            "score": 0.975055456161499,
+            "token": "\u0120so"
+          },
+          {
+            "band": "green",
+            "index": 60,
+            "score": 0.9628242254257202,
+            "token": "\u0120we"
+          },
+          {
+            "band": "green",
+            "index": 61,
+            "score": 0.9866093993186951,
+            "token": "\u010a"
+          },
+          {
+            "band": "green",
+            "index": 62,
+            "score": 0.9682368636131287,
+            "token": "cannot"
+          },
+          {
+            "band": "green",
+            "index": 63,
+            "score": 0.9886636137962341,
+            "token": "\u0120promise"
+          },
+          {
+            "band": "green",
+            "index": 64,
+            "score": 0.9893335700035095,
+            "token": "\u012048"
+          },
+          {
+            "band": "green",
+            "index": 65,
+            "score": 0.981387197971344,
+            "token": "-"
+          },
+          {
+            "band": "green",
+            "index": 66,
+            "score": 0.9888615608215332,
+            "token": "hour"
+          },
+          {
+            "band": "green",
+            "index": 67,
+            "score": 0.9620857834815979,
+            "token": "\u0120processing"
+          },
+          {
+            "band": "green",
+            "index": 68,
+            "score": 0.9876953363418579,
+            "token": "\u0120\u00e2\u0122\u0136"
+          },
+          {
+            "band": "green",
+            "index": 69,
+            "score": 0.9887301921844482,
+            "token": "\u0120that"
+          },
+          {
+            "band": "green",
+            "index": 70,
+            "score": 0.9664638042449951,
+            "token": "\u0120detail"
+          },
+          {
+            "band": "green",
+            "index": 71,
+            "score": 0.9901769161224365,
+            "token": "\u0120is"
+          },
+          {
+            "band": "green",
+            "index": 72,
+            "score": 0.9715593457221985,
+            "token": "\u0120unsupported"
+          },
+          {
+            "band": "green",
+            "index": 73,
+            "score": 0.9872549772262573,
+            "token": "\u0120by"
+          }
+        ]
+      },
+      "latency_ms": 344.4334827363491,
+      "literal_guarded": 0.7223987460830835,
+      "nli_aggregate": 0.7923772762199708,
+      "primary_metric": "groundedness_v2",
+      "profile": null,
+      "profile_diagnostics": {
+        "effective_profile": "standard",
+        "fusion_weights": {
+          "calibrated": 0.4444444444444445,
+          "literal": 0.4444444444444445,
+          "nli": 0.11111111111111112,
+          "semantic_entropy": 0,
+          "structured": 0
+        },
+        "nli_atomic_claims": false,
+        "nli_premise_concat": false,
+        "nli_provider_available": true,
+        "nli_requested": true,
+        "nli_reranker_available": true,
+        "nli_reranker_model": null,
+        "preset": "balanced",
+        "requested_profile": null,
+        "semantic_entropy_skipped_reason": null,
+        "thresholds_path": "calibration_bundle:rag.prose.multi_claim",
+        "thresholds_source": "calibration_bundle:rag.prose.multi_claim",
+        "verification_sample_count": 0
+      },
+      "reverse_context_calibrated": 0.999859856170358,
+      "runtime_decision": {
+        "action": "auto_repair",
+        "allow_disabled": false,
+        "allow_threshold": 0.9968444393603891,
+        "band": "amber",
+        "block_disabled": false,
+        "block_threshold": 0.014209816342927216,
+        "class_key": "rag.prose.multi_claim",
+        "evidence": [
+          {
+            "context_trust_labels": [],
+            "context_trust_score": 0,
+            "context_trust_state": "trusted",
+            "coverage_score": 0.9970372319221497,
+            "index": 0,
+            "support_id": "raw-0",
+            "text": "Opened devices may be returned within 30 days only if defective. Customers\nmust include the original packaging, accessories, and a description of the\ndefect. The 30-day window starts on the delivery date confirmed by the\ncourier.\n\n## Section 2 \u2014 Manager approval\n\nRefunds requested after the 30-day window require explicit approval from a\nsupport manager. Approval is not guaranteed even when the device is defective;\nthe manager weighs purchase history, prior returns, and the description of the\nissue.\n\n## Section 3 \u2014 Shipping and tracking\n\nAccessories ship separately from the main device. Tracking numbers can lag by\nup to one business day, especially for international shipments. Lost packages\nare investigated by the carrier, not by the support team.",
+            "usage_state": "uncertain"
+          }
+        ],
+        "head_enabled": true,
+        "head_features_used": [
+          "v1_score",
+          "v1_nli_aggregate",
+          "reverse_context",
+          "groundedness_v2",
+          "literal_guarded",
+          "literal_mismatch_count",
+          "context_coverage_ratio",
+          "context_unused_ratio",
+          "dead_weight_ratio",
+          "token_mean",
+          "token_bottom10",
+          "token_saturation_rate",
+          "calibrated_mean",
+          "nli_token_mean",
+          "literal_coverage",
+          "atom_match",
+          "claim_count",
+          "unsupported_claim_fraction",
+          "schema_match",
+          "api_symbol_match",
+          "trajectory_order_match",
+          "test_outcome_match"
+        ],
+        "head_id": "claim_decomposer",
+        "head_reason_codes": [
+          "rag.prose.multi_claim_trace_feature_head_active",
+          "head_score_channel:linear_feature_model"
+        ],
+        "head_registry_sha256": "4f22076c039f851822d705e3adfc45b09db130b814bba84e387f48cecc7868f7",
+        "head_score": 0.47965206228176516,
+        "head_version": "root_cause_solution_v1",
+        "policy_sha256": "e4c84b8eb1dcd9261b360aa4922c400c8e8d8fc9beeca7fa57d9723e15eef2cf",
+        "policy_version": "optimized_v1_plus_calibrator",
+        "reason_codes": [],
+        "rollback_safe": true,
+        "score": 0.47965206228176516,
+        "score_channel": "head:claim_decomposer",
+        "unsupported_spans": []
+      },
+      "runtime_feature_source": "synthesized",
+      "runtime_head_features": {
+        "api_symbol_match": 0.4,
+        "atom_match": 0.8382586741010182,
+        "calibrated_mean": 0.853490187248193,
+        "claim_count": 3,
+        "context_coverage_ratio": 1,
+        "context_unused_ratio": 0,
+        "coverage_label_mean": 1,
+        "dead_weight_ratio": 0,
+        "groundedness_v2": 0.853490187248193,
+        "identifier_count": 74,
+        "identifier_coverage": 0.4,
+        "literal_coverage": 0.7223987460830835,
+        "literal_guarded": 0.7223987460830835,
+        "literal_mismatch_count": 3,
+        "min_claim_coverage": 1,
+        "nli_token_mean": 0.7923772762199708,
+        "numeric_coverage": 0.5,
+        "reverse_context": 0.9869213659786483,
+        "schema_match": 0,
+        "support_unit_label_mean": 1,
+        "test_outcome_match": 0,
+        "token_bottom10": 0.7223987460830835,
+        "token_mean": 0.9869213659786483,
+        "token_saturation_rate": 0,
+        "trajectory_order_match": 0.4,
+        "unsupported_claim_fraction": 0,
+        "v1_nli_aggregate": 0.7923772762199708,
+        "v1_score": 0.853490187248193
+      },
+      "score": 0.853490187248193,
+      "score_channels": {
+        "consensus_hardened": 0.9573137598130309,
+        "context_trust": 0,
+        "context_trust_max_risk": 0,
+        "groundedness_v2": 0.853490187248193,
+        "literal_guarded": 0.7223987460830835,
+        "nli_aggregate": 0.7923772762199708,
+        "primary": 0.9869213659786483,
+        "reverse_context": 0.9869213659786483,
+        "reverse_context_calibrated": 0.999859856170358,
+        "semantic_entropy_aggregate": null,
+        "structured_source": null,
+        "structured_source_guarded": null
+      },
+      "scoring_mode": "rag",
+      "semantic_entropy_aggregate": null,
+      "semantic_entropy_raw": null,
+      "semantic_entropy_sample_count": 0,
+      "session_id": null,
+      "structured_score": null,
+      "structured_source_detected": false,
+      "structured_source_guarded": null,
+      "success": true,
+      "support_units": [
+        {
+          "context_trust_labels": [],
+          "context_trust_score": 0,
+          "context_trust_spans": [],
+          "context_trust_state": "trusted",
+          "coverage_score": 0.9970372319221497,
+          "support_id": "raw-0",
+          "unused_confidence": 0.25,
+          "usage_confidence": 0.49948541597404983,
+          "usage_state": "uncertain",
+          "used": true
+        }
+      ],
+      "support_units_usage": {
+        "uncertain": 1,
+        "unused": 0,
+        "used": 0
+      },
+      "version": "0.1.0",
+      "warnings": [
+        "literal_mismatch: 2 response literal(s) not present in support: measurement=45 days, identifier=48-hour"
+      ]
+    },
+    "request_id": "sync-ff469eda-06b1-458e-bbfc-edd8dec08d96-u1",
+    "risk_band": "amber",
+    "runtime_decision": {
+      "action": "auto_repair",
+      "allow_disabled": false,
+      "allow_threshold": 0.9968444393603891,
+      "band": "amber",
+      "block_disabled": false,
+      "block_threshold": 0.014209816342927216,
+      "class_key": "rag.prose.multi_claim",
+      "evidence": [
+        {
+          "context_trust_labels": [],
+          "context_trust_score": 0,
+          "context_trust_state": "trusted",
+          "coverage_score": 0.9970372319221497,
+          "index": 0,
+          "support_id": "raw-0",
+          "text": "Opened devices may be returned within 30 days only if defective. Customers\nmust include the original packaging, accessories, and a description of the\ndefect. The 30-day window starts on the delivery date confirmed by the\ncourier.\n\n## Section 2 \u2014 Manager approval\n\nRefunds requested after the 30-day window require explicit approval from a\nsupport manager. Approval is not guaranteed even when the device is defective;\nthe manager weighs purchase history, prior returns, and the description of the\nissue.\n\n## Section 3 \u2014 Shipping and tracking\n\nAccessories ship separately from the main device. Tracking numbers can lag by\nup to one business day, especially for international shipments. Lost packages\nare investigated by the carrier, not by the support team.",
+          "usage_state": "uncertain"
+        }
+      ],
+      "head_enabled": true,
+      "head_features_used": [
+        "v1_score",
+        "v1_nli_aggregate",
+        "reverse_context",
+        "groundedness_v2",
+        "literal_guarded",
+        "literal_mismatch_count",
+        "context_coverage_ratio",
+        "context_unused_ratio",
+        "dead_weight_ratio",
+        "token_mean",
+        "token_bottom10",
+        "token_saturation_rate",
+        "calibrated_mean",
+        "nli_token_mean",
+        "literal_coverage",
+        "atom_match",
+        "claim_count",
+        "unsupported_claim_fraction",
+        "schema_match",
+        "api_symbol_match",
+        "trajectory_order_match",
+        "test_outcome_match"
+      ],
+      "head_id": "claim_decomposer",
+      "head_reason_codes": [
+        "rag.prose.multi_claim_trace_feature_head_active",
+        "head_score_channel:linear_feature_model"
+      ],
+      "head_registry_sha256": "4f22076c039f851822d705e3adfc45b09db130b814bba84e387f48cecc7868f7",
+      "head_score": 0.47965206228176516,
+      "head_version": "root_cause_solution_v1",
+      "policy_sha256": "e4c84b8eb1dcd9261b360aa4922c400c8e8d8fc9beeca7fa57d9723e15eef2cf",
+      "policy_version": "optimized_v1_plus_calibrator",
+      "reason_codes": [],
+      "rollback_safe": true,
+      "score": 0.47965206228176516,
+      "score_channel": "head:claim_decomposer",
+      "unsupported_spans": []
+    },
+    "scenario": "trace_rag_groundedness_sdk_librechat",
+    "trace_score": 0.47965206228176516
+  },
+  "status": "ok"
+}
