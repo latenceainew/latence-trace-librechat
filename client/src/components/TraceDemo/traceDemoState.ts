@@ -156,7 +156,15 @@ type TraceDemoContextValue = {
 };
 
 export const TRACE_DEMO_STORAGE_KEY = 'latence.trace.demo.selection';
-export const TRACE_DEMO_MODEL = 'openai/gpt-oss-120b:free';
+
+const TRACE_DEMO_MODELS: Record<TraceDemoUseCase, string> = {
+  rag: 'nvidia/nemotron-3-nano-30b-a3b:free',
+  'coding-agent': 'minimax/minimax-m2.5:free',
+};
+
+export function getTraceDemoModel(useCase: TraceDemoUseCase): string {
+  return TRACE_DEMO_MODELS[useCase];
+}
 
 export const traceUseCases: Array<{
   id: TraceDemoUseCase;
@@ -275,7 +283,6 @@ const CODING_FEATURES: TraceFeatureKey[] = [
   'context-util',
   'drift',
   'memory',
-  'privacy',
   'compression',
 ];
 
@@ -407,7 +414,7 @@ export function buildTraceChatSearchParams(selection: TraceDemoSelection) {
     spec: selection.useCase === 'coding-agent' ? 'trace-coding-demo' : 'trace-rag-demo',
     endpoint: 'OpenRouter',
     endpointType: 'custom',
-    model: TRACE_DEMO_MODEL,
+    model: getTraceDemoModel(selection.useCase),
   });
 }
 

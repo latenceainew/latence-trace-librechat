@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   TRACE_DEMO_DEFAULT_SELECTION,
-  TRACE_DEMO_MODEL,
+  getTraceDemoModel,
   buildTraceChatSearchParams,
   readStoredTraceDemoSelection,
   writeTraceDemoSelection,
@@ -19,16 +19,14 @@ import { latence } from '~/components/TraceDemo/brand';
  */
 export default function TraceDemo() {
   const navigate = useNavigate();
+  const stored = readStoredTraceDemoSelection();
+  const selection = stored ?? { ...TRACE_DEMO_DEFAULT_SELECTION, createdAt: Date.now() };
 
   useEffect(() => {
-    const selection = readStoredTraceDemoSelection() ?? {
-      ...TRACE_DEMO_DEFAULT_SELECTION,
-      createdAt: Date.now(),
-    };
     writeTraceDemoSelection(selection);
     const params = buildTraceChatSearchParams(selection);
     navigate(`/c/new?${params.toString()}`, { replace: true });
-  }, [navigate]);
+  }, [navigate, selection]);
 
   return (
     <main
@@ -44,7 +42,7 @@ export default function TraceDemo() {
         </span>
         <p style={{ color: latence.textMuted }}>Opening native chat with TRACE…</p>
         <p className="text-xs" style={{ color: latence.textSubtle }}>
-          Model: {TRACE_DEMO_MODEL}
+          Model: {getTraceDemoModel(selection.useCase)}
         </p>
       </div>
     </main>

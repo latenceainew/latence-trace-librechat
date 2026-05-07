@@ -31,6 +31,7 @@ import {
   getMetricFromResults,
   getRiskForResult,
   getTraceBridgeBaseUrl,
+  getTraceDemoModel,
   traceFeatureCatalog,
   traceIntegrations,
   traceUseCases,
@@ -59,7 +60,6 @@ const copy = {
   useCase: 'Use case',
   integration: 'Integration',
   model: 'Model',
-  modelValue: 'OpenRouter / Nemotron free',
   riskBand: 'Risk band',
   requestId: 'Request ID',
   latency: 'Latency',
@@ -121,6 +121,24 @@ function getRiskStyle(risk?: string | null) {
   };
 }
 
+const TURNSTILE_SITE_KEY = (import.meta as any).env?.VITE_TURNSTILE_SITE_KEY as string | undefined;
+const SUBMIT_COUNT_KEY = 'latence.trace.demo.submitCount';
+const DISMISS_COUNT_KEY = 'latence.trace.demo.dismissCount';
+const MAX_DISMISSALS = 5;
+
+function readSessionInt(key: string): number {
+  try {
+    return parseInt(window.sessionStorage.getItem(key) || '0', 10) || 0;
+  } catch {
+    return 0;
+  }
+}
+function writeSessionInt(key: string, value: number) {
+  try {
+    window.sessionStorage.setItem(key, String(value));
+  } catch { /* noop */ }
+}
+
 export default function TraceDemoShell({
   children,
   index = 0,
@@ -146,6 +164,12 @@ export default function TraceDemoShell({
   const [logs, setLogs] = useState<TraceDemoLog[]>([]);
   const [results, setResults] = useState<Record<string, TraceDemoMessageResult>>({});
   const [latestMessageId, setLatestMessageId] = useState<string | undefined>();
+  const [turnstileVerified, setTurnstileVerified] = useState(!TURNSTILE_SITE_KEY);
+  const [showHowItWorks, setShowHowItWorks] = useState(false);
+  const [submitCount, setSubmitCount] = useState(() => readSessionInt(SUBMIT_COUNT_KEY));
+  const [dismissCount, setDismissCount] = useState(() => readSessionInt(DISMISS_COUNT_KEY));
+  const [showSignupModal, setShowSignupModal] = useState(false);
+  const isHardLocked = dismissCount >= MAX_DISMISSALS;
   const processedRef = useRef<Set<string>>(new Set());
   const isSubmitting = useRecoilValue(store.isSubmittingFamily(index));
   const messagesQueryId = conversationId || Constants.NEW_CONVO;
@@ -198,6 +222,12 @@ export default function TraceDemoShell({
     }
 
     processedRef.current.add(assistant.messageId);
+    const newCount = submitCount + 1;
+    setSubmitCount(newCount);
+    writeSessionInt(SUBMIT_COUNT_KEY, newCount);
+    if (newCount >= 2 && !isHardLocked) {
+      setShowSignupModal(true);
+    }
     void fanoutTraceForTurn({
       assistant,
       questionMessage,
@@ -242,6 +272,10 @@ export default function TraceDemoShell({
   const handleIntegrationChange = (next: TraceDemoIntegration) =>
     setSelection((current) => ({ ...current, integration: next, createdAt: Date.now() }));
 
+  if (!turnstileVerified) {
+    return <TurnstileGate onVerified={() => setTurnstileVerified(true)} />;
+  }
+
   return (
     <TraceDemoContext.Provider value={contextValue}>
       <div
@@ -258,9 +292,9 @@ export default function TraceDemoShell({
             onIntegration={handleIntegrationChange}
             decision={decision?.action}
             band={decision?.band ?? riskInfo.risk}
+            onHowItWorks={() => setShowHowItWorks(true)}
           />
           <div className="min-h-0 flex-1">{children}</div>
-          <TraceInputHint />
           <TraceLogDashboard logs={logs} />
         </div>
         <aside
@@ -302,14 +336,30 @@ export default function TraceDemoShell({
             riskInfo={riskInfo}
             evidence={evidence}
             deadWeights={deadWeights}
-            promptGuard={promptGuard}
           />
+          {selection.useCase === 'coding-agent' && (
+            <TracePromptGuardCard guard={promptGuard} />
+          )}
           <TracePrivacyCard detail={privacyDetail} />
           <TraceCompressionCard detail={compressionDetail} />
           <TraceMemoryCard detail={memoryDetail} />
           <TraceDriftCard detail={driftDetail} />
         </aside>
       </div>
+      {showHowItWorks && (
+        <TraceHowItWorksModal onClose={() => setShowHowItWorks(false)} />
+      )}
+      {showSignupModal && (
+        <TraceSignupModal
+          onDismiss={() => {
+            const newDismiss = dismissCount + 1;
+            setDismissCount(newDismiss);
+            writeSessionInt(DISMISS_COUNT_KEY, newDismiss);
+            setShowSignupModal(false);
+          }}
+          canDismiss={dismissCount < MAX_DISMISSALS}
+        />
+      )}
     </TraceDemoContext.Provider>
   );
 }
@@ -320,12 +370,14 @@ function TraceTopToggle({
   onIntegration,
   decision,
   band,
+  onHowItWorks,
 }: {
   selection: TraceDemoSelection;
   onUseCase: (next: TraceDemoUseCase) => void;
   onIntegration: (next: TraceDemoIntegration) => void;
   decision?: string;
   band?: string | null;
+  onHowItWorks: () => void;
 }) {
   const bandStyle = getRiskStyle(band);
   return (
@@ -362,6 +414,18 @@ function TraceTopToggle({
       />
 
       <div className="ml-auto flex items-center gap-2">
+        <button
+          type="button"
+          onClick={onHowItWorks}
+          className="rounded-full px-3 py-1 text-xs font-semibold tracking-wide transition hover:opacity-80"
+          style={{
+            backgroundColor: latence.greenSoft,
+            color: latence.greenText,
+            border: `1px solid ${latence.green}`,
+          }}
+        >
+          How It Works
+        </button>
         {(decision || (band && band !== 'unknown')) && (
           <span
             className="text-[10px] font-semibold uppercase tracking-[0.22em]"
@@ -612,13 +676,11 @@ function TraceGroundednessCard({
   riskInfo,
   evidence,
   deadWeights,
-  promptGuard,
 }: {
   decision?: ReturnType<typeof extractDecision>;
   riskInfo: { risk: string; score?: number | null };
   evidence: ReturnType<typeof extractGroundingEvidence>;
   deadWeights: ReturnType<typeof extractDeadWeights>;
-  promptGuard?: TracePromptGuardSummary;
 }) {
   const score = decision?.score ?? riskInfo.score;
   const band = decision?.band ?? riskInfo.risk;
@@ -668,11 +730,6 @@ function TraceGroundednessCard({
           label="Unused context"
           value={`${Math.round(deadWeights.ratio * 100)}%`}
         />
-      )}
-      {promptGuard && promptGuard.enabled && (
-        <div className="mt-2">
-          <PromptGuardBadge guard={promptGuard} />
-        </div>
       )}
       {dedupedEvidence.length > 0 && (
         <div className="mt-2 space-y-1.5">
@@ -742,6 +799,41 @@ function PromptGuardBadge({ guard }: { guard: TracePromptGuardSummary }) {
       {guard.provider && (
         <span style={{ color: latence.textSubtle }}>({guard.provider})</span>
       )}
+    </div>
+  );
+}
+
+function TracePromptGuardCard({ guard }: { guard?: TracePromptGuardSummary }) {
+  if (!guard || !guard.enabled) {
+    return null;
+  }
+  const hasThreat = guard.suspiciousCount > 0 || guard.blockedCount > 0;
+  const band = hasThreat ? 'red' : 'green';
+  const style = getRiskStyle(band);
+  return (
+    <div
+      className="rounded-2xl border p-3"
+      style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
+    >
+      <div className="mb-1 flex items-center justify-between">
+        <p className="text-sm font-medium" style={{ color: latence.text }}>
+          Prompt Guard
+        </p>
+        <span
+          className="rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em]"
+          style={{
+            backgroundColor: style.backgroundColor,
+            color: style.color,
+            borderColor: style.borderColor,
+          }}
+        >
+          {band}
+        </span>
+      </div>
+      <p className="mb-2 text-[11px]" style={{ color: latence.textSubtle }}>
+        Llama Prompt Guard 2 security scan on retrieved context chunks.
+      </p>
+      <PromptGuardBadge guard={guard} />
     </div>
   );
 }
@@ -1378,71 +1470,391 @@ function MetaRow({ label, value }: { label: string; value?: string | null }) {
   );
 }
 
-function TraceInputHint() {
-  const [open, setOpen] = useState(false);
+function TurnstileGate({ onVerified }: { onVerified: () => void }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const renderedRef = useRef(false);
+
+  useEffect(() => {
+    if (renderedRef.current || !containerRef.current) return;
+    const siteKey = TURNSTILE_SITE_KEY;
+    if (!siteKey) { onVerified(); return; }
+
+    const win = window as any;
+    const render = () => {
+      if (renderedRef.current || !containerRef.current) return;
+      renderedRef.current = true;
+      win.turnstile.render(containerRef.current, {
+        sitekey: siteKey,
+        theme: 'dark',
+        callback: async (token: string) => {
+          try {
+            const base = getTraceBridgeBaseUrl();
+            const resp = await fetch(`${base}/api/verify-turnstile`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ token }),
+            });
+            const data = await resp.json();
+            if (data.ok) onVerified();
+          } catch {
+            onVerified();
+          }
+        },
+        'error-callback': () => { onVerified(); },
+      });
+    };
+    if (win.turnstile) { render(); }
+    else {
+      const interval = setInterval(() => { if (win.turnstile) { clearInterval(interval); render(); } }, 200);
+      const timeout = setTimeout(() => { clearInterval(interval); onVerified(); }, 8000);
+      return () => { clearInterval(interval); clearTimeout(timeout); };
+    }
+  }, [onVerified]);
+
   return (
     <div
-      className="relative flex items-start justify-end gap-3 px-4 py-1.5 text-[11px]"
-      style={{
-        backgroundColor: latence.bgPrimary,
-        borderTop: `1px solid ${latence.border}`,
-        color: latence.textSubtle,
-      }}
+      className="flex h-full w-full flex-col items-center justify-center gap-6"
+      style={{ backgroundColor: latence.bgPrimary, color: latence.text }}
     >
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-1.5 transition hover:opacity-80"
-        style={{ color: latence.textSubtle }}
-        aria-expanded={open}
-      >
-        <span
-          className="inline-flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold"
-          style={{
-            border: `1px solid ${latence.border}`,
-            color: latence.greenText,
-          }}
-        >
-          ?
-        </span>
-        <span>How TRACE reads your input</span>
-      </button>
-      {open && (
-        <div
-          className="absolute right-4 z-10 max-w-[420px] -translate-y-[calc(100%+8px)] rounded-2xl border px-3 py-2 text-[11px] shadow-lg"
-          style={{
-            backgroundColor: latence.bgRaised,
-            borderColor: latence.border,
-            color: latence.textMuted,
-          }}
-        >
-          <p className="mb-2 font-semibold uppercase tracking-wider" style={{ color: latence.greenText }}>
-            Input parsing
-          </p>
-          <p className="mb-1.5">
-            For best results, wrap your retrieved context in markers so TRACE knows
-            which part is the query and which is the supporting context:
-          </p>
-          <pre
-            className="mb-2 overflow-x-auto rounded-lg px-2 py-1 font-mono text-[10px]"
-            style={{ backgroundColor: latence.bgSurface, color: latence.text }}
-          >
-{`Wer war Roßmann?
+      <img src={LATENCE_LOGO_SRC} alt="Latence" className="h-10 w-auto" draggable={false} />
+      <p className="text-sm" style={{ color: latence.textMuted }}>Verifying you are human...</p>
+      <div ref={containerRef} />
+    </div>
+  );
+}
+
+const RAG_EXAMPLE = `What are the tenant's obligations regarding property maintenance under this lease?
+
 <START_CONTEXT>
-…paste your retrieved chunks here…
-</END_CONTEXT>`}
-          </pre>
-          <p className="mb-1.5">
-            Also accepted: <code style={{ color: latence.text }}>{'<CTX>…</CTX>'}</code> and
-            <code style={{ color: latence.text }}> [CONTEXT]…[/CONTEXT]</code>.
+Section 7.1 – Maintenance Obligations: The tenant shall maintain the leased premises in good condition and shall be responsible for all minor repairs up to EUR 500 per incident. The tenant shall promptly notify the landlord of any structural defects or damage exceeding the minor repair threshold.
+
+Section 7.2 – Common Areas: Maintenance of common areas, including hallways, stairwells, and parking facilities, shall remain the sole responsibility of the landlord. The tenant shall not obstruct or alter common areas without prior written consent.
+
+Section 7.3 – Seasonal Obligations: The tenant is responsible for snow removal on adjacent sidewalks between November 1 and March 31, as required by local municipal ordinance (Streupflicht). Failure to comply may result in liability for damages to third parties.
+</END_CONTEXT>`;
+
+const CODE_EXAMPLE_GOOD = `from latence import Latence
+
+def score_and_guard(response_text: str, context: str, query: str | None = None) -> dict:
+    client = Latence()
+    try:
+        result = client.grounding.rag(
+            response_text=response_text,
+            raw_context=context,
+            query_text=query,
+        )
+        output = {
+            "risk_band": result.risk_band,
+            "trace_score": result.trace_score,
+            "action": result.runtime_decision.get("action"),
+        }
+        if result.risk_band == "red":
+            privacy_result = client.privacy.redact(text=response_text)
+            output["redacted_text"] = privacy_result.redacted_text
+        return output
+    finally:
+        client.close()`;
+
+const CODE_EXAMPLE_BAD = `from latence import Latence, ScoringEngine
+
+def score_and_guard(response_text: str, context: str, query: str | None = None) -> dict:
+    client = Latence(model="gpt-4", retry_count=3)
+    engine = ScoringEngine(client, mode="strict")
+
+    result = engine.analyze(
+        answer=response_text,
+        documents=context.split("\\n"),
+        confidence_level="high",
+        return_explanations=True,
+    )
+    output = {
+        "risk_band": result.confidence_band,
+        "trace_score": result.overall_confidence,
+        "explanations": result.get_explanations(),
+    }
+    if result.confidence_band == "dangerous":
+        sanitizer = client.pii.sanitize(
+            input_text=response_text,
+            detection_mode="aggressive",
+            entity_types=["name", "phone", "iban"],
+        )
+        output["clean_text"] = sanitizer.cleaned_output
+    client.disconnect()
+    return output`;
+
+function CopyBlock({ label, text }: { label: string; text: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <div className="relative">
+      <div className="mb-1 flex items-center justify-between">
+        <span className="text-[10px] uppercase tracking-wider" style={{ color: latence.textSubtle }}>{label}</span>
+        <button
+          type="button"
+          onClick={() => { navigator.clipboard.writeText(text).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2000); }); }}
+          className="rounded px-2 py-0.5 text-[10px] transition hover:opacity-80"
+          style={{ backgroundColor: latence.greenSoft, color: latence.greenText }}
+        >
+          {copied ? 'Copied!' : 'Copy'}
+        </button>
+      </div>
+      <pre
+        className="overflow-x-auto rounded-xl px-3 py-2 font-mono text-[11px] leading-relaxed"
+        style={{ backgroundColor: latence.bgPrimary, color: latence.text, border: `1px solid ${latence.border}` }}
+      >
+        {text}
+      </pre>
+    </div>
+  );
+}
+
+function TraceHowItWorksModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto py-10"
+      style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div
+        className="relative mx-4 w-full max-w-2xl rounded-3xl border p-6 shadow-2xl"
+        style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute right-4 top-4 text-lg transition hover:opacity-70"
+          style={{ color: latence.textSubtle }}
+        >
+          &times;
+        </button>
+
+        <div className="mb-6 flex items-center gap-3">
+          <img src={LATENCE_LOGO_SRC} alt="Latence" className="h-7 w-auto" draggable={false} />
+          <span className="text-lg font-semibold" style={{ color: latence.text }}>
+            How <span style={{ color: latence.greenText }}>TRACE</span> Works
+          </span>
+        </div>
+
+        <div
+          className="mb-5 rounded-2xl border px-4 py-3"
+          style={{ backgroundColor: latence.bgSurface, borderColor: latence.border }}
+        >
+          <p className="mb-1 text-sm font-semibold" style={{ color: latence.greenText }}>
+            This is a testing demo
           </p>
-          <p>
-            Without markers we infer the question from the first or last paragraph
-            (German + English question words, or trailing <code>?</code>). The
-            heatmap header shows which mode was applied.
+          <p className="text-sm leading-relaxed" style={{ color: latence.textMuted }}>
+            TRACE is an API-based service that integrates into any application. This demo
+            lets you experience the real-time analytics firsthand. In production, you call
+            the TRACE API from your backend and receive structured JSON with scores,
+            diagnostics, and decision recommendations.
           </p>
         </div>
-      )}
+
+        <div className="mb-5 grid gap-4 md:grid-cols-2">
+          <div className="rounded-2xl border px-4 py-3" style={{ backgroundColor: latence.bgSurface, borderColor: latence.border }}>
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wider" style={{ color: latence.greenText }}>RAG Analytics</p>
+            <ul className="space-y-1.5 text-[12px] leading-relaxed" style={{ color: latence.textMuted }}>
+              <li><strong style={{ color: latence.text }}>Groundedness</strong> -- How much of the answer is supported by retrieved context</li>
+              <li><strong style={{ color: latence.text }}>NLI Claims</strong> -- Per-claim entailment/contradiction analysis with green/amber/red bands</li>
+              <li><strong style={{ color: latence.text }}>Context Utilization</strong> -- Which chunks were used, unused, or dead weight</li>
+              <li><strong style={{ color: latence.text }}>Privacy</strong> -- Automatic PII entity detection and redaction (GDPR)</li>
+              <li><strong style={{ color: latence.text }}>Memory</strong> -- InfiniMem span tracking across conversation turns</li>
+              <li><strong style={{ color: latence.text }}>Compression</strong> -- Token savings while preserving critical content</li>
+            </ul>
+          </div>
+          <div className="rounded-2xl border px-4 py-3" style={{ backgroundColor: latence.bgSurface, borderColor: latence.border }}>
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wider" style={{ color: latence.greenText }}>Coding Agent Analytics</p>
+            <ul className="space-y-1.5 text-[12px] leading-relaxed" style={{ color: latence.textMuted }}>
+              <li><strong style={{ color: latence.text }}>AST Phantom Detection</strong> -- Identifies hallucinated function names, classes, and API calls</li>
+              <li><strong style={{ color: latence.text }}>Literal Novelty</strong> -- Flags invented string/number literals not in the context</li>
+              <li><strong style={{ color: latence.text }}>File Attribution</strong> -- Maps which source files contributed to generated code</li>
+              <li><strong style={{ color: latence.text }}>Prompt Guard</strong> -- Llama Prompt Guard 2 security scan on retrieved context</li>
+              <li><strong style={{ color: latence.text }}>Drift Rollup</strong> -- Multi-turn model drift and retrieval waste tracking</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mb-5 rounded-2xl border px-4 py-3" style={{ backgroundColor: latence.bgSurface, borderColor: latence.border }}>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider" style={{ color: latence.greenText }}>How to Use Effectively</p>
+          <p className="mb-2 text-[12px] leading-relaxed" style={{ color: latence.textMuted }}>
+            For best results, wrap your retrieved context in markers so TRACE knows which part is the
+            query and which is the supporting context:
+          </p>
+          <pre
+            className="mb-2 overflow-x-auto rounded-lg px-3 py-2 font-mono text-[11px]"
+            style={{ backgroundColor: latence.bgPrimary, color: latence.text, border: `1px solid ${latence.border}` }}
+          >
+{`Your question here?
+<START_CONTEXT>
+...paste your retrieved chunks here...
+</END_CONTEXT>`}
+          </pre>
+          <p className="text-[11px]" style={{ color: latence.textSubtle }}>
+            Also accepted: <code style={{ color: latence.text }}>{'<CTX>...</CTX>'}</code> and <code style={{ color: latence.text }}>[CONTEXT]...[/CONTEXT]</code>.
+            Without markers, TRACE infers the question from the first or last paragraph.
+          </p>
+        </div>
+
+        <div className="mb-5 space-y-3">
+          <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: latence.greenText }}>RAG Example (English, Legal)</p>
+          <CopyBlock label="Paste into chat" text={RAG_EXAMPLE} />
+        </div>
+
+        <div className="space-y-3">
+          <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: latence.greenText }}>Code Example</p>
+          <CopyBlock label="Grounded answer (correct API usage)" text={CODE_EXAMPLE_GOOD} />
+          <CopyBlock label="Hallucinated answer (fabricated API calls)" text={CODE_EXAMPLE_BAD} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TraceSignupModal({ onDismiss, canDismiss }: { onDismiss: () => void; canDismiss: boolean }) {
+  const [showLeadForm, setShowLeadForm] = useState(false);
+  const [leadSent, setLeadSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [name, setName] = useState('');
+  const [company, setCompany] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleLeadSubmit = async () => {
+    if (!name.trim() || !company.trim() || !email.trim()) return;
+    setSending(true);
+    try {
+      const base = getTraceBridgeBaseUrl();
+      await fetch(`${base}/api/lead-capture`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name.trim(), company: company.trim(), email: email.trim(), message: message.trim() }),
+      });
+      setLeadSent(true);
+    } catch { /* noop */ }
+    setSending(false);
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ backgroundColor: 'rgba(0,0,0,0.75)' }}
+    >
+      <div
+        className="mx-4 w-full max-w-md rounded-3xl border p-6 shadow-2xl"
+        style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
+      >
+        <div className="mb-5 flex items-center gap-3">
+          <img src={LATENCE_LOGO_SRC} alt="Latence" className="h-7 w-auto" draggable={false} />
+          <span className="text-lg font-semibold" style={{ color: latence.text }}>
+            Ready for <span style={{ color: latence.greenText }}>production</span>?
+          </span>
+        </div>
+
+        <p className="mb-6 text-sm leading-relaxed" style={{ color: latence.textMuted }}>
+          Sign up and get your free API key to integrate TRACE into your own applications,
+          or request a dedicated deployment quote for your enterprise.
+        </p>
+
+        <div className="mb-4 flex flex-col gap-3">
+          <a
+            href="https://www.latence.ai/signup"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block rounded-2xl px-4 py-3 text-center text-sm font-semibold transition hover:opacity-90"
+            style={{ backgroundColor: latence.green, color: '#fff' }}
+          >
+            Sign up and get your free API key
+          </a>
+
+          {!showLeadForm && !leadSent && (
+            <button
+              type="button"
+              onClick={() => setShowLeadForm(true)}
+              className="rounded-2xl border px-4 py-3 text-center text-sm font-semibold transition hover:opacity-80"
+              style={{ borderColor: latence.border, color: latence.greenText, backgroundColor: latence.bgSurface }}
+            >
+              Get a dedicated deployment quote
+            </button>
+          )}
+        </div>
+
+        {showLeadForm && !leadSent && (
+          <div
+            className="mb-4 space-y-3 rounded-2xl border px-4 py-4"
+            style={{ backgroundColor: latence.bgSurface, borderColor: latence.border }}
+          >
+            <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: latence.greenText }}>Deployment Quote</p>
+            {[
+              { label: 'Name', value: name, set: setName, required: true },
+              { label: 'Company', value: company, set: setCompany, required: true },
+              { label: 'Email', value: email, set: setEmail, required: true },
+            ].map((field) => (
+              <div key={field.label}>
+                <label className="mb-1 block text-[11px]" style={{ color: latence.textSubtle }}>
+                  {field.label} {field.required && <span style={{ color: latence.rose }}>*</span>}
+                </label>
+                <input
+                  type={field.label === 'Email' ? 'email' : 'text'}
+                  value={field.value}
+                  onChange={(e) => field.set(e.target.value)}
+                  className="w-full rounded-xl border px-3 py-2 text-sm outline-none focus:ring-1"
+                  style={{
+                    backgroundColor: latence.bgPrimary,
+                    borderColor: latence.border,
+                    color: latence.text,
+                    // @ts-expect-error -- ring-color is a valid CSS custom property for Tailwind
+                    '--tw-ring-color': latence.green,
+                  }}
+                />
+              </div>
+            ))}
+            <div>
+              <label className="mb-1 block text-[11px]" style={{ color: latence.textSubtle }}>Message (optional)</label>
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                rows={2}
+                className="w-full resize-none rounded-xl border px-3 py-2 text-sm outline-none focus:ring-1"
+                style={{
+                  backgroundColor: latence.bgPrimary,
+                  borderColor: latence.border,
+                  color: latence.text,
+                }}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={handleLeadSubmit}
+              disabled={sending || !name.trim() || !company.trim() || !email.trim()}
+              className="w-full rounded-xl px-4 py-2.5 text-sm font-semibold transition hover:opacity-90 disabled:opacity-50"
+              style={{ backgroundColor: latence.green, color: '#fff' }}
+            >
+              {sending ? 'Sending...' : 'Request Quote'}
+            </button>
+          </div>
+        )}
+
+        {leadSent && (
+          <div
+            className="mb-4 rounded-2xl border px-4 py-3 text-center"
+            style={{ backgroundColor: latence.greenSoft, borderColor: latence.green }}
+          >
+            <p className="text-sm font-semibold" style={{ color: latence.greenText }}>
+              Thank you! We will get back to you shortly.
+            </p>
+          </div>
+        )}
+
+        {canDismiss && (
+          <button
+            type="button"
+            onClick={onDismiss}
+            className="w-full text-center text-xs transition hover:opacity-70"
+            style={{ color: latence.textSubtle }}
+          >
+            Continue exploring
+          </button>
+        )}
+      </div>
     </div>
   );
 }

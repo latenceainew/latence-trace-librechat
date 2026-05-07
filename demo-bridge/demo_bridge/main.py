@@ -1,16 +1,20 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
+import smtplib
 import time
 from collections.abc import Mapping
 from dataclasses import dataclass
 from datetime import datetime, timezone
+from email.message import EmailMessage
 from pathlib import Path
 from typing import Any, Literal
 from uuid import uuid4
 
+import httpx
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
@@ -18,6 +22,8 @@ from latence import Latence
 from latence._transport import runpod_request_body, unwrap_runpod_response
 from latence.integrations.langchain import LatenceTraceCallback
 from pydantic import BaseModel, Field
+
+_log = logging.getLogger(__name__)
 
 Integration = Literal["native", "langchain", "llamaindex", "langgraph", "n8n"]
 ScenarioKind = Literal["rag", "code", "privacy", "memory", "compression", "rollup"]
@@ -284,6 +290,71 @@ def create_app() -> FastAPI:
             }
         )
 
+    @app.post("/api/verify-turnstile")
+    def verify_turnstile(payload: dict[str, Any]) -> JSONResponse:
+        """Validate a Cloudflare Turnstile token server-side."""
+        token = str(payload.get("token") or "").strip()
+        if not token:
+            raise HTTPException(status_code=400, detail="token is required")
+        secret = os.environ.get("TURNSTILE_SECRET_KEY", "")
+        if not secret:
+            return JSONResponse({"ok": True, "skipped": True})
+        try:
+            resp = httpx.post(
+                "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+                data={"secret": secret, "response": token},
+                timeout=10,
+            )
+            result = resp.json()
+        except Exception as exc:
+            _log.warning("Turnstile verification failed: %s", exc)
+            return JSONResponse({"ok": True, "skipped": True})
+        if result.get("success"):
+            return JSONResponse({"ok": True})
+        return JSONResponse({"ok": False, "error": "verification failed"}, status_code=403)
+
+    @app.post("/api/lead-capture")
+    def lead_capture(payload: dict[str, Any]) -> JSONResponse:
+        """Capture a lead from the demo signup modal."""
+        name = str(payload.get("name") or "").strip()
+        company = str(payload.get("company") or "").strip()
+        email = str(payload.get("email") or "").strip()
+        message = str(payload.get("message") or "").strip()
+        if not name or not company or not email:
+            raise HTTPException(status_code=400, detail="name, company, and email are required")
+        lead_to = os.environ.get("LEAD_CAPTURE_EMAIL", "admin@latence.ai")
+        smtp_host = os.environ.get("SMTP_HOST")
+        smtp_port = int(os.environ.get("SMTP_PORT", "587"))
+        smtp_user = os.environ.get("SMTP_USER")
+        smtp_pass = os.environ.get("SMTP_PASS")
+        smtp_from = os.environ.get("SMTP_FROM", lead_to)
+        body = (
+            f"New TRACE demo lead:\n\n"
+            f"Name: {name}\n"
+            f"Company: {company}\n"
+            f"Email: {email}\n"
+            f"Message: {message or '(none)'}\n"
+            f"Timestamp: {datetime.now(timezone.utc).isoformat()}\n"
+        )
+        if smtp_host and smtp_user and smtp_pass:
+            try:
+                msg = EmailMessage()
+                msg["Subject"] = f"TRACE Demo Lead: {company} ({name})"
+                msg["From"] = smtp_from
+                msg["To"] = lead_to
+                msg["Reply-To"] = email
+                msg.set_content(body)
+                with smtplib.SMTP(smtp_host, smtp_port) as server:
+                    server.starttls()
+                    server.login(smtp_user, smtp_pass)
+                    server.send_message(msg)
+            except Exception as exc:
+                _log.warning("SMTP send failed, logging lead instead: %s", exc)
+                _log.info("LEAD CAPTURE: %s", body)
+        else:
+            _log.info("LEAD CAPTURE (no SMTP configured): %s", body)
+        return JSONResponse({"ok": True})
+
     return app
 
 
@@ -432,6 +503,10 @@ def _run_with_client(
         "include_triangular_diagnostics": False,
         "response_format": "canonical",
     }
+    if request.kind == "code":
+        sdk_extra["context_trust_provider"] = "prompt_guard"
+    else:
+        sdk_extra["context_trust_enabled"] = False
     # Language hint: forward the bridge-side detection to the runtime so
     # the same language flows into the per-class calibration bundle
     # loader and the German balanced NLI defaults (top_k=2, concat=False,
