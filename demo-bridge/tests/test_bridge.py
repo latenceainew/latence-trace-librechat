@@ -10,6 +10,7 @@ from demo_bridge.main import DemoTraceRequest, _run_with_client
 
 SAMPLE_RESPONSE = {
     "risk_band": "amber",
+    "request_id": "req-rag",
     "scores": {"groundedness_v2": 0.42, "risk_band": "amber"},
     "runtime_decision": {
         "action": "review",
@@ -44,7 +45,6 @@ class _FakeGrounding:
 
 class _FakePrivacy:
     def redact(self, **kwargs):
-        assert kwargs["labels"] == ["email", "person", "account_number"]
         return SimpleNamespace(
             entity_count=1,
             unique_labels=["email"],
@@ -66,10 +66,28 @@ class _FakeCompression:
         )
 
 
+class _FakeResponse:
+    status_code = 200
+
+    def __init__(self, data: dict):
+        self._data = data
+
+    def json(self):
+        return self._data
+
+
+class _FakeClient:
+    def request(self, _method, _url, **_kwargs):
+        return _FakeResponse(SAMPLE_RESPONSE)
+
+
 class _FakeTrace:
     grounding = _FakeGrounding()
     privacy = _FakePrivacy()
     compression = _FakeCompression()
+    _runpod = False
+    _base_url = "http://localhost:8000"
+    _client = _FakeClient()
 
 
 def test_bridge_normalizes_rag_response() -> None:

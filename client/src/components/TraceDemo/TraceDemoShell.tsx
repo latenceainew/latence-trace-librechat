@@ -25,7 +25,6 @@ import {
   extractMemoryDetail,
   extractPrivacyDetail,
   extractPromptGuardSummary,
-  extractTraceSpans,
   getActiveOrDefaultSelection,
   getEnabledFeatures,
   getKindForFeature,
@@ -75,8 +74,6 @@ const copy = {
   runningStatus: 'running',
   queued: 'queued',
   error: 'error',
-  heatmapTitle: 'Unsupported-span heatmap',
-  noSpans: 'No unsupported spans returned for this response.',
 };
 
 type StatusVisual = { background: string; color: string };
@@ -230,7 +227,6 @@ export default function TraceDemoShell({
   const useCase = traceUseCases.find((item) => item.id === selection.useCase);
   const integration = traceIntegrations.find((item) => item.id === selection.integration);
   const enabledFeatures = getEnabledFeatures(selection.useCase);
-  const spans = extractTraceSpans(latestResult);
   const riskInfo = getRiskForResult(latestResult);
   const decision = extractDecision(latestResult);
   const deadWeights = extractDeadWeights(latestResult);
@@ -603,133 +599,6 @@ function CompactMetricCell({
   );
 }
 
-function TraceAnalyticsHeader({
-  useCaseLabel,
-  integrationLabel,
-  decision,
-  riskInfo,
-}: {
-  useCaseLabel?: string;
-  integrationLabel?: string;
-  decision?: ReturnType<typeof extractDecision>;
-  riskInfo: { risk: string; score?: number | null };
-}) {
-  const band = decision?.band ?? riskInfo.risk;
-  const style = getRiskStyle(band);
-  const score = decision?.score ?? riskInfo.score;
-  return (
-    <div
-      className="mb-4 rounded-3xl border p-4"
-      style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
-    >
-      <div className="mb-3 flex items-center justify-between gap-3">
-        <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: latence.greenText }}>
-          {copy.panelTitle}
-        </p>
-        <span
-          className="rounded-full border px-2 py-0.5 text-[11px] font-medium capitalize"
-          style={{
-            backgroundColor: style.backgroundColor,
-            borderColor: style.borderColor,
-            color: style.color,
-          }}
-        >
-          {band || copy.pending}
-        </span>
-      </div>
-      <p className="mb-3 text-xs" style={{ color: latence.textMuted }}>
-        {copy.panelSubtitle}
-      </p>
-      <div className="grid grid-cols-2 gap-2">
-        <MetaRow label={copy.useCase} value={useCaseLabel} />
-        <MetaRow label={copy.integration} value={integrationLabel} />
-      </div>
-      {(typeof score === 'number' || decision?.action) && (
-        <div
-          className="mt-3 grid grid-cols-2 gap-2 border-t pt-3"
-          style={{ borderColor: latence.border }}
-        >
-          <MetaRow
-            label="Decision"
-            value={decision?.action ? decision.action.toUpperCase() : copy.pending}
-          />
-          <MetaRow
-            label="Score"
-            value={
-              typeof score === 'number'
-                ? score <= 1
-                  ? `${Math.round(score * 100)}%`
-                  : score.toFixed(2)
-                : copy.pending
-            }
-          />
-        </div>
-      )}
-    </div>
-  );
-}
-
-function TraceMetricGrid({
-  features,
-  result,
-}: {
-  features: TraceFeatureKey[];
-  result?: TraceDemoMessageResult;
-}) {
-  return (
-    <div
-      className="mb-4 rounded-3xl border p-4"
-      style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
-    >
-      <p className="mb-3 text-sm font-medium" style={{ color: latence.text }}>
-        Metrics
-      </p>
-      <div className="grid grid-cols-2 gap-2">
-        {features.map((feature) => (
-          <MetricCell key={feature} feature={feature} result={result} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function TraceTelemetryCard({
-  requestId,
-  avgLatency,
-  isRunning,
-  hasResult,
-}: {
-  requestId?: string;
-  avgLatency?: number;
-  isRunning: boolean;
-  hasResult: boolean;
-}) {
-  return (
-    <div
-      className="mb-4 rounded-3xl border p-4"
-      style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
-    >
-      <p className="mb-3 text-sm font-medium" style={{ color: latence.text }}>
-        Telemetry
-      </p>
-      <div className="space-y-2">
-        <MetaRow label={copy.requestId} value={requestId ?? copy.pending} />
-        <MetaRow
-          label={copy.latency}
-          value={typeof avgLatency === 'number' ? `${avgLatency} ms avg` : copy.pending}
-        />
-      </div>
-      {!hasResult && (
-        <p
-          className="mt-3 rounded-2xl border border-dashed p-3 text-xs"
-          style={{ borderColor: latence.border, color: latence.textMuted }}
-        >
-          {isRunning ? copy.running : copy.waiting}
-        </p>
-      )}
-    </div>
-  );
-}
 
 /**
  * Groundedness + retrieval-utility detail card.
@@ -1356,90 +1225,6 @@ function TraceDriftCard({ detail }: { detail: ReturnType<typeof extractDriftBand
   );
 }
 
-function TraceUnsupportedSpansCard({
-  spans,
-}: {
-  spans:
-    | ReturnType<typeof extractTraceSpans>
-    | NonNullable<ReturnType<typeof extractDecision>>['unsupportedSpans'];
-}) {
-  return (
-    <div
-      className="rounded-3xl border p-4"
-      style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
-    >
-      <p className="mb-3 text-sm font-medium" style={{ color: latence.text }}>
-        {copy.heatmapTitle}
-      </p>
-      {spans.length > 0 ? (
-        <div className="space-y-2">
-          {spans.slice(0, 4).map((span, index) => (
-            <div
-              key={`${span.label}-${index}`}
-              className="rounded-2xl border p-3 text-xs"
-              style={{
-                backgroundColor: latence.amberSoft,
-                borderColor: latence.amber,
-                color: latence.text,
-              }}
-            >
-              <p className="mb-1" style={{ color: latence.amber }}>
-                {span.label}
-              </p>
-              <p className="line-clamp-3" style={{ color: latence.textMuted }}>
-                {span.text}
-              </p>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p
-          className="rounded-2xl border border-dashed p-3 text-xs"
-          style={{ borderColor: latence.border, color: latence.textSubtle }}
-        >
-          {copy.noSpans}
-        </p>
-      )}
-    </div>
-  );
-}
-
-function MetricCell({
-  feature,
-  result,
-}: {
-  feature: TraceFeatureKey;
-  result?: TraceDemoMessageResult;
-}) {
-  const meta = traceFeatureCatalog.find((entry) => entry.key === feature);
-  const record = result?.results[feature];
-  const value = formatFeatureValue(feature, record?.response, result);
-  const isCompleted = record?.status === 'completed';
-  const isRunning = record?.status === 'running' || record?.status === 'queued';
-  const isError = record?.status === 'error';
-  return (
-    <div
-      className="rounded-2xl border p-3"
-      style={{
-        backgroundColor: latence.bgSurface,
-        borderColor: isCompleted ? latence.greenSoftStrong : latence.border,
-      }}
-    >
-      <p className="text-[11px] uppercase tracking-[0.16em]" style={{ color: latence.textSubtle }}>
-        {meta?.label ?? feature}
-      </p>
-      <p
-        className="mt-1 truncate text-sm font-medium"
-        style={{
-          color: isError ? latence.rose : isCompleted ? latence.greenText : latence.text,
-        }}
-      >
-        {isRunning ? '…' : value}
-      </p>
-    </div>
-  );
-}
-
 function formatFeatureValue(
   feature: TraceFeatureKey,
   response?: TraceBridgeResponse,
@@ -1570,22 +1355,6 @@ function MetaRow({ label, value }: { label: string; value?: string | null }) {
         {value || copy.pending}
       </span>
     </div>
-  );
-}
-
-function RiskPill({ risk }: { risk?: string | null }) {
-  const style = getRiskStyle(risk);
-  return (
-    <span
-      className="rounded-full border px-2.5 py-1 text-xs font-medium capitalize"
-      style={{
-        backgroundColor: style.backgroundColor,
-        borderColor: style.borderColor,
-        color: style.color,
-      }}
-    >
-      {risk || copy.pending}
-    </span>
   );
 }
 
