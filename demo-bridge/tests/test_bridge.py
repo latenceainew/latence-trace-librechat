@@ -114,7 +114,8 @@ def test_bridge_normalizes_rag_response() -> None:
     assert response.evidence == [{"source_id": "policy", "usage_state": "used"}]
 
 
-def test_bridge_runs_langchain_callback_path() -> None:
+def test_bridge_langchain_uses_canonical_path() -> None:
+    """LangChain integration now routes through canonical grounding for rich raw data."""
     response = _run_with_client(
         _FakeTrace(),
         DemoTraceRequest(
@@ -131,19 +132,15 @@ def test_bridge_runs_langchain_callback_path() -> None:
     assert response.integration == "langchain"
     assert response.risk_band == "amber"
     assert response.trace_score == 0.42
-    assert response.runtime_decision == {"action": "review"}
     assert response.request_id == "req-rag"
+    assert response.raw is not None
+    assert response.raw["scores"]["risk_band"] == "amber"
 
 
-def test_bridge_runs_llamaindex_postprocessor_path() -> None:
-    def handler(request: httpx.Request) -> httpx.Response:
-        assert request.url.path == "/groundedness"
-        body = json.loads(request.content)
-        assert body["raw_context"] == "Refunds require approval.\n\nFinance owns refund timing."
-        return httpx.Response(200, json=SAMPLE_RESPONSE, headers={"x-request-id": "req-rag"})
-
+def test_bridge_llamaindex_uses_canonical_path() -> None:
+    """LlamaIndex integration now routes through canonical grounding for rich raw data."""
     response = _run_with_client(
-        Latence(transport=httpx.MockTransport(handler)),
+        _FakeTrace(),
         DemoTraceRequest(
             scenario="support_refund_rag",
             integration="llamaindex",
@@ -158,14 +155,12 @@ def test_bridge_runs_llamaindex_postprocessor_path() -> None:
     assert response.integration == "llamaindex"
     assert response.risk_band == "amber"
     assert response.trace_score == 0.42
-    assert response.runtime_decision is not None
-    assert response.runtime_decision["action"] == "review"
     assert response.request_id == "req-rag"
-    assert response.evidence[0]["source_id"] == "support_refund_rag-1"
-    assert response.evidence[0]["text"] == "Refunds require approval."
+    assert response.raw is not None
 
 
-def test_bridge_runs_langgraph_code_route() -> None:
+def test_bridge_langgraph_uses_canonical_path() -> None:
+    """LangGraph integration now routes through canonical grounding for rich raw data."""
     response = _run_with_client(
         _FakeTrace(),
         DemoTraceRequest(
@@ -182,8 +177,8 @@ def test_bridge_runs_langgraph_code_route() -> None:
     assert response.integration == "langgraph"
     assert response.risk_band == "amber"
     assert response.trace_score == 0.42
-    assert response.runtime_decision == {"action": "review", "graph_route": "review"}
     assert response.request_id == "req-rag"
+    assert response.raw is not None
 
 
 def test_bridge_normalizes_privacy_response() -> None:

@@ -409,16 +409,11 @@ def _run_with_client(
             raw=dict(result),
         )
 
-    if request.kind == "rag" and request.integration == "langchain":
-        return _run_langchain_rag(trace, request, started)
-    if request.kind == "rag" and request.integration == "llamaindex":
-        return _run_llamaindex_rag(trace, request, started)
-    if request.kind == "code" and request.integration == "langgraph":
-        return _run_langgraph_code(trace, request, started)
-    # n8n shim: today the bridge exposes the same SDK surface for the n8n
-    # integration label (no separate adapter exists yet). Route through the
-    # native grounding flow but stamp the integration so callers and saved
-    # runs preserve the workflow context.
+    # All integration labels (native, langchain, llamaindex, langgraph,
+    # n8n) now use the same canonical grounding path so every integration
+    # gets the full nli_diagnostics, support_units, context_trust_diagnostics,
+    # and scores payload the frontend needs for rich analytics.  The
+    # integration label is preserved in the response for display purposes.
 
     # Quality lane + reverse-context-only by default. The frontend / SDK
     # driver can override per-request via metadata.trace_extra (e.g. to A/B

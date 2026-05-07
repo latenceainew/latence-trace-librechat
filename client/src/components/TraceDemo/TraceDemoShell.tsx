@@ -725,12 +725,18 @@ function PromptGuardBadge({ guard }: { guard: TracePromptGuardSummary }) {
         PromptGuard
       </span>
       <span style={{ color: latence.textMuted }}>
-        {guard.trustedCount}/{total} trusted
-        {guard.suspiciousCount > 0 && (
-          <span style={{ color: latence.amber }}> · {guard.suspiciousCount} suspicious</span>
-        )}
-        {guard.blockedCount > 0 && (
-          <span style={{ color: latence.rose }}> · {guard.blockedCount} blocked</span>
+        {total === 0 ? (
+          'No chunks scanned'
+        ) : (
+          <>
+            {guard.trustedCount}/{total} trusted
+            {guard.suspiciousCount > 0 && (
+              <span style={{ color: latence.amber }}> · {guard.suspiciousCount} suspicious</span>
+            )}
+            {guard.blockedCount > 0 && (
+              <span style={{ color: latence.rose }}> · {guard.blockedCount} blocked</span>
+            )}
+          </>
         )}
       </span>
       {guard.provider && (
@@ -817,8 +823,10 @@ function ExpandableEvidenceChunk({ item, index }: { item: TraceEvidenceItem; ind
             {typeof item.usageConfidence === 'number' && (
               <span>Usage conf: {Math.round(item.usageConfidence * 100)}%</span>
             )}
-            {typeof item.trustScore === 'number' && item.trustScore > 0 && (
-              <span style={{ color: latence.amber }}>Risk: {item.trustScore.toFixed(2)}</span>
+            {typeof item.trustScore === 'number' && (
+              <span style={{ color: item.trustScore > 0 ? latence.amber : latence.greenText }}>
+                Risk: {item.trustScore.toFixed(2)}
+              </span>
             )}
             {item.trustLabels && item.trustLabels.length > 0 && (
               <span style={{ color: latence.rose }}>Labels: {item.trustLabels.join(', ')}</span>
