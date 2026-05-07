@@ -1042,16 +1042,36 @@ export function extractDecision(result?: TraceDemoMessageResult): TraceDecision 
       }
     }
   }
+  // Band: prefer the calibration `risk_band` (the per-class bundle's
+  // verdict on the fused groundedness signal — same field the event
+  // log row reads). The runtime `decision.band` is now coerced to
+  // match calibration on the backend, but we still read calibration
+  // first so that any future SDK consumer that exposes only one of
+  // the two fields renders a band consistent with the event log,
+  // heatmap header, and SDK-direct `risk_band` callers. Falling back
+  // to `decision.band` only when calibration is absent keeps the
+  // pre-coercion fallback path covered.
+  const calibrationBand =
+    typeof response.risk_band === 'string' && response.risk_band.length > 0
+      ? response.risk_band
+      : undefined;
+  // Score: prefer `trace_score` (the user-visible calibration score
+  // that the event log Score column already shows). The runtime
+  // `decision.score` is the head's intermediate score (e.g. the
+  // claim_decomposer's atomized verdict in [0, 1]) and using it as
+  // the display score gives buyers a number that doesn't match the
+  // band — mid-range head scores happily coexist with red bands.
   return {
     action: typeof decision.action === 'string' ? decision.action : undefined,
     band:
-      typeof decision.band === 'string'
-        ? decision.band
-        : typeof response.risk_band === 'string'
-          ? response.risk_band
-          : undefined,
+      calibrationBand ??
+      (typeof decision.band === 'string' ? decision.band : undefined),
     score:
-      typeof decision.score === 'number' ? decision.score : (response.trace_score ?? undefined),
+      typeof response.trace_score === 'number'
+        ? response.trace_score
+        : typeof decision.score === 'number'
+          ? decision.score
+          : undefined,
     reasonCodes,
     unsupportedSpans: unsupported,
   };
