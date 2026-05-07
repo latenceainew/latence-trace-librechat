@@ -911,16 +911,34 @@ export function extractHeatmapSummary(result?: TraceDemoMessageResult): TraceHea
   // *actually* drove the calibration / NLI defaults. Fall back to the
   // bridge's bridge-side detection when the runtime is older / not yet
   // returning the field.
+  //
+  // ``profile_diagnostics`` is a TOP-LEVEL field on
+  // ``GroundednessResponse`` — pre-fix the frontend looked for it at
+  // ``raw.runtime_decision.profile_diagnostics`` (it never lived there)
+  // which is why the demo always rendered "DE (UNCALIBRATED)" even
+  // when the German bundle had been correctly loaded by the corpus
+  // router. The new path matches the canonical TRACE schema; the
+  // legacy nested location is kept as a tertiary fallback for any
+  // proxy/integration that re-shapes the response.
   const profileDiag = (
-    (raw as { runtime_decision?: { profile_diagnostics?: Record<string, unknown> } })
-      .runtime_decision?.profile_diagnostics ?? {}
+    (raw.profile_diagnostics as Record<string, unknown> | undefined) ??
+    ((raw as { runtime_decision?: { profile_diagnostics?: Record<string, unknown> } })
+      .runtime_decision?.profile_diagnostics) ??
+    {}
   ) as Record<string, unknown>;
-  const effectiveLanguageRaw = profileDiag.language;
+  // ``corpus_route`` is the canonical place the latence-trace router
+  // stamps the resolved language tuple onto the response. Reading it
+  // here means we render the right chip even when ``profile_diagnostics``
+  // is absent (older runtimes, integration-only payloads, etc.).
+  const corpusRoute = (raw.corpus_route as Record<string, unknown> | undefined) ?? {};
+
+  const effectiveLanguageRaw = profileDiag.language ?? corpusRoute.language;
   const effectiveLanguage =
     effectiveLanguageRaw === 'de' || effectiveLanguageRaw === 'en'
       ? (effectiveLanguageRaw as 'de' | 'en')
       : undefined;
-  const effectiveLanguageSourceRaw = profileDiag.language_source;
+  const effectiveLanguageSourceRaw =
+    profileDiag.language_source ?? corpusRoute.language_source;
   const effectiveLanguageSource =
     effectiveLanguageSourceRaw === 'request' ||
     effectiveLanguageSourceRaw === 'auto' ||
@@ -933,15 +951,17 @@ export function extractHeatmapSummary(result?: TraceDemoMessageResult): TraceHea
       ? (bridgeLanguageRaw as 'de' | 'en')
       : undefined;
 
-  // Bundle calibration: until the German calibration bundles ship under
-  // ``latence_trace/data/calibration.<class>.de.json``, a German request
-  // gets routed through the English fallback bundle. The runtime logs
-  // this as ``bundle_language_fallback``; we read the bundle hint from
-  // ``profile_diagnostics.bundle_language`` once Phase C exposes it.
+  // Bundle calibration: read ``bundle_language`` from
+  // ``profile_diagnostics`` first, then from the typed
+  // ``corpus_route.bundle_language`` field that ships in
+  // latence-trace >= 0.5.x. Either signal is enough to confirm that
+  // the German artefact (or any per-language artefact) was used.
   const bundleHintRaw =
     typeof profileDiag.bundle_language === 'string'
       ? (profileDiag.bundle_language as string)
-      : undefined;
+      : typeof corpusRoute.bundle_language === 'string'
+        ? (corpusRoute.bundle_language as string)
+        : undefined;
   const bundleLanguage =
     bundleHintRaw === 'de' || bundleHintRaw === 'en'
       ? (bundleHintRaw as 'de' | 'en')
@@ -1238,20 +1258,28 @@ export function extractDriftBand(result?: TraceDemoMessageResult): {
     }
     const record = candidate.record;
     const decision = (record.runtime_decision ?? {}) as Record<string, unknown>;
+    // Calibration band first, runtime decision band as fallback —
+    // matches ``extractDecision`` and the backend coercion contract
+    // (``runtime_decision.band`` is forced to match ``risk_band`` when
+    // calibration is red, but for older callers without coercion the
+    // calibration band is the canonical user-visible verdict).
     const band =
-      typeof decision.band === 'string'
-        ? decision.band
-        : typeof record.risk_band === 'string'
-          ? record.risk_band
+      typeof record.risk_band === 'string' && record.risk_band.length > 0
+        ? record.risk_band
+        : typeof decision.band === 'string'
+          ? decision.band
           : undefined;
     if (!band || band === 'unknown') {
       continue;
     }
+    // Calibration score first, head-channel ``runtime_decision.score``
+    // only as a last resort. Otherwise the drift card shows numbers
+    // that disagree with the live overlay's calibration trace_score.
     const score =
-      typeof decision.score === 'number'
-        ? decision.score
-        : typeof record.trace_score === 'number'
-          ? record.trace_score
+      typeof record.trace_score === 'number'
+        ? record.trace_score
+        : typeof decision.score === 'number'
+          ? decision.score
           : undefined;
     return { band, score, source: candidate.key };
   }

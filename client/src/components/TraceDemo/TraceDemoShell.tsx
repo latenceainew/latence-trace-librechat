@@ -1173,11 +1173,21 @@ function formatFeatureValue(
     return copy.pending;
   }
   if (feature === 'groundedness') {
+    // Always prefer ``trace_score`` (the per-class calibrated score
+    // that drives the user-visible band). The runtime decision's
+    // ``score`` is the head channel's intermediate value (e.g. the
+    // claim_decomposer's atomized score in [0, 1]); it can sit at
+    // mid-range while the calibration band is red, which would show
+    // a number on the grid that disagrees with the band pill on the
+    // same row. The fallback to a head-derived score from the response
+    // ``scores`` block is only reached when calibration is genuinely
+    // missing — a rare path now that every shipped class has a bundle.
     if (typeof response.trace_score === 'number') {
       return formatScore(response.trace_score);
     }
-    const decisionScore = (response.runtime_decision as { score?: number } | null)?.score;
-    return typeof decisionScore === 'number' ? formatScore(decisionScore) : copy.pending;
+    const scores = (response.raw as { scores?: Record<string, unknown> } | undefined)?.scores;
+    const fused = scores?.groundedness_v2 ?? scores?.primary_score;
+    return typeof fused === 'number' ? formatScore(fused) : copy.pending;
   }
   if (feature === 'context-util') {
     return (
