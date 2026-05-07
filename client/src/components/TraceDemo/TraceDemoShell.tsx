@@ -1273,6 +1273,18 @@ function formatFeatureValue(
         ctxUtil = gScores?.context_usage_ratio ?? gScores?.context_coverage_ratio;
       }
     }
+    // When all support units are "uncertain" (reranker low-confidence),
+    // context_usage_ratio is 0 even though context_coverage_ratio may be
+    // near 1.0. Fall back to coverage_ratio so the UI doesn't misleadingly
+    // show "0%" for clearly relevant context.
+    if (ctxUtil === 0) {
+      const groundingResponse = result?.results.groundedness?.response;
+      const gScores = (groundingResponse?.raw as { scores?: Record<string, unknown> } | undefined)?.scores;
+      const coverageRatio = typeof gScores?.context_coverage_ratio === 'number' ? gScores.context_coverage_ratio : null;
+      if (coverageRatio !== null && coverageRatio > 0) {
+        ctxUtil = coverageRatio;
+      }
+    }
     return formatMetric(ctxUtil) ?? copy.pending;
   }
   if (feature === 'drift') {
