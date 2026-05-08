@@ -6,9 +6,9 @@
  * and subtle borders. Latence green (#0b8b91) is the only accent.
  */
 export const latence = {
-  bgPrimary: '#0b1412',
-  bgSurface: '#101816',
-  bgRaised: '#18211f',
+  bgPrimary: '#0a0a0a',
+  bgSurface: '#0d0d0d',
+  bgRaised: '#111111',
   border: 'rgba(216, 210, 198, 0.12)',
   borderStrong: 'rgba(216, 210, 198, 0.22)',
   green: '#0b8b91',

@@ -328,7 +328,11 @@ export default function TraceDemoShell({
             guardianMode={extractGuardianSegments(latestResult).length > 0}
           />
           <TracePrivacyCard detail={privacyDetail} />
-          <TraceCompressionCard detail={compressionDetail} />
+          <TraceCompressionCard
+            detail={compressionDetail}
+            onShare={() => setShowShareModal(true)}
+            hasResult={Object.values(latestResult?.results ?? {}).some(Boolean)}
+          />
         </aside>
       </div>
       {showHowItWorks && (
@@ -423,38 +427,7 @@ function TraceTopToggle({
         >
           How It Works
         </button>
-        {(decision || (band && band !== 'unknown')) && (
-          <span
-            className="text-[10px] font-semibold uppercase tracking-[0.22em]"
-            style={{ color: latence.textSubtle }}
-          >
-            Live decision
-          </span>
-        )}
-        {decision && (
-          <span
-            className="rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]"
-            style={{
-              backgroundColor: bandStyle.backgroundColor,
-              color: bandStyle.color,
-              border: `1px solid ${bandStyle.borderColor}`,
-            }}
-          >
-            {decision}
-          </span>
-        )}
-        {band && band !== 'unknown' && (
-          <span
-            className="rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]"
-            style={{
-              backgroundColor: bandStyle.backgroundColor,
-              color: bandStyle.color,
-              border: `1px solid ${bandStyle.borderColor}`,
-            }}
-          >
-            {band === 'green' ? 'Grounded' : band === 'red' ? 'Ungrounded' : band}
-          </span>
-        )}
+        
       </div>
     </div>
   );
@@ -570,28 +543,6 @@ function TraceSummaryPanel({
           )}
         </div>
         <div className="flex items-center gap-1.5">
-          {hasResult && onShare && (
-            <button
-              type="button"
-              onClick={onShare}
-              title="Share results"
-              className="flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] transition hover:opacity-80"
-              style={{
-                borderColor: latence.green,
-                color: latence.greenText,
-                backgroundColor: latence.greenSoft,
-              }}
-            >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="18" cy="5" r="3" />
-                <circle cx="6" cy="12" r="3" />
-                <circle cx="18" cy="19" r="3" />
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-              </svg>
-              Share
-            </button>
-          )}
           {decision?.action && (
             <span
               className="rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em]"
@@ -1053,7 +1004,16 @@ function PrivacyEntityRow({ entity }: { entity: TracePrivacyEntity }) {
   );
 }
 
-function TraceCompressionCard({ detail }: { detail: ReturnType<typeof extractCompressionDetail> }) {
+function TraceCompressionCard({
+  detail,
+  onShare,
+  hasResult,
+}: {
+  detail: ReturnType<typeof extractCompressionDetail>;
+  onShare?: () => void;
+  hasResult?: boolean;
+}) {
+  const [expanded, setExpanded] = useState(false);
   const empty = detail.tokensSaved === undefined && detail.ratio === undefined && !detail.summary;
   if (empty) {
     return null;
@@ -1063,9 +1023,33 @@ function TraceCompressionCard({ detail }: { detail: ReturnType<typeof extractCom
       className="rounded-2xl border p-3"
       style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
     >
-      <p className="text-sm font-medium" style={{ color: latence.text }}>
-        Compression
-      </p>
+      <div className="flex items-center justify-between">
+        <p className="text-sm font-medium" style={{ color: latence.text }}>
+          Compression
+        </p>
+        {hasResult && onShare && (
+          <button
+            type="button"
+            onClick={onShare}
+            title="Share results"
+            className="flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] transition hover:opacity-80"
+            style={{
+              borderColor: latence.amber,
+              color: '#fbbf24',
+              backgroundColor: 'rgba(251, 191, 36, 0.12)',
+            }}
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="18" cy="5" r="3" />
+              <circle cx="6" cy="12" r="3" />
+              <circle cx="18" cy="19" r="3" />
+              <line x1="8.59" y1="13.51" x2="15.41" y2="17.49" />
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+            </svg>
+            Share
+          </button>
+        )}
+      </div>
       <p className="mb-2 text-[11px]" style={{ color: latence.textSubtle }}>
         Token savings on the retrieved context while preserving decision-critical terms.
       </p>
@@ -1079,24 +1063,26 @@ function TraceCompressionCard({ detail }: { detail: ReturnType<typeof extractCom
         />
       )}
       {detail.summary && (
-        <p
-          className="mt-2 line-clamp-3 rounded-xl border p-2 text-[11px]"
-          style={{
-            backgroundColor: latence.bgSurface,
-            borderColor: latence.border,
-            color: latence.textMuted,
-          }}
-        >
-          {detail.summary}
-        </p>
-      )}
-      {empty && (
-        <p
-          className="rounded-2xl border border-dashed p-3 text-xs"
-          style={{ borderColor: latence.border, color: latence.textSubtle }}
-        >
-          Waiting for compression result.
-        </p>
+        <div className="mt-2">
+          <p
+            className={`rounded-xl border p-2 text-[11px] ${expanded ? '' : 'line-clamp-3'}`}
+            style={{
+              backgroundColor: latence.bgSurface,
+              borderColor: latence.border,
+              color: latence.textMuted,
+            }}
+          >
+            {detail.summary}
+          </p>
+          <button
+            type="button"
+            onClick={() => setExpanded(!expanded)}
+            className="mt-1 text-[10px] font-medium"
+            style={{ color: latence.greenText }}
+          >
+            {expanded ? 'Show less' : 'Show more'}
+          </button>
+        </div>
       )}
     </div>
   );
