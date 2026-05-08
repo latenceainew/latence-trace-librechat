@@ -26,7 +26,7 @@ from pydantic import BaseModel, Field
 _log = logging.getLogger(__name__)
 
 Integration = Literal["native", "langchain", "llamaindex", "langgraph", "n8n"]
-ScenarioKind = Literal["rag", "privacy", "compression", "rollup"]
+ScenarioKind = Literal["rag", "privacy", "compression"]
 
 # Language detection: matches the runtime detector so the bridge surfaces
 # the same hint the runtime would auto-resolve. We pin the seed for
@@ -415,48 +415,6 @@ def _run_with_client(
             raw=result.raw or {},
         )
 
-    if request.kind == "rollup":
-        result = trace.rollup(request.turns)
-        rollup_block = result.get("rollup") if isinstance(result, Mapping) else None
-        # The rollup endpoint returns the per-call detail under `rollup`. We
-        # derive a band from the trail (preferred) or model_drift_pct so the
-        # frontend never has to draw "unknown" when there is signal.
-        risk_band = str(result.get("risk_band") or result.get("overall_risk_band") or "unknown")
-        decision: dict[str, Any] | None = None
-        if isinstance(rollup_block, Mapping):
-            trail = rollup_block.get("risk_band_trail")
-            if isinstance(trail, list) and trail:
-                last = trail[-1]
-                if isinstance(last, Mapping) and last.get("band"):
-                    risk_band = str(last["band"])
-                elif isinstance(last, str):
-                    risk_band = last
-            if risk_band == "unknown":
-                drift_pct = rollup_block.get("model_drift_pct")
-                if isinstance(drift_pct, (int, float)):
-                    risk_band = (
-                        "green" if drift_pct <= 1 else "amber" if drift_pct <= 10 else "red"
-                    )
-            decision = {
-                "action": "rollup",
-                "band": risk_band,
-                "model_drift_pct": rollup_block.get("model_drift_pct"),
-                "drift_trend": rollup_block.get("drift_trend"),
-                "retrieval_waste_pct": rollup_block.get("retrieval_waste_pct"),
-                "noise_pct": rollup_block.get("noise_pct"),
-                "turns": rollup_block.get("turns"),
-            }
-        return DemoTraceResponse(
-            scenario=request.scenario,
-            integration=request.integration,
-            risk_band=risk_band,
-            runtime_decision=decision,
-            request_id=str(result.get("request_id")) if result.get("request_id") else None,
-            latency_ms=_elapsed_ms(started),
-            parse=parse_info,
-            raw=dict(result),
-        )
-
     # All integration labels (native, langchain, llamaindex, langgraph,
     # n8n) now use the same canonical grounding path so every integration
     # gets the full nli_diagnostics, support_units, context_trust_diagnostics,
@@ -540,7 +498,7 @@ def _grounding_canonical(
         body["query_text"] = query
     body.update(sdk_extra)
     method = "POST"
-    path = "/groundedness"
+    path = "/v1/grounding"
     request_path = trace._base_url if trace._runpod else path
     request_json = (
         runpod_request_body(method, path, body, None) if trace._runpod else body
@@ -1009,23 +967,18 @@ def _shape_request_with_parser(request: DemoTraceRequest) -> DemoTraceParseInfo:
     explicitly, e.g. from ``tools/run_scenario.py`` or unit tests) are
     honoured verbatim and tagged ``mode='preparsed'``.
     """
-    if request.kind in ("privacy", "rollup"):
-        # Privacy: still detect language so the chip can be rendered next
-        # to the redaction summary; rollup has no scoring surface so
-        # leave it empty.
-        if request.kind == "privacy":
-            language_probe = request.text or ""
-            language = _bridge_resolve_language(
-                response_text=language_probe,
-                query=None,
-                raw_context=None,
-            )
-            return DemoTraceParseInfo(
-                mode="none",
-                language=language,
-                language_source="auto",
-            )
-        return DemoTraceParseInfo(mode="none")
+    if request.kind == "privacy":
+        language_probe = request.text or ""
+        language = _bridge_resolve_language(
+            response_text=language_probe,
+            query=None,
+            raw_context=None,
+        )
+        return DemoTraceParseInfo(
+            mode="none",
+            language=language,
+            language_source="auto",
+        )
     if request.user_input is None or not str(request.user_input).strip():
         # Backwards-compat: legacy callers pass question/context directly.
         # Synthesize a parse block reflecting that they were preparsed.

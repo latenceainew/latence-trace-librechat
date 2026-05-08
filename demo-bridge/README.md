@@ -1,8 +1,8 @@
 # Latence TRACE Demo Bridge
 
 This service is the server-side bridge between LibreChat demo turns and TRACE.
-It is intentionally SDK-only: runtime access goes through `latence.Latence`,
-including RunPod deployments configured with `LATENCE_TRACE_DEPLOYMENT=runpod`.
+It is intentionally SDK-only: runtime access goes through `latence.Latence`
+pointed at the gateway (`https://api.latence.ai`).
 
 ## Run Locally
 
@@ -12,9 +12,8 @@ python -m venv .venv
 . .venv/bin/activate
 python -m pip install -e ".[dev]"
 
-export LATENCE_TRACE_URL="https://api.runpod.ai/v2/campegd1dctnx2/runsync"
+export LATENCE_TRACE_URL="https://api.latence.ai"
 export LATENCE_TRACE_API_KEY="..."
-export LATENCE_TRACE_DEPLOYMENT=runpod
 export LATENCE_TRACE_TIMEOUT=600
 
 uvicorn demo_bridge.main:app --host 127.0.0.1 --port 8788
