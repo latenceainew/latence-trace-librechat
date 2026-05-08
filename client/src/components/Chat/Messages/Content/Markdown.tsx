@@ -22,9 +22,12 @@ import {
   extractClaimEvidence,
   extractClaimSpans,
   extractDecision,
+  extractGuardianSegments,
   extractHeatmapSummary,
   getGroundingResponse,
+  isGuardianActive,
   useTraceDemo,
+  type GuardianSegmentData,
   type TraceClaimSpan,
   type TraceDemoMessageResult,
   type TraceHeatBand,
@@ -183,23 +186,12 @@ const HEATMAP_BAND_STYLES: Record<
     chip: latence.greenText,
     bg: latence.greenSoft,
   },
-  amber: {
-    underline: latence.amber,
-    tooltipBorder: latence.amber,
-    chip: latence.amber,
-    bg: latence.amberSoft,
-  },
   red: {
     underline: latence.rose,
     tooltipBorder: latence.rose,
     chip: latence.rose,
     bg: latence.roseSoft ?? 'rgba(244, 63, 94, 0.12)',
   },
-  // ``skipped`` is painted in a neutral dashed grey so a long-response
-  // tail that the latency budget deferred is visibly distinct from
-  // both supported (green) and contradicted (red) claims. The
-  // tooltip / popover still renders so the user can hover the
-  // sentence and see ``skip_reason: latency_budget``.
   skipped: {
     underline: latence.border,
     tooltipBorder: latence.border,
@@ -228,16 +220,19 @@ function TraceMessageInsights({
   const grounding = getGroundingResponse(result);
   const decision = extractDecision(result);
   const heatmapSummary = extractHeatmapSummary(result);
-  const claims = extractClaimSpans(result);
-  if (!grounding && claims.length === 0 && !decision) {
+  const guardianSegments = extractGuardianSegments(result);
+  const guardianMode = guardianSegments.length > 0;
+  const claims = guardianMode ? [] : extractClaimSpans(result);
+  if (!grounding && claims.length === 0 && guardianSegments.length === 0 && !decision) {
     return null;
   }
   const overallScore = decision?.score ?? grounding?.trace_score ?? undefined;
   const overallBand = decision?.band ?? grounding?.risk_band ?? 'unknown';
   const bandStyle = HEATMAP_BAND_STYLES[normalizeDecisionBand(overallBand)];
-  const claimsTotal = heatmapSummary.claimsTotal ?? claims.length;
-  const claimsSupported =
-    heatmapSummary.claimsSupported ?? claims.filter((c) => c.band === 'green').length;
+  const segmentsTotal = guardianMode ? guardianSegments.length : (heatmapSummary.claimsTotal ?? claims.length);
+  const segmentsSupported = guardianMode
+    ? guardianSegments.filter((s) => s.grounded).length
+    : (heatmapSummary.claimsSupported ?? claims.filter((c) => c.band === 'green').length);
   const parseMode = heatmapSummary.parseMode;
   const parseLabel = parseMode ? PARSE_MODE_LABELS[parseMode] : undefined;
   return (
@@ -270,9 +265,9 @@ function TraceMessageInsights({
               {overallScore <= 1 ? `${Math.round(overallScore * 100)}%` : overallScore.toFixed(2)}
             </span>
           )}
-          {claimsTotal > 0 && (
+          {segmentsTotal > 0 && (
             <span style={{ color: latence.textMuted }}>
-              {traceCopy.claims} {claimsSupported} / {claimsTotal}
+              {guardianMode ? 'Segments' : traceCopy.claims} {segmentsSupported} / {segmentsTotal}
             </span>
           )}
           {(() => {
@@ -390,11 +385,7 @@ function TraceMessageInsights({
         </span>
         <span style={{ color: latence.textSubtle }}>{open ? traceCopy.hide : traceCopy.show}</span>
       </button>
-      {(() => {
-        // Per-channel score row, surfaced under the headline so the user
-        // can see which fused channel drove the band. We render only when
-        // at least one channel has a value so this strip never shows up
-        // empty on responses that skipped NLI / literal scoring.
+      {!guardianMode && (() => {
         const channels: Array<{ label: string; value: number | undefined }> = [
           { label: traceCopy.channelReverse, value: heatmapSummary.reverseContext },
           { label: traceCopy.channelLiteral, value: heatmapSummary.literalGuarded },
@@ -431,14 +422,21 @@ function TraceMessageInsights({
       {open && (
         <div className="border-t px-3 py-3" style={{ borderColor: latence.border }}>
           <p className="mb-2 text-[11px]" style={{ color: latence.textSubtle }}>
-            {traceCopy.hoverHint}
+            {guardianMode ? 'Hover a segment to see its groundedness verdict.' : traceCopy.hoverHint}
           </p>
-          <TraceClaimRenderer
-            claims={claims}
-            responseText={responseText}
-            result={result}
-            reasonCodes={decision?.reasonCodes ?? []}
-          />
+          {guardianMode ? (
+            <GuardianSegmentRenderer
+              segments={guardianSegments}
+              responseText={responseText}
+            />
+          ) : (
+            <TraceClaimRenderer
+              claims={claims}
+              responseText={responseText}
+              result={result}
+              reasonCodes={decision?.reasonCodes ?? []}
+            />
+          )}
         </div>
       )}
     </div>
@@ -676,13 +674,88 @@ function NliBars({
   );
 }
 
+function GuardianSegmentRenderer({
+  segments,
+  responseText,
+}: {
+  segments: GuardianSegmentData[];
+  responseText: string;
+}) {
+  if (segments.length === 0) {
+    return (
+      <p style={{ color: latence.textSubtle }} className="text-[11px]">
+        No segments scored.
+      </p>
+    );
+  }
+
+  const nodes: React.ReactNode[] = [];
+  let cursor = 0;
+  segments.forEach((seg, idx) => {
+    const start = responseText.indexOf(seg.text, cursor);
+    if (start > cursor) {
+      nodes.push(
+        <span key={`gap-${idx}`} style={{ color: latence.text }}>
+          {responseText.slice(cursor, start)}
+        </span>,
+      );
+    }
+    const band: TraceHeatBand = seg.grounded ? 'green' : 'red';
+    const style = HEATMAP_BAND_STYLES[band];
+    nodes.push(
+      <span
+        key={`seg-${idx}`}
+        className="trace-heatmap-token trace-claim-span"
+        style={{
+          backgroundColor: style.bg,
+          borderBottom: `2px solid ${style.underline}`,
+          borderRadius: 4,
+          padding: '0 2px',
+          paddingBottom: 1,
+        }}
+      >
+        {seg.text}
+        <span
+          className="trace-heatmap-popover"
+          style={{ borderColor: style.tooltipBorder, backgroundColor: latence.bgRaised }}
+        >
+          <span
+            className="trace-heatmap-row"
+            style={{ color: latence.textSubtle, fontWeight: 600 }}
+          >
+            Segment {idx + 1}
+          </span>
+          <span className="trace-heatmap-row">
+            <span style={{ color: style.chip, fontWeight: 600 }}>
+              {seg.grounded ? 'Grounded' : 'Ungrounded'}
+            </span>
+            <span style={{ color: latence.textMuted }}>
+              {Math.round(seg.score * 100)}% confidence
+            </span>
+          </span>
+        </span>
+      </span>,
+    );
+    cursor = start >= 0 ? start + seg.text.length : cursor;
+  });
+  if (cursor < responseText.length) {
+    nodes.push(
+      <span key="tail" style={{ color: latence.text }}>
+        {responseText.slice(cursor)}
+      </span>,
+    );
+  }
+  return (
+    <div className="trace-claim-prose whitespace-pre-wrap leading-relaxed" style={{ color: latence.text }}>
+      {nodes}
+    </div>
+  );
+}
+
 function normalizeDecisionBand(band?: string | null): TraceHeatBand {
   const value = (band ?? 'unknown').toLowerCase();
   if (value === 'green' || value === 'red') {
     return value;
-  }
-  if (value === 'amber' || value === 'yellow') {
-    return 'amber';
   }
   return 'unknown';
 }

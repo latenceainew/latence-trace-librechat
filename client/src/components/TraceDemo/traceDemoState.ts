@@ -116,7 +116,13 @@ export type TraceSpan = {
   confidence?: number;
 };
 
-export type TraceHeatBand = 'green' | 'amber' | 'red' | 'skipped' | 'unknown';
+export type TraceHeatBand = 'green' | 'red' | 'skipped' | 'unknown';
+
+export type GuardianSegmentData = {
+  text: string;
+  score: number;
+  grounded: boolean;
+};
 
 export type TraceEvidenceItem = {
   supportId?: string;
@@ -718,15 +724,8 @@ export type TraceClaimSpan = {
 };
 
 const NLI_CLAIM_GREEN_MIN = 0.30;
-const NLI_CLAIM_AMBER_MIN = 0.05;
 const NLI_CONTRADICTION_FLOOR = 0.50;
 
-/**
- * Compute a claim-level band from NLI scores. Uses the backend's
- * ``claim.band`` when already stamped (single source of truth); falls
- * back to a client-side replica of the same ``_claim_band`` logic from
- * ``groundedness.py`` so older runtimes still get correct rendering.
- */
 function bandForClaim(
   claim: {
     score: number;
@@ -734,10 +733,14 @@ function bandForClaim(
     contradiction: number;
     skipped?: boolean;
     band?: string;
+    grounded?: boolean;
   },
-): 'green' | 'amber' | 'red' | 'skipped' {
-  if (claim.band === 'green' || claim.band === 'amber' || claim.band === 'red' || claim.band === 'skipped') {
+): 'green' | 'red' | 'skipped' {
+  if (claim.band === 'green' || claim.band === 'red' || claim.band === 'skipped') {
     return claim.band;
+  }
+  if (typeof claim.grounded === 'boolean') {
+    return claim.grounded ? 'green' : 'red';
   }
   if (claim.skipped) {
     return 'skipped';
@@ -748,10 +751,30 @@ function bandForClaim(
   if (claim.score >= NLI_CLAIM_GREEN_MIN) {
     return 'green';
   }
-  if (claim.score >= NLI_CLAIM_AMBER_MIN) {
-    return 'amber';
-  }
   return 'red';
+}
+
+export function extractGuardianSegments(result?: TraceDemoMessageResult): GuardianSegmentData[] {
+  const response = getGroundingResponse(result);
+  const raw = response?.raw as
+    | { guardian_segments?: unknown }
+    | undefined;
+  const segments = raw?.guardian_segments;
+  if (!Array.isArray(segments)) {
+    return [];
+  }
+  return segments
+    .filter((s): s is Record<string, unknown> => s != null && typeof s === 'object')
+    .map((s) => ({
+      text: typeof s.text === 'string' ? s.text : '',
+      score: typeof s.score === 'number' ? s.score : 0,
+      grounded: typeof s.grounded === 'boolean' ? s.grounded : false,
+    }))
+    .filter((s) => s.text.length > 0);
+}
+
+export function isGuardianActive(result?: TraceDemoMessageResult): boolean {
+  return extractGuardianSegments(result).length > 0;
 }
 
 function num(value: unknown): number | undefined {
@@ -1135,9 +1158,17 @@ export function extractDecision(result?: TraceDemoMessageResult): TraceDecision 
   // claim_decomposer's atomized verdict in [0, 1]) and using it as
   // the display score gives buyers a number that doesn't match the
   // band — mid-range head scores happily coexist with red bands.
+  const raw = response.raw as Record<string, unknown> | undefined;
+  const guardianGrounded = raw?.grounded;
+  const guardianBand =
+    typeof guardianGrounded === 'boolean'
+      ? (guardianGrounded ? 'green' : 'red')
+      : undefined;
+
   return {
     action: typeof decision.action === 'string' ? decision.action : undefined,
     band:
+      guardianBand ??
       calibrationBand ??
       (typeof decision.band === 'string' ? decision.band : undefined),
     score:

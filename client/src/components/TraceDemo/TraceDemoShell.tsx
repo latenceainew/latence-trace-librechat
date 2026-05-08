@@ -101,13 +101,6 @@ function getRiskStyle(risk?: string | null) {
       color: latence.greenText,
     };
   }
-  if (normalized === 'yellow' || normalized === 'amber') {
-    return {
-      backgroundColor: latence.amberSoft,
-      borderColor: latence.amber,
-      color: latence.amber,
-    };
-  }
   if (normalized === 'red') {
     return {
       backgroundColor: latence.roseSoft,
@@ -477,14 +470,14 @@ function TraceTopToggle({
         )}
         {band && band !== 'unknown' && (
           <span
-            className="rounded-full px-3 py-1 text-xs font-semibold uppercase capitalize tracking-[0.18em]"
+            className="rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em]"
             style={{
               backgroundColor: bandStyle.backgroundColor,
               color: bandStyle.color,
               border: `1px solid ${bandStyle.borderColor}`,
             }}
           >
-            {band}
+            {band === 'green' ? 'Grounded' : band === 'red' ? 'Ungrounded' : band}
           </span>
         )}
       </div>
@@ -638,14 +631,14 @@ function TraceSummaryPanel({
           )}
           {band && band !== 'unknown' && (
             <span
-              className="rounded-full border px-2 py-0.5 text-[10px] font-semibold capitalize tracking-[0.18em]"
+              className="rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em]"
               style={{
                 backgroundColor: style.backgroundColor,
                 color: style.color,
                 borderColor: style.borderColor,
               }}
             >
-              {band}
+              {band === 'green' ? 'Grounded' : band === 'red' ? 'Ungrounded' : band}
             </span>
           )}
         </div>
@@ -768,7 +761,7 @@ function TraceGroundednessCard({
               borderColor: style.borderColor,
             }}
           >
-            {band}
+            {band === 'green' ? 'Grounded' : band === 'red' ? 'Ungrounded' : band}
           </span>
         )}
       </div>
