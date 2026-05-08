@@ -22,6 +22,7 @@ import {
   extractDecision,
   extractDriftBand,
   extractGroundingEvidence,
+  extractGuardianSegments,
   extractMemoryDetail,
   extractPrivacyDetail,
   extractPromptGuardSummary,
@@ -338,6 +339,7 @@ export default function TraceDemoShell({
             riskInfo={riskInfo}
             evidence={evidence}
             deadWeights={deadWeights}
+            guardianMode={extractGuardianSegments(latestResult).length > 0}
           />
           {selection.useCase === 'coding-agent' && (
             <TracePromptGuardCard guard={promptGuard} />
@@ -725,11 +727,13 @@ function TraceGroundednessCard({
   riskInfo,
   evidence,
   deadWeights,
+  guardianMode,
 }: {
   decision?: ReturnType<typeof extractDecision>;
   riskInfo: { risk: string; score?: number | null };
   evidence: ReturnType<typeof extractGroundingEvidence>;
   deadWeights: ReturnType<typeof extractDeadWeights>;
+  guardianMode?: boolean;
 }) {
   const score = decision?.score ?? riskInfo.score;
   const band = decision?.band ?? riskInfo.risk;
@@ -766,14 +770,21 @@ function TraceGroundednessCard({
         )}
       </div>
       <p className="mb-2 text-[11px]" style={{ color: latence.textSubtle }}>
-        How much of the answer is supported by the retrieved context.
+        {guardianMode
+          ? 'Whether the entire answer is supported by the retrieved context.'
+          : 'How much of the answer is supported by the retrieved context.'}
       </p>
-      {typeof score === 'number' && (
+      {guardianMode ? (
+        <MetaRow
+          label="Verdict"
+          value={band === 'green' ? 'Grounded' : 'Ungrounded'}
+        />
+      ) : typeof score === 'number' ? (
         <MetaRow
           label="Trace score"
           value={score <= 1 ? `${Math.round(score * 100)}%` : score.toFixed(2)}
         />
-      )}
+      ) : null}
       {typeof deadWeights.ratio === 'number' && (
         <MetaRow
           label="Unused context"
