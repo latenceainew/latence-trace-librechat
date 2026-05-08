@@ -1174,8 +1174,8 @@ function TraceCompressionCard({ detail }: { detail: ReturnType<typeof extractCom
       )}
       {typeof detail.ratio === 'number' && (
         <MetaRow
-          label="Compression ratio"
-          value={detail.ratio <= 1 ? `${Math.round(detail.ratio * 100)}%` : detail.ratio.toFixed(2)}
+          label="Compressed by"
+          value={detail.ratio <= 1 ? `${Math.round((1 - detail.ratio) * 100)}%` : detail.ratio.toFixed(2)}
         />
       )}
       {detail.summary && (
@@ -1474,7 +1474,7 @@ function formatFeatureValue(
     }
     const ratio = response.compression?.compression_ratio;
     if (typeof ratio === 'number') {
-      return formatScore(ratio);
+      return `${Math.round((1 - ratio) * 100)}% saved`;
     }
     return copy.pending;
   }
