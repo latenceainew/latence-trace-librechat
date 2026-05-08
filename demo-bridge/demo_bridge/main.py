@@ -542,6 +542,7 @@ def _run_with_client(
         response_text=response_text,
         raw_context=raw_context,
         sdk_extra=sdk_extra,
+        prior_memory_state=request.prior_memory_state,
     )
     return _build_grounding_response(request, raw, started, parse_info)
 
@@ -554,6 +555,7 @@ def _grounding_canonical(
     response_text: str,
     raw_context: str,
     sdk_extra: dict[str, Any],
+    prior_memory_state: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Call grounding.rag/code via the SDK's HTTP transport but request the
     canonical (full Pydantic dump) response shape. Bypass the SDK's strict
@@ -567,6 +569,9 @@ def _grounding_canonical(
     }
     if query is not None:
         body["query_text"] = query
+    if prior_memory_state is not None:
+        body["memory_state"] = prior_memory_state
+        body["apply_memory_context"] = True
     body.update(sdk_extra)
     method = "POST"
     path = "/groundedness"
@@ -638,6 +643,14 @@ def _build_grounding_response(
         evidence_payload = [
             unit for unit in raw["support_units"] if isinstance(unit, Mapping)
         ]
+    memory_block: dict[str, Any] | None = None
+    next_mem = raw.get("next_memory_state")
+    if next_mem is not None:
+        memory_block = {
+            "next_memory_state": next_mem,
+            "hot_context": raw.get("hot_context_preview"),
+            "diagnostics": raw.get("memory_diagnostics"),
+        }
     return DemoTraceResponse(
         scenario=request.scenario,
         integration=request.integration,
@@ -647,6 +660,7 @@ def _build_grounding_response(
         request_id=str(raw.get("request_id")) if raw.get("request_id") else None,
         latency_ms=_elapsed_ms(started),
         evidence=evidence_payload,
+        memory=memory_block,
         parse=parse_info,
         raw=dict(raw),
     )

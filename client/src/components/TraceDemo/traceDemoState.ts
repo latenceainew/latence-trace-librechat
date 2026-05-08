@@ -169,8 +169,17 @@ const TRACE_DEMO_MODELS: Record<TraceDemoUseCase, string> = {
   'coding-agent': 'minimax/minimax-m2.5:free',
 };
 
+const TRACE_DEMO_CONTEXT_WINDOWS: Record<TraceDemoUseCase, number> = {
+  rag: 131_072,
+  'coding-agent': 131_072,
+};
+
 export function getTraceDemoModel(useCase: TraceDemoUseCase): string {
   return TRACE_DEMO_MODELS[useCase];
+}
+
+export function getTraceDemoContextWindow(useCase: TraceDemoUseCase): number {
+  return TRACE_DEMO_CONTEXT_WINDOWS[useCase];
 }
 
 export const traceUseCases: Array<{
@@ -525,12 +534,18 @@ export function buildTraceBridgeRequest({
       metadata,
     };
   }
+  const ctxWindow = getTraceDemoContextWindow(selection.useCase);
+  metadata.trace_extra = {
+    ...(metadata.trace_extra as Record<string, unknown> | undefined),
+    memory_policy: { context_window_tokens: ctxWindow },
+  };
   return {
     scenario,
     integration,
     kind,
     user_input: userInput,
     assistant_response: assistantResponse,
+    prior_memory_state: priorMemoryState,
     metadata,
   };
 }

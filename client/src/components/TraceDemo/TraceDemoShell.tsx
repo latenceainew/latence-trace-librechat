@@ -2559,24 +2559,51 @@ async function fanoutTraceForTurn({
       : `${Date.now()}`);
   const features = getEnabledFeatures(selection.useCase);
   const turns = buildTurns(messages);
-  const priorMemoryState = (
-    latestResult?.results.memory?.response?.memory as
-      | { next_memory_state?: Record<string, unknown> }
-      | undefined
-  )?.next_memory_state;
+  const priorMemoryState = (() => {
+    const groundednessResp = latestResult?.results.groundedness?.response;
+    const fromGrounding = (
+      groundednessResp?.memory as
+        | { next_memory_state?: Record<string, unknown> }
+        | undefined
+    )?.next_memory_state
+      ?? (groundednessResp?.raw as Record<string, unknown> | undefined)?.next_memory_state as
+        Record<string, unknown> | undefined;
+    if (fromGrounding) return fromGrounding;
+    return (
+      latestResult?.results.memory?.response?.memory as
+        | { next_memory_state?: Record<string, unknown> }
+        | undefined
+    )?.next_memory_state;
+  })();
+
+  const priorHotContext = (() => {
+    const groundednessResp = latestResult?.results.groundedness?.response;
+    return (
+      (groundednessResp?.memory as { hot_context?: string } | undefined)?.hot_context
+      ?? (groundednessResp?.raw as Record<string, unknown> | undefined)?.hot_context_preview
+    ) as string | undefined;
+  })();
+
+  const hasMarkers = /(?:<\s*START[_\s]*CONTEXT\s*>|<\s*CTX\s*>|\[\s*CONTEXT\s*\])/i.test(question);
+  const effectiveQuestion =
+    !hasMarkers && priorHotContext
+      ? `${question}\n\n<START_CONTEXT>\n${priorHotContext}\n</END_CONTEXT>`
+      : question;
 
   const initialResult: TraceDemoMessageResult = {
     messageId,
     userMessageId: questionMessage?.messageId,
-    question,
+    question: effectiveQuestion,
     answer,
     selection,
     results: features.reduce(
       (acc, feature) => {
+        const featureKind = getKindForFeature(feature, selection.useCase);
+        const useEffective = featureKind === 'rag' || featureKind === 'code';
         const request = buildTraceBridgeRequest({
           selection,
           feature,
-          question,
+          question: useEffective ? effectiveQuestion : question,
           answer,
           turns,
           priorMemoryState,
