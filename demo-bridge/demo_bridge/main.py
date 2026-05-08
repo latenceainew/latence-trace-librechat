@@ -569,10 +569,10 @@ def _grounding_canonical(
     }
     if query is not None:
         body["query_text"] = query
+    body.update(sdk_extra)
     if prior_memory_state is not None:
         body["memory_state"] = prior_memory_state
         body["apply_memory_context"] = True
-    body.update(sdk_extra)
     method = "POST"
     path = "/groundedness"
     request_path = trace._base_url if trace._runpod else path
