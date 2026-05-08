@@ -757,9 +757,9 @@ function bandForClaim(
 export function extractGuardianSegments(result?: TraceDemoMessageResult): GuardianSegmentData[] {
   const response = getGroundingResponse(result);
   const raw = response?.raw as
-    | { guardian_segments?: unknown }
+    | { guardian_segments?: unknown; scores?: { guardian_segments?: unknown } }
     | undefined;
-  const segments = raw?.guardian_segments;
+  const segments = raw?.guardian_segments ?? raw?.scores?.guardian_segments;
   if (!Array.isArray(segments)) {
     return [];
   }
@@ -1159,7 +1159,8 @@ export function extractDecision(result?: TraceDemoMessageResult): TraceDecision 
   // the display score gives buyers a number that doesn't match the
   // band — mid-range head scores happily coexist with red bands.
   const raw = response.raw as Record<string, unknown> | undefined;
-  const guardianGrounded = raw?.grounded;
+  const scores = raw?.scores as Record<string, unknown> | undefined;
+  const guardianGrounded = raw?.grounded ?? scores?.grounded;
   const guardianBand =
     typeof guardianGrounded === 'boolean'
       ? (guardianGrounded ? 'green' : 'red')
