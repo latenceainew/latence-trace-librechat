@@ -58,15 +58,6 @@ modelSpecs:
         endpointType: 'custom'
         model: 'nvidia/nemotron-3-nano-30b-a3b:free'
         temperature: 0.2
-    - name: 'trace-coding-demo'
-      label: 'TRACE Coding Demo'
-      description: 'Agentic coding workflow with TRACE code-grounding and retry/review routing.'
-      preset:
-        endpoint: 'OpenRouter'
-        endpointType: 'custom'
-        model: 'minimax/minimax-m2.5:free'
-        temperature: 0.1
-
 actions:
   allowedDomains:
     - 'api.latence.ai'

@@ -26,7 +26,7 @@ from pydantic import BaseModel, Field
 _log = logging.getLogger(__name__)
 
 Integration = Literal["native", "langchain", "llamaindex", "langgraph", "n8n"]
-ScenarioKind = Literal["rag", "code", "privacy", "memory", "compression", "rollup"]
+ScenarioKind = Literal["rag", "privacy", "compression", "rollup"]
 
 # Language detection: matches the runtime detector so the bridge surfaces
 # the same hint the runtime would auto-resolve. We pin the seed for
@@ -160,7 +160,6 @@ class DemoTraceRequest(BaseModel):
     answer: str | None = None
     text: str | None = None
     turns: list[dict[str, Any]] = Field(default_factory=list)
-    prior_memory_state: dict[str, Any] | None = None
     metadata: dict[str, Any] = Field(default_factory=dict)
 
 
@@ -194,7 +193,6 @@ class DemoTraceResponse(BaseModel):
     latency_ms: float
     evidence: list[Mapping[str, Any]] = Field(default_factory=list)
     privacy: Mapping[str, Any] | None = None
-    memory: Mapping[str, Any] | None = None
     compression: Mapping[str, Any] | None = None
     parse: DemoTraceParseInfo | None = None
     raw: Mapping[str, Any] = Field(default_factory=dict)
@@ -397,27 +395,6 @@ def _run_with_client(
             raw=result.raw or {},
         )
 
-    if request.kind == "memory":
-        result = trace.memory.step(
-            turn_text=_required(request.text or request.answer, "text or answer"),
-            prior_memory_state=request.prior_memory_state,
-            metadata=request.metadata,
-        )
-        return DemoTraceResponse(
-            scenario=request.scenario,
-            integration=request.integration,
-            risk_band="green",
-            request_id=result.request_id,
-            latency_ms=_elapsed_ms(started),
-            memory={
-                "next_memory_state": result.next_memory_state,
-                "hot_context": result.hot_context,
-                "actions": result.actions,
-            },
-            parse=parse_info,
-            raw=result.raw or {},
-        )
-
     if request.kind == "compression":
         result = trace.compression.text(_required(_compression_text(request), "text or context"))
         saved = result.tokens_saved or 0
@@ -503,10 +480,6 @@ def _run_with_client(
         "include_triangular_diagnostics": False,
         "response_format": "canonical",
     }
-    if request.kind == "code":
-        sdk_extra["context_trust_provider"] = "prompt_guard"
-    else:
-        sdk_extra["context_trust_enabled"] = False
     # Language hint: forward the bridge-side detection to the runtime so
     # the same language flows into the per-class calibration bundle
     # loader and the German balanced NLI defaults (top_k=2, concat=False,
@@ -537,12 +510,10 @@ def _run_with_client(
     response_text = _required(request.answer, "answer")
     raw = _grounding_canonical(
         trace=trace,
-        kind=request.kind,
         query=query_arg,
         response_text=response_text,
         raw_context=raw_context,
         sdk_extra=sdk_extra,
-        prior_memory_state=request.prior_memory_state,
     )
     return _build_grounding_response(request, raw, started, parse_info)
 
@@ -550,14 +521,12 @@ def _run_with_client(
 def _grounding_canonical(
     *,
     trace: Latence,
-    kind: ScenarioKind,
     query: str | None,
     response_text: str,
     raw_context: str,
     sdk_extra: dict[str, Any],
-    prior_memory_state: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Call grounding.rag/code via the SDK's HTTP transport but request the
+    """Call grounding.rag via the SDK's HTTP transport but request the
     canonical (full Pydantic dump) response shape. Bypass the SDK's strict
     response model validation because the deployed runpod runtime can be a
     minor version ahead of / behind the typed model and we need the raw
@@ -565,14 +534,11 @@ def _grounding_canonical(
     body: dict[str, Any] = {
         "response_text": response_text,
         "raw_context": raw_context,
-        "scoring_mode": "rag" if kind == "rag" else "code",
+        "scoring_mode": "rag",
     }
     if query is not None:
         body["query_text"] = query
     body.update(sdk_extra)
-    if prior_memory_state is not None:
-        body["memory_state"] = prior_memory_state
-        body["apply_memory_context"] = True
     method = "POST"
     path = "/groundedness"
     request_path = trace._base_url if trace._runpod else path
@@ -643,14 +609,6 @@ def _build_grounding_response(
         evidence_payload = [
             unit for unit in raw["support_units"] if isinstance(unit, Mapping)
         ]
-    memory_block: dict[str, Any] | None = None
-    next_mem = raw.get("next_memory_state")
-    if next_mem is not None:
-        memory_block = {
-            "next_memory_state": next_mem,
-            "hot_context": raw.get("hot_context_preview"),
-            "diagnostics": raw.get("memory_diagnostics"),
-        }
     return DemoTraceResponse(
         scenario=request.scenario,
         integration=request.integration,
@@ -660,7 +618,6 @@ def _build_grounding_response(
         request_id=str(raw.get("request_id")) if raw.get("request_id") else None,
         latency_ms=_elapsed_ms(started),
         evidence=evidence_payload,
-        memory=memory_block,
         parse=parse_info,
         raw=dict(raw),
     )

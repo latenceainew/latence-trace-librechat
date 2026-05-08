@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-export type TraceDemoUseCase = 'rag' | 'coding-agent';
+export type TraceDemoUseCase = 'rag';
 export type TraceDemoIntegration = 'sdk-librechat' | 'langchain-rag' | 'langgraph-code' | 'n8n';
 
 /**
@@ -11,13 +11,11 @@ export type TraceDemoIntegration = 'sdk-librechat' | 'langchain-rag' | 'langgrap
 export type TraceFeatureKey =
   | 'groundedness'
   | 'context-util'
-  | 'drift'
-  | 'memory'
   | 'privacy'
   | 'compression';
 
 export type TraceBridgeIntegration = 'native' | 'langchain' | 'llamaindex' | 'langgraph' | 'n8n';
-export type TraceBridgeKind = 'rag' | 'code' | 'privacy' | 'memory' | 'compression' | 'rollup';
+export type TraceBridgeKind = 'rag' | 'privacy' | 'compression' | 'rollup';
 
 export type TraceDemoSelection = {
   active: true;
@@ -37,7 +35,6 @@ export type TraceBridgeRequest = {
   answer?: string;
   text?: string;
   turns?: Array<Record<string, unknown>>;
-  prior_memory_state?: Record<string, unknown>;
   metadata?: Record<string, unknown>;
 };
 
@@ -66,7 +63,6 @@ export type TraceBridgeResponse = {
   latency_ms: number;
   evidence?: Array<Record<string, unknown>>;
   privacy?: Record<string, unknown> | null;
-  memory?: Record<string, unknown> | null;
   compression?: Record<string, unknown> | null;
   parse?: TraceParseInfo | null;
   raw?: Record<string, unknown>;
@@ -166,20 +162,10 @@ export const TRACE_DEMO_URL = 'https://trace.latence.ai/trace-demo';
 
 const TRACE_DEMO_MODELS: Record<TraceDemoUseCase, string> = {
   rag: 'nvidia/nemotron-3-nano-30b-a3b:free',
-  'coding-agent': 'minimax/minimax-m2.5:free',
-};
-
-const TRACE_DEMO_CONTEXT_WINDOWS: Record<TraceDemoUseCase, number> = {
-  rag: 131_072,
-  'coding-agent': 131_072,
 };
 
 export function getTraceDemoModel(useCase: TraceDemoUseCase): string {
   return TRACE_DEMO_MODELS[useCase];
-}
-
-export function getTraceDemoContextWindow(useCase: TraceDemoUseCase): number {
-  return TRACE_DEMO_CONTEXT_WINDOWS[useCase];
 }
 
 export const traceUseCases: Array<{
@@ -192,13 +178,7 @@ export const traceUseCases: Array<{
     id: 'rag',
     label: 'RAG',
     eyebrow: 'Customer-facing answers',
-    description: 'Inspect groundedness, context utility, privacy, memory, and cost in real time.',
-  },
-  {
-    id: 'coding-agent',
-    label: 'Coding Agent',
-    eyebrow: 'Agentic code workflows',
-    description: 'Score whether code is grounded in the task, files, and durable agent state.',
+    description: 'Inspect groundedness, context utility, privacy, and cost in real time.',
   },
 ];
 
@@ -252,18 +232,6 @@ export const traceFeatureCatalog: Array<{
     description: 'Useful, weak, and dead-weight context measured per turn.',
   },
   {
-    key: 'drift',
-    label: 'Drift',
-    endpoint: 'rollup',
-    description: 'How far the session has moved from the policy or task.',
-  },
-  {
-    key: 'memory',
-    label: 'InfiniMem',
-    endpoint: 'memory.step',
-    description: 'Durable memory and hot context updated per turn.',
-  },
-  {
     key: 'privacy',
     label: 'Privacy',
     endpoint: 'privacy.redact',
@@ -280,8 +248,6 @@ export const traceFeatureCatalog: Array<{
 const FEATURE_TO_KIND: Record<TraceFeatureKey, TraceBridgeKind> = {
   groundedness: 'rag',
   'context-util': 'rag',
-  drift: 'rollup',
-  memory: 'memory',
   privacy: 'privacy',
   compression: 'compression',
 };
@@ -289,30 +255,18 @@ const FEATURE_TO_KIND: Record<TraceFeatureKey, TraceBridgeKind> = {
 const RAG_FEATURES: TraceFeatureKey[] = [
   'groundedness',
   'context-util',
-  'memory',
   'privacy',
   'compression',
 ];
 
-const CODING_FEATURES: TraceFeatureKey[] = [
-  'groundedness',
-  'context-util',
-  'drift',
-  'memory',
-  'compression',
-];
-
-export function getEnabledFeatures(useCase: TraceDemoUseCase): TraceFeatureKey[] {
-  return useCase === 'coding-agent' ? CODING_FEATURES : RAG_FEATURES;
+export function getEnabledFeatures(_useCase: TraceDemoUseCase): TraceFeatureKey[] {
+  return RAG_FEATURES;
 }
 
 export function getKindForFeature(
   feature: TraceFeatureKey,
-  useCase: TraceDemoUseCase,
+  _useCase: TraceDemoUseCase,
 ): TraceBridgeKind {
-  if (feature === 'groundedness' || feature === 'context-util') {
-    return useCase === 'coding-agent' ? 'code' : 'rag';
-  }
   return FEATURE_TO_KIND[feature];
 }
 
@@ -427,7 +381,7 @@ export function buildTraceChatSearchParams(selection: TraceDemoSelection) {
     trace_demo: '1',
     trace_use_case: selection.useCase,
     trace_integration: selection.integration,
-    spec: selection.useCase === 'coding-agent' ? 'trace-coding-demo' : 'trace-rag-demo',
+    spec: 'trace-rag-demo',
     endpoint: 'OpenRouter',
     endpointType: 'custom',
     model: getTraceDemoModel(selection.useCase),
@@ -457,7 +411,6 @@ type BuildRequestArgs = {
   question: string;
   answer: string;
   turns: Array<Record<string, unknown>>;
-  priorMemoryState?: Record<string, unknown>;
 };
 
 export function buildTraceBridgeRequest({
@@ -466,7 +419,6 @@ export function buildTraceBridgeRequest({
   question,
   answer,
   turns,
-  priorMemoryState,
 }: BuildRequestArgs): TraceBridgeRequest {
   const integration = mapTraceIntegration(selection.integration);
   const kind = getKindForFeature(feature, selection.useCase);
@@ -500,18 +452,6 @@ export function buildTraceBridgeRequest({
       metadata,
     };
   }
-  if (kind === 'memory') {
-    return {
-      scenario,
-      integration,
-      kind,
-      user_input: userInput,
-      assistant_response: assistantResponse,
-      text: assistantResponse,
-      prior_memory_state: priorMemoryState,
-      metadata,
-    };
-  }
   if (kind === 'compression') {
     return {
       scenario,
@@ -534,18 +474,12 @@ export function buildTraceBridgeRequest({
       metadata,
     };
   }
-  const ctxWindow = getTraceDemoContextWindow(selection.useCase);
-  metadata.trace_extra = {
-    ...(metadata.trace_extra as Record<string, unknown> | undefined),
-    memory_policy: { context_window_tokens: ctxWindow },
-  };
   return {
     scenario,
     integration,
     kind,
     user_input: userInput,
     assistant_response: assistantResponse,
-    prior_memory_state: priorMemoryState,
     metadata,
   };
 }
@@ -591,7 +525,6 @@ export function getMetricFromResults(
       rawScores?.[key] ??
       response.runtime_decision?.[key] ??
       response.privacy?.[key] ??
-      response.memory?.[key] ??
       response.compression?.[key];
     if (value !== undefined && value !== null && value !== '') {
       return value;
@@ -1236,33 +1169,6 @@ export function extractDeadWeights(result?: TraceDemoMessageResult): {
   };
 }
 
-export type TracePromptGuardSummary = {
-  enabled: boolean;
-  provider?: string;
-  trustedCount: number;
-  suspiciousCount: number;
-  blockedCount: number;
-  score: number;
-  labels: string[];
-};
-
-export function extractPromptGuardSummary(result?: TraceDemoMessageResult): TracePromptGuardSummary | undefined {
-  const response = getGroundingResponse(result);
-  if (!response) return undefined;
-  const raw = (response.raw ?? {}) as Record<string, unknown>;
-  const diag = raw.context_trust_diagnostics as Record<string, unknown> | undefined;
-  if (!diag) return undefined;
-  return {
-    enabled: diag.enabled === true,
-    provider: typeof diag.provider === 'string' ? diag.provider : undefined,
-    trustedCount: typeof diag.trusted_count === 'number' ? diag.trusted_count : 0,
-    suspiciousCount: typeof diag.suspicious_count === 'number' ? diag.suspicious_count : 0,
-    blockedCount: typeof diag.blocked_count === 'number' ? diag.blocked_count : 0,
-    score: typeof diag.score === 'number' ? diag.score : 0,
-    labels: Array.isArray(diag.labels) ? diag.labels.filter((l): l is string => typeof l === 'string') : [],
-  };
-}
-
 export function extractCompressionDetail(result?: TraceDemoMessageResult): {
   tokensSaved?: number;
   ratio?: number;
@@ -1378,123 +1284,6 @@ export function extractPrivacyDetail(result?: TraceDemoMessageResult): {
   return { entityCount, byLabel, entities, redacted, band: record.risk_band };
 }
 
-export type TraceMemorySpan = {
-  text: string;
-  spanType: string;
-  layer: string;
-  relevance?: number;
-  salience?: number;
-  survivalValue?: number;
-  attribution?: number;
-  redundancy?: number;
-  rareTerms: string[];
-  source?: string;
-  tokenCount?: number;
-};
-
-export function extractMemoryDetail(result?: TraceDemoMessageResult): {
-  actionCount?: number;
-  hotContext?: string;
-  band?: string;
-  spans: TraceMemorySpan[];
-  hotCount: number;
-  coldCount: number;
-} {
-  const record = result?.results.memory?.response;
-  if (!record) {
-    return { spans: [], hotCount: 0, coldCount: 0 };
-  }
-  const memory = (record.memory ?? {}) as Record<string, unknown>;
-  const raw = (record.raw ?? {}) as Record<string, unknown>;
-  const actions = memory.actions;
-  const actionCount = Array.isArray(actions) ? actions.length : undefined;
-  const hot =
-    typeof memory.hot_context === 'string'
-      ? memory.hot_context
-      : typeof memory.summary === 'string'
-        ? memory.summary
-        : undefined;
-
-  const spans: TraceMemorySpan[] = [];
-  const nextState = (memory.next_memory_state ?? raw.next_memory_state) as Record<string, unknown> | undefined;
-  const rawSpans = nextState?.spans;
-  if (Array.isArray(rawSpans)) {
-    for (const s of rawSpans) {
-      if (!s || typeof s !== 'object') continue;
-      const rec = s as Record<string, unknown>;
-      const text = typeof rec.text === 'string' ? rec.text : '';
-      if (!text) continue;
-      const scores = (rec.scores ?? {}) as Record<string, unknown>;
-      const sig = (rec.signature ?? {}) as Record<string, unknown>;
-      spans.push({
-        text,
-        spanType: typeof rec.span_type === 'string' ? rec.span_type : 'unknown',
-        layer: typeof rec.layer === 'string' ? rec.layer : 'unknown',
-        relevance: typeof scores.relevance === 'number' ? scores.relevance : undefined,
-        salience: typeof scores.salience === 'number' ? scores.salience : undefined,
-        survivalValue: typeof scores.survival_value === 'number' ? scores.survival_value : undefined,
-        attribution: typeof scores.attribution === 'number' ? scores.attribution : undefined,
-        redundancy: typeof scores.redundancy === 'number' ? scores.redundancy : undefined,
-        rareTerms: Array.isArray(sig.rare_terms) ? sig.rare_terms.filter((t): t is string => typeof t === 'string') : [],
-        source: typeof rec.source === 'string' ? rec.source : undefined,
-        tokenCount: typeof rec.token_count === 'number' ? rec.token_count : undefined,
-      });
-    }
-  }
-
-  const hotCount = spans.filter((s) => s.layer === 'hot').length;
-  const coldCount = spans.filter((s) => s.layer === 'cold').length;
-
-  return { actionCount, hotContext: hot, band: record.risk_band, spans, hotCount, coldCount };
-}
-
-export function extractDriftBand(result?: TraceDemoMessageResult): {
-  band?: string;
-  score?: number;
-  source?: 'drift' | 'rollup' | 'groundedness';
-} {
-  const candidates: Array<{
-    key: 'drift' | 'rollup' | 'groundedness';
-    record?: TraceBridgeResponse;
-  }> = [
-    { key: 'drift', record: result?.results.drift?.response },
-    { key: 'rollup', record: result?.results['rollup' as TraceFeatureKey]?.response },
-    { key: 'groundedness', record: getGroundingResponse(result) },
-  ];
-  for (const candidate of candidates) {
-    if (!candidate.record) {
-      continue;
-    }
-    const record = candidate.record;
-    const decision = (record.runtime_decision ?? {}) as Record<string, unknown>;
-    // Calibration band first, runtime decision band as fallback —
-    // matches ``extractDecision`` and the backend coercion contract
-    // (``runtime_decision.band`` is forced to match ``risk_band`` when
-    // calibration is red, but for older callers without coercion the
-    // calibration band is the canonical user-visible verdict).
-    const band =
-      typeof record.risk_band === 'string' && record.risk_band.length > 0
-        ? record.risk_band
-        : typeof decision.band === 'string'
-          ? decision.band
-          : undefined;
-    if (!band || band === 'unknown') {
-      continue;
-    }
-    // Calibration score first, head-channel ``runtime_decision.score``
-    // only as a last resort. Otherwise the drift card shows numbers
-    // that disagree with the live overlay's calibration trace_score.
-    const score =
-      typeof record.trace_score === 'number'
-        ? record.trace_score
-        : typeof decision.score === 'number'
-          ? decision.score
-          : undefined;
-    return { band, score, source: candidate.key };
-  }
-  return {};
-}
-
 export function getRiskForResult(result: TraceDemoMessageResult | undefined): {
   risk: string;
   score?: number | null;
@@ -1562,7 +1351,7 @@ function firstNumber(...values: unknown[]) {
 }
 
 function isTraceUseCase(value: unknown): value is TraceDemoUseCase {
-  return value === 'rag' || value === 'coding-agent';
+  return value === 'rag';
 }
 
 function isTraceIntegration(value: unknown): value is TraceDemoIntegration {

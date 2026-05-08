@@ -20,19 +20,15 @@ import {
   extractCompressionDetail,
   extractDeadWeights,
   extractDecision,
-  extractDriftBand,
   extractGroundingEvidence,
   extractGuardianSegments,
-  extractMemoryDetail,
   extractPrivacyDetail,
-  extractPromptGuardSummary,
   getActiveOrDefaultSelection,
   getEnabledFeatures,
   getKindForFeature,
   getMetricFromResults,
   getRiskForResult,
   getTraceBridgeBaseUrl,
-  getTraceDemoModel,
   traceFeatureCatalog,
   traceIntegrations,
   traceUseCases,
@@ -44,12 +40,9 @@ import {
   type TraceDemoLog,
   type TraceDemoMessageResult,
   type TraceDemoSelection,
-  type TraceDemoUseCase,
   type TraceEvidenceItem,
   type TraceFeatureKey,
-  type TraceMemorySpan,
   type TracePrivacyEntity,
-  type TracePromptGuardSummary,
 } from './traceDemoState';
 import { cn, getAllContentText } from '~/utils';
 import store from '~/store';
@@ -237,13 +230,12 @@ export default function TraceDemoShell({
       answer,
       messages,
       selection,
-      latestResult,
       setLogs,
       setResults,
       setLatestMessageId,
       updateResult,
     });
-  }, [isSubmitting, latestResult, messages, selection, updateResult]);
+  }, [isSubmitting, messages, selection, updateResult]);
 
   const contextValue = useMemo(
     () => ({
@@ -265,12 +257,7 @@ export default function TraceDemoShell({
   const evidence = extractGroundingEvidence(latestResult);
   const compressionDetail = extractCompressionDetail(latestResult);
   const privacyDetail = extractPrivacyDetail(latestResult);
-  const memoryDetail = extractMemoryDetail(latestResult);
-  const driftDetail = extractDriftBand(latestResult);
-  const promptGuard = extractPromptGuardSummary(latestResult);
 
-  const handleUseCaseChange = (next: TraceDemoUseCase) =>
-    setSelection((current) => ({ ...current, useCase: next, createdAt: Date.now() }));
   const handleIntegrationChange = (next: TraceDemoIntegration) =>
     setSelection((current) => ({ ...current, integration: next, createdAt: Date.now() }));
 
@@ -290,7 +277,6 @@ export default function TraceDemoShell({
         >
           <TraceTopToggle
             selection={selection}
-            onUseCase={handleUseCaseChange}
             onIntegration={handleIntegrationChange}
             decision={decision?.action}
             band={decision?.band ?? riskInfo.risk}
@@ -341,13 +327,8 @@ export default function TraceDemoShell({
             deadWeights={deadWeights}
             guardianMode={extractGuardianSegments(latestResult).length > 0}
           />
-          {selection.useCase === 'coding-agent' && (
-            <TracePromptGuardCard guard={promptGuard} />
-          )}
           <TracePrivacyCard detail={privacyDetail} />
           <TraceCompressionCard detail={compressionDetail} />
-          <TraceMemoryCard detail={memoryDetail} />
-          <TraceDriftCard detail={driftDetail} />
         </aside>
       </div>
       {showHowItWorks && (
@@ -390,14 +371,12 @@ export default function TraceDemoShell({
 
 function TraceTopToggle({
   selection,
-  onUseCase,
   onIntegration,
   decision,
   band,
   onHowItWorks,
 }: {
   selection: TraceDemoSelection;
-  onUseCase: (next: TraceDemoUseCase) => void;
   onIntegration: (next: TraceDemoIntegration) => void;
   decision?: string;
   band?: string | null;
@@ -424,12 +403,6 @@ function TraceTopToggle({
         </span>
       </div>
 
-      <ToggleGroup
-        label="Use case"
-        items={traceUseCases.map((item) => ({ id: item.id, label: item.label }))}
-        active={selection.useCase}
-        onSelect={(id) => onUseCase(id as TraceDemoUseCase)}
-      />
       <ToggleGroup
         label="Integration"
         items={traceIntegrations.map((item) => ({ id: item.id, label: item.label }))}
@@ -825,79 +798,6 @@ function TraceGroundednessCard({
   );
 }
 
-function PromptGuardBadge({ guard }: { guard: TracePromptGuardSummary }) {
-  const total = guard.trustedCount + guard.suspiciousCount + guard.blockedCount;
-  const hasThreat = guard.suspiciousCount > 0 || guard.blockedCount > 0;
-  const badgeColor = hasThreat ? latence.rose : latence.greenText;
-  const badgeBg = hasThreat ? latence.roseSoft : latence.greenSoft;
-  return (
-    <div
-      className="flex items-center gap-2 rounded-xl border px-2 py-1.5 text-[10px]"
-      style={{ borderColor: latence.border, backgroundColor: latence.bgSurface }}
-    >
-      <span
-        className="rounded-full px-2 py-0.5 font-semibold uppercase tracking-wider"
-        style={{ backgroundColor: badgeBg, color: badgeColor }}
-      >
-        PromptGuard
-      </span>
-      <span style={{ color: latence.textMuted }}>
-        {total === 0 ? (
-          'No chunks scanned'
-        ) : (
-          <>
-            {guard.trustedCount}/{total} trusted
-            {guard.suspiciousCount > 0 && (
-              <span style={{ color: latence.amber }}> · {guard.suspiciousCount} suspicious</span>
-            )}
-            {guard.blockedCount > 0 && (
-              <span style={{ color: latence.rose }}> · {guard.blockedCount} blocked</span>
-            )}
-          </>
-        )}
-      </span>
-      {guard.provider && (
-        <span style={{ color: latence.textSubtle }}>({guard.provider})</span>
-      )}
-    </div>
-  );
-}
-
-function TracePromptGuardCard({ guard }: { guard?: TracePromptGuardSummary }) {
-  if (!guard || !guard.enabled) {
-    return null;
-  }
-  const hasThreat = guard.suspiciousCount > 0 || guard.blockedCount > 0;
-  const band = hasThreat ? 'red' : 'green';
-  const style = getRiskStyle(band);
-  return (
-    <div
-      className="rounded-2xl border p-3"
-      style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
-    >
-      <div className="mb-1 flex items-center justify-between">
-        <p className="text-sm font-medium" style={{ color: latence.text }}>
-          Prompt Guard
-        </p>
-        <span
-          className="rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em]"
-          style={{
-            backgroundColor: style.backgroundColor,
-            color: style.color,
-            borderColor: style.borderColor,
-          }}
-        >
-          {band}
-        </span>
-      </div>
-      <p className="mb-2 text-[11px]" style={{ color: latence.textSubtle }}>
-        Llama Prompt Guard 2 security scan on retrieved context chunks.
-      </p>
-      <PromptGuardBadge guard={guard} />
-    </div>
-  );
-}
-
 function ExpandableEvidenceChunk({ item, index }: { item: TraceEvidenceItem; index: number }) {
   const [expanded, setExpanded] = useState(false);
   const coverage = typeof item.coverage === 'number' ? Math.round(item.coverage * 100) : null;
@@ -1202,189 +1102,6 @@ function TraceCompressionCard({ detail }: { detail: ReturnType<typeof extractCom
   );
 }
 
-function TraceMemoryCard({ detail }: { detail: ReturnType<typeof extractMemoryDetail> }) {
-  const empty = detail.actionCount === undefined && !detail.hotContext && detail.spans.length === 0;
-  if (empty) {
-    return null;
-  }
-  return (
-    <div
-      className="rounded-2xl border p-3"
-      style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
-    >
-      <div className="mb-1 flex items-center justify-between">
-        <p className="text-sm font-medium" style={{ color: latence.text }}>
-          InfiniMem
-        </p>
-        {detail.band && (
-          <span
-            className="rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em]"
-            style={getRiskStyle(detail.band)}
-          >
-            {detail.band}
-          </span>
-        )}
-      </div>
-      <p className="mb-2 text-[11px]" style={{ color: latence.textSubtle }}>
-        Durable memory updates and the hot context carried into the next turn.
-      </p>
-      {detail.spans.length > 0 && (
-        <div className="mb-2 flex items-center gap-2 text-[10px]" style={{ color: latence.textSubtle }}>
-          <span>{detail.spans.length} spans</span>
-          {detail.hotCount > 0 && <span style={{ color: latence.amber }}>{detail.hotCount} hot</span>}
-          {detail.coldCount > 0 && <span>{detail.coldCount} cold</span>}
-        </div>
-      )}
-      {typeof detail.actionCount === 'number' && detail.spans.length === 0 && (
-        <MetaRow label="Memory actions" value={`${detail.actionCount}`} />
-      )}
-      {detail.spans.length > 0 ? (
-        <div className="space-y-1.5">
-          {detail.spans.map((span, i) => (
-            <ExpandableMemorySpan key={`mem-${i}`} span={span} />
-          ))}
-        </div>
-      ) : detail.hotContext ? (
-        <p
-          className="mt-2 line-clamp-3 rounded-xl border p-2 text-[11px]"
-          style={{
-            backgroundColor: latence.bgSurface,
-            borderColor: latence.border,
-            color: latence.textMuted,
-          }}
-        >
-          {detail.hotContext}
-        </p>
-      ) : null}
-    </div>
-  );
-}
-
-function ExpandableMemorySpan({ span }: { span: TraceMemorySpan }) {
-  const [expanded, setExpanded] = useState(false);
-  const layerColor = span.layer === 'hot' ? latence.amber : latence.textSubtle;
-  const truncText = span.text.length > 60 ? span.text.slice(0, 57) + '...' : span.text;
-  return (
-    <div
-      className="rounded-xl border text-[11px]"
-      style={{ borderColor: latence.border, backgroundColor: latence.bgSurface }}
-    >
-      <button
-        type="button"
-        onClick={() => setExpanded((v) => !v)}
-        className="flex w-full items-center justify-between gap-1.5 px-2 py-1.5 text-left"
-      >
-        <span className="flex items-center gap-1.5 truncate">
-          <span
-            className="rounded px-1 py-0.5 text-[9px] font-semibold uppercase"
-            style={{ color: layerColor, backgroundColor: span.layer === 'hot' ? latence.amberSoft : latence.bgPrimary }}
-          >
-            {span.layer}
-          </span>
-          <span className="text-[10px]" style={{ color: latence.textSubtle }}>
-            {span.spanType}
-          </span>
-          <span className="truncate" style={{ color: latence.textMuted }}>
-            "{truncText}"
-          </span>
-        </span>
-        <span className="flex items-center gap-1.5 whitespace-nowrap">
-          {span.survivalValue !== undefined && (
-            <span className="text-[10px]" style={{ color: latence.textSubtle }}>
-              surv: {(span.survivalValue * 100).toFixed(0)}%
-            </span>
-          )}
-          <span className="text-[9px]" style={{ color: latence.textSubtle }}>
-            {expanded ? '▼' : '▶'}
-          </span>
-        </span>
-      </button>
-      {expanded && (
-        <div className="border-t px-2 py-1.5" style={{ borderColor: latence.border }}>
-          <p className="mb-1.5 whitespace-pre-wrap" style={{ color: latence.textMuted }}>
-            {span.text}
-          </p>
-          <div className="grid grid-cols-3 gap-x-3 gap-y-0.5 text-[10px]" style={{ color: latence.textSubtle }}>
-            {span.relevance !== undefined && <span>Relevance: {(span.relevance * 100).toFixed(0)}%</span>}
-            {span.salience !== undefined && <span>Salience: {(span.salience * 100).toFixed(0)}%</span>}
-            {span.survivalValue !== undefined && <span>Survival: {(span.survivalValue * 100).toFixed(0)}%</span>}
-            {span.attribution !== undefined && <span>Attribution: {(span.attribution * 100).toFixed(0)}%</span>}
-            {span.redundancy !== undefined && <span>Redundancy: {(span.redundancy * 100).toFixed(0)}%</span>}
-            {span.tokenCount !== undefined && <span>Tokens: {span.tokenCount}</span>}
-          </div>
-          {span.rareTerms.length > 0 && (
-            <div className="mt-1 flex flex-wrap gap-1">
-              {span.rareTerms.map((term) => (
-                <span
-                  key={term}
-                  className="rounded-full px-1.5 py-0.5 text-[9px]"
-                  style={{ backgroundColor: latence.bgPrimary, color: latence.textMuted, border: `1px solid ${latence.border}` }}
-                >
-                  {term}
-                </span>
-              ))}
-            </div>
-          )}
-          {span.source && (
-            <span className="mt-0.5 block text-[9px]" style={{ color: latence.textSubtle }}>
-              Source: {span.source}
-            </span>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function TraceDriftCard({ detail }: { detail: ReturnType<typeof extractDriftBand> }) {
-  const style = getRiskStyle(detail.band);
-  const empty = !detail.band && detail.score === undefined;
-  if (empty) {
-    return null;
-  }
-  return (
-    <div
-      className="rounded-2xl border p-3"
-      style={{ backgroundColor: latence.bgRaised, borderColor: latence.border }}
-    >
-      <div className="flex items-center justify-between">
-        <p className="text-sm font-medium" style={{ color: latence.text }}>
-          Drift
-        </p>
-        {detail.band && (
-          <span
-            className="rounded-full border px-2 py-0.5 text-[11px] font-medium capitalize"
-            style={{
-              backgroundColor: style.backgroundColor,
-              borderColor: style.borderColor,
-              color: style.color,
-            }}
-          >
-            {detail.band}
-          </span>
-        )}
-      </div>
-      <p className="mb-2 text-[11px]" style={{ color: latence.textSubtle }}>
-        How far the session is drifting from the task / policy across turns.
-      </p>
-      {typeof detail.score === 'number' && (
-        <MetaRow
-          label="Score"
-          value={detail.score <= 1 ? `${Math.round(detail.score * 100)}%` : detail.score.toFixed(2)}
-        />
-      )}
-      {empty && (
-        <p
-          className="rounded-2xl border border-dashed p-3 text-xs"
-          style={{ borderColor: latence.border, color: latence.textSubtle }}
-        >
-          Waiting for rollup decision.
-        </p>
-      )}
-    </div>
-  );
-}
-
 function formatFeatureValue(
   feature: TraceFeatureKey,
   response?: TraceBridgeResponse,
@@ -1434,31 +1151,6 @@ function formatFeatureValue(
       }
     }
     return formatMetric(ctxUtil) ?? copy.pending;
-  }
-  if (feature === 'drift') {
-    const drift = extractDriftBand(result);
-    if (drift.band && drift.band !== 'unknown') {
-      return drift.band;
-    }
-    return (
-      formatMetric(
-        getMetricFromResults(result, feature, [
-          'drift',
-          'drift_score',
-          'overall_risk_band',
-          'risk_band',
-        ]),
-      ) ??
-      response.risk_band ??
-      copy.pending
-    );
-  }
-  if (feature === 'memory') {
-    const actions = response.memory?.actions;
-    if (Array.isArray(actions)) {
-      return `${actions.length} action${actions.length === 1 ? '' : 's'}`;
-    }
-    return formatMetric(actions) ?? copy.pending;
   }
   if (feature === 'privacy') {
     const entities = response.privacy?.entity_count;
@@ -1589,55 +1281,6 @@ Section 7.2 – Common Areas: Maintenance of common areas, including hallways, s
 Section 7.3 – Seasonal Obligations: The tenant is responsible for snow removal on adjacent sidewalks between November 1 and March 31, as required by local municipal ordinance (Streupflicht). Failure to comply may result in liability for damages to third parties.
 </END_CONTEXT>`;
 
-const CODE_EXAMPLE_GOOD = `from latence import Latence
-
-def score_and_guard(response_text: str, context: str, query: str | None = None) -> dict:
-    client = Latence()
-    try:
-        result = client.grounding.rag(
-            response_text=response_text,
-            raw_context=context,
-            query_text=query,
-        )
-        output = {
-            "risk_band": result.risk_band,
-            "trace_score": result.trace_score,
-            "action": result.runtime_decision.get("action"),
-        }
-        if result.risk_band == "red":
-            privacy_result = client.privacy.redact(text=response_text)
-            output["redacted_text"] = privacy_result.redacted_text
-        return output
-    finally:
-        client.close()`;
-
-const CODE_EXAMPLE_BAD = `from latence import Latence, ScoringEngine
-
-def score_and_guard(response_text: str, context: str, query: str | None = None) -> dict:
-    client = Latence(model="gpt-4", retry_count=3)
-    engine = ScoringEngine(client, mode="strict")
-
-    result = engine.analyze(
-        answer=response_text,
-        documents=context.split("\\n"),
-        confidence_level="high",
-        return_explanations=True,
-    )
-    output = {
-        "risk_band": result.confidence_band,
-        "trace_score": result.overall_confidence,
-        "explanations": result.get_explanations(),
-    }
-    if result.confidence_band == "dangerous":
-        sanitizer = client.pii.sanitize(
-            input_text=response_text,
-            detection_mode="aggressive",
-            entity_types=["name", "phone", "iban"],
-        )
-        output["clean_text"] = sanitizer.cleaned_output
-    client.disconnect()
-    return output`;
-
 function CopyBlock({ label, text }: { label: string; text: string }) {
   const [copied, setCopied] = useState(false);
   return (
@@ -1705,7 +1348,7 @@ function TraceHowItWorksModal({ onClose }: { onClose: () => void }) {
           </p>
         </div>
 
-        <div className="mb-5 grid gap-4 md:grid-cols-2">
+        <div className="mb-5">
           <div className="rounded-2xl border px-4 py-3" style={{ backgroundColor: latence.bgSurface, borderColor: latence.border }}>
             <p className="mb-2 text-xs font-semibold uppercase tracking-wider" style={{ color: latence.greenText }}>RAG Analytics</p>
             <ul className="space-y-1.5 text-[12px] leading-relaxed" style={{ color: latence.textMuted }}>
@@ -1713,18 +1356,7 @@ function TraceHowItWorksModal({ onClose }: { onClose: () => void }) {
               <li><strong style={{ color: latence.text }}>NLI Claims</strong> -- Per-claim entailment/contradiction analysis with green/amber/red bands</li>
               <li><strong style={{ color: latence.text }}>Context Utilization</strong> -- Which chunks were used, unused, or dead weight</li>
               <li><strong style={{ color: latence.text }}>Privacy</strong> -- Automatic PII entity detection and redaction (GDPR)</li>
-              <li><strong style={{ color: latence.text }}>Memory</strong> -- InfiniMem span tracking across conversation turns</li>
               <li><strong style={{ color: latence.text }}>Compression</strong> -- Token savings while preserving critical content</li>
-            </ul>
-          </div>
-          <div className="rounded-2xl border px-4 py-3" style={{ backgroundColor: latence.bgSurface, borderColor: latence.border }}>
-            <p className="mb-2 text-xs font-semibold uppercase tracking-wider" style={{ color: latence.greenText }}>Coding Agent Analytics</p>
-            <ul className="space-y-1.5 text-[12px] leading-relaxed" style={{ color: latence.textMuted }}>
-              <li><strong style={{ color: latence.text }}>AST Phantom Detection</strong> -- Identifies hallucinated function names, classes, and API calls</li>
-              <li><strong style={{ color: latence.text }}>Literal Novelty</strong> -- Flags invented string/number literals not in the context</li>
-              <li><strong style={{ color: latence.text }}>File Attribution</strong> -- Maps which source files contributed to generated code</li>
-              <li><strong style={{ color: latence.text }}>Prompt Guard</strong> -- Llama Prompt Guard 2 security scan on retrieved context</li>
-              <li><strong style={{ color: latence.text }}>Drift Rollup</strong> -- Multi-turn model drift and retrieval waste tracking</li>
             </ul>
           </div>
         </div>
@@ -1750,15 +1382,9 @@ function TraceHowItWorksModal({ onClose }: { onClose: () => void }) {
           </p>
         </div>
 
-        <div className="mb-5 space-y-3">
+        <div className="space-y-3">
           <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: latence.greenText }}>RAG Example (English, Legal)</p>
           <CopyBlock label="Paste into chat" text={RAG_EXAMPLE} />
-        </div>
-
-        <div className="space-y-3">
-          <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: latence.greenText }}>Code Example</p>
-          <CopyBlock label="Grounded answer (correct API usage)" text={CODE_EXAMPLE_GOOD} />
-          <CopyBlock label="Hallucinated answer (fabricated API calls)" text={CODE_EXAMPLE_BAD} />
         </div>
       </div>
     </div>
@@ -1910,7 +1536,7 @@ function TraceShareCard({
             Real-time AI output verification
           </div>
           <div style={{ fontSize: 13, color: latence.textSubtle, marginTop: 2 }}>
-            Groundedness, privacy, memory, and drift scoring for every LLM response
+            Groundedness, privacy, and compression scoring for every LLM response
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -1986,7 +1612,7 @@ function TraceShareModal({
 
   const handleSocialShare = (platform: 'x' | 'linkedin') => {
     const text = encodeURIComponent(
-      'Just tested my AI pipeline with Latence TRACE -- real-time groundedness, privacy, and drift scoring for every LLM response. Try it yourself:',
+      'Just tested my AI pipeline with Latence TRACE -- real-time groundedness, privacy, and compression scoring for every LLM response. Try it yourself:',
     );
     const url = encodeURIComponent(TRACE_DEMO_URL);
 
@@ -2531,7 +2157,6 @@ async function fanoutTraceForTurn({
   answer,
   messages,
   selection,
-  latestResult,
   setLogs,
   setResults,
   setLatestMessageId,
@@ -2543,7 +2168,6 @@ async function fanoutTraceForTurn({
   answer: string;
   messages: TMessage[];
   selection: TraceDemoSelection;
-  latestResult?: TraceDemoMessageResult;
   setLogs: Dispatch<SetStateAction<TraceDemoLog[]>>;
   setResults: Dispatch<SetStateAction<Record<string, TraceDemoMessageResult>>>;
   setLatestMessageId: Dispatch<SetStateAction<string | undefined>>;
@@ -2559,54 +2183,21 @@ async function fanoutTraceForTurn({
       : `${Date.now()}`);
   const features = getEnabledFeatures(selection.useCase);
   const turns = buildTurns(messages);
-  const priorMemoryState = (() => {
-    const groundednessResp = latestResult?.results.groundedness?.response;
-    const fromGrounding = (
-      groundednessResp?.memory as
-        | { next_memory_state?: Record<string, unknown> }
-        | undefined
-    )?.next_memory_state
-      ?? (groundednessResp?.raw as Record<string, unknown> | undefined)?.next_memory_state as
-        Record<string, unknown> | undefined;
-    if (fromGrounding) return fromGrounding;
-    return (
-      latestResult?.results.memory?.response?.memory as
-        | { next_memory_state?: Record<string, unknown> }
-        | undefined
-    )?.next_memory_state;
-  })();
-
-  const priorHotContext = (() => {
-    const groundednessResp = latestResult?.results.groundedness?.response;
-    return (
-      (groundednessResp?.memory as { hot_context?: string } | undefined)?.hot_context
-      ?? (groundednessResp?.raw as Record<string, unknown> | undefined)?.hot_context_preview
-    ) as string | undefined;
-  })();
-
-  const hasMarkers = /(?:<\s*START[_\s]*CONTEXT\s*>|<\s*CTX\s*>|\[\s*CONTEXT\s*\])/i.test(question);
-  const effectiveQuestion =
-    !hasMarkers && priorHotContext
-      ? `${question}\n\n<START_CONTEXT>\n${priorHotContext}\n</END_CONTEXT>`
-      : question;
 
   const initialResult: TraceDemoMessageResult = {
     messageId,
     userMessageId: questionMessage?.messageId,
-    question: effectiveQuestion,
+    question,
     answer,
     selection,
     results: features.reduce(
       (acc, feature) => {
-        const featureKind = getKindForFeature(feature, selection.useCase);
-        const useEffective = featureKind === 'rag' || featureKind === 'code';
         const request = buildTraceBridgeRequest({
           selection,
           feature,
-          question: useEffective ? effectiveQuestion : question,
+          question,
           answer,
           turns,
-          priorMemoryState,
         });
         acc[feature] = {
           feature,
