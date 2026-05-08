@@ -520,7 +520,16 @@ def _grounding_canonical(
         if isinstance(unwrapped, Mapping):
             return dict(unwrapped)
         return {"result": unwrapped} if unwrapped is not None else {}
-    return body_json if isinstance(body_json, dict) else {"result": body_json}
+    if isinstance(body_json, dict):
+        result_inner = body_json.get("result")
+        if isinstance(result_inner, dict):
+            merged = dict(result_inner)
+            for k in ("action", "request_id", "success", "version"):
+                if k in body_json and k not in merged:
+                    merged[k] = body_json[k]
+            return merged
+        return body_json
+    return {"result": body_json}
 
 
 def _num(value: Any) -> float | None:
