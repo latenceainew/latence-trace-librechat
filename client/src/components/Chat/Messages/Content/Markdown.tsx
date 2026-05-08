@@ -727,10 +727,7 @@ function GuardianSegmentRenderer({
           </span>
           <span className="trace-heatmap-row">
             <span style={{ color: style.chip, fontWeight: 600 }}>
-              {seg.grounded ? 'Grounded' : 'Ungrounded'}
-            </span>
-            <span style={{ color: latence.textMuted }}>
-              {Math.round(seg.score * 100)}% confidence
+              {seg.grounded ? 'Yes' : 'No'}
             </span>
           </span>
         </span>
