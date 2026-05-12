@@ -705,19 +705,57 @@ function bandForClaim(
 export function extractGuardianSegments(result?: TraceDemoMessageResult): GuardianSegmentData[] {
   const response = getGroundingResponse(result);
   const raw = response?.raw as
-    | { guardian_segments?: unknown; scores?: { guardian_segments?: unknown } }
+    | {
+        guardian_segments?: unknown;
+        scores?: { guardian_segments?: unknown };
+        guardian_diagnostics?: {
+          debug?: {
+            response_segments?: unknown;
+            pair_scores?: unknown;
+            grounded_threshold?: unknown;
+          };
+        };
+      }
     | undefined;
   const segments = raw?.guardian_segments ?? raw?.scores?.guardian_segments;
-  if (!Array.isArray(segments)) {
+  if (Array.isArray(segments)) {
+    return segments
+      .filter((s): s is Record<string, unknown> => s != null && typeof s === 'object')
+      .map((s) => ({
+        text: typeof s.text === 'string' ? s.text : '',
+        score: typeof s.score === 'number' ? s.score : 0,
+        grounded: typeof s.grounded === 'boolean' ? s.grounded : false,
+      }))
+      .filter((s) => s.text.length > 0);
+  }
+
+  const debug = raw?.guardian_diagnostics?.debug;
+  const responseSegments = Array.isArray(debug?.response_segments) ? debug.response_segments : [];
+  if (responseSegments.length === 0) {
     return [];
   }
-  return segments
-    .filter((s): s is Record<string, unknown> => s != null && typeof s === 'object')
-    .map((s) => ({
-      text: typeof s.text === 'string' ? s.text : '',
-      score: typeof s.score === 'number' ? s.score : 0,
-      grounded: typeof s.grounded === 'boolean' ? s.grounded : false,
-    }))
+  const bestScores = new Map<number, number>();
+  if (Array.isArray(debug?.pair_scores)) {
+    for (const pair of debug.pair_scores) {
+      if (!pair || typeof pair !== 'object') {
+        continue;
+      }
+      const record = pair as Record<string, unknown>;
+      const index = num(record.response_segment_index);
+      const score = num(record.score);
+      if (index === undefined || score === undefined) {
+        continue;
+      }
+      bestScores.set(index, Math.max(bestScores.get(index) ?? 0, score));
+    }
+  }
+  const threshold = num(debug?.grounded_threshold) ?? 0.5;
+  return responseSegments
+    .map((segment, index) => {
+      const text = typeof segment === 'string' ? segment : '';
+      const score = bestScores.get(index) ?? 0;
+      return { text, score, grounded: score >= threshold };
+    })
     .filter((s) => s.text.length > 0);
 }
 
@@ -1109,16 +1147,16 @@ export function extractDecision(result?: TraceDemoMessageResult): TraceDecision 
   const raw = response.raw as Record<string, unknown> | undefined;
   const scores = raw?.scores as Record<string, unknown> | undefined;
   const guardianGrounded = raw?.grounded ?? scores?.grounded;
-  const guardianBand =
-    typeof guardianGrounded === 'boolean'
-      ? (guardianGrounded ? 'green' : 'red')
-      : undefined;
+  let guardianBand: string | undefined;
+  if (typeof guardianGrounded === 'boolean') {
+    guardianBand = guardianGrounded ? 'green' : 'red';
+  }
 
   return {
     action: typeof decision.action === 'string' ? decision.action : undefined,
     band:
-      guardianBand ??
       calibrationBand ??
+      guardianBand ??
       (typeof decision.band === 'string' ? decision.band : undefined),
     score:
       typeof response.trace_score === 'number'
